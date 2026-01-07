@@ -102,6 +102,33 @@ body {
   font-size: 0.9rem;
 }
 
+.inventory-category {
+  margin-bottom: 1rem;
+}
+
+.inventory-category h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.2rem;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.5rem;
+}
+
+.inventory-grid label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .radio-group {
   border: 1px solid var(--border);
   border-radius: var(--radius);
