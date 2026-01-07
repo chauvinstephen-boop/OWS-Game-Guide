@@ -17,17 +17,6 @@
     <div class="setup-card">
       <h2>Start a new match</h2>
       <form id="setup-form" class="setup-form">
-        <div class="setup-row">
-          <label>
-            Mode
-            <select id="mode-select" required>
-              <option value="full">Full Game</option>
-              <option value="a2a">Air-to-Air Only</option>
-              <option value="a2a-ground">Air-to-Air + Ground Stations</option>
-            </select>
-          </label>
-        </div>
-
         <div class="setup-row two-col">
           <label>
             Blue player name
@@ -37,6 +26,30 @@
             Red player name
             <input type="text" id="red-name-input" value="Red" maxlength="20" required>
           </label>
+        </div>
+
+        <div class="setup-row">
+            <h3>Blue Team Assets</h3>
+            <div class="inventory-grid" id="blue-inventory">
+                <label><input type="checkbox" name="blue_assets" value="naval"> Naval Units</label>
+                <label><input type="checkbox" name="blue_assets" value="air"> Air Units</label>
+                <label><input type="checkbox" name="blue_assets" value="ground"> Ground Forces</label>
+                <label><input type="checkbox" name="blue_assets" value="sam"> Air Defenses (SAMs)</label>
+                <label><input type="checkbox" name="blue_assets" value="sof"> Special Forces</label>
+                <label><input type="checkbox" name="blue_assets" value="cyber"> Cyber/Space</label>
+            </div>
+        </div>
+
+        <div class="setup-row">
+            <h3>Red Team Assets</h3>
+            <div class="inventory-grid" id="red-inventory">
+                <label><input type="checkbox" name="red_assets" value="naval"> Naval Units</label>
+                <label><input type="checkbox" name="red_assets" value="air"> Air Units</label>
+                <label><input type="checkbox" name="red_assets" value="ground"> Ground Forces</label>
+                <label><input type="checkbox" name="red_assets" value="sam"> Air Defenses (SAMs)</label>
+                <label><input type="checkbox" name="red_assets" value="sof"> Special Forces</label>
+                <label><input type="checkbox" name="red_assets" value="cyber"> Cyber/Space</label>
+            </div>
         </div>
 
         <div class="setup-row">

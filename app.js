@@ -8,6 +8,11 @@
  *  - "initiative"    → initiative player acts
  *  - "non-initiative"→ non-initiative player acts
  *  - "alt"           → alternate: initiative then non-initiative
+ *
+ * requires: (New property)
+ *  - list of asset types needed for this step to be relevant.
+ *  - If empty or undefined, step is always relevant.
+ *  - Asset types: "naval", "air", "ground", "sam", "sof", "cyber"
  */
 
 const BASE_SEQUENCE = [
@@ -25,6 +30,7 @@ const BASE_SEQUENCE = [
         title: "Commander’s intent and planning",
         actor: "both",
         modes: ["full"],
+        requires: [],
         description:
           "Each side frames their intent, priorities, and desired end state for this turn.",
         actions: {
@@ -44,6 +50,7 @@ const BASE_SEQUENCE = [
         title: "Decision cards & readiness",
         actor: "both",
         modes: ["full"],
+        requires: [],
         description:
           "Players play any Decision Cards that alter readiness, mobilization, or special conditions.",
         actions: {
@@ -73,6 +80,7 @@ const BASE_SEQUENCE = [
         title: "Strategic embarkation and movement",
         actor: "alt",
         modes: ["full"],
+        requires: ["naval", "ground"],
         description:
           "Players move formations via rail, airlift, sealift, and road, then mark RSO&I.",
         actions: {
@@ -93,6 +101,7 @@ const BASE_SEQUENCE = [
         title: "Security zones & partisans (optional)",
         actor: "both",
         modes: ["full"],
+        requires: ["ground", "sof"],
         description:
           "If using advanced rules, create Security Zones and Partisan/Diversant efforts.",
         actions: {
@@ -122,6 +131,7 @@ const BASE_SEQUENCE = [
         title: "Naval movement (if used)",
         actor: "alt",
         modes: ["full"],
+        requires: ["naval"],
         description:
           "Players move surface ships and submarines; initiative side chooses who moves first.",
         actions: {
@@ -142,6 +152,7 @@ const BASE_SEQUENCE = [
         title: "Determine & place air missions (CAP/OCA/DCA/Strike)",
         actor: "alt",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: ["air"],
         description:
           "Assign squadrons to air missions and place them on the map within combat radius and fuel constraints.",
         actions: {
@@ -172,6 +183,7 @@ const BASE_SEQUENCE = [
         title: "Build strike packages (if using strikes)",
         actor: "both",
         modes: ["full", "a2a-ground"],
+        requires: ["air"],
         description:
           "Combine strike aircraft, SEAD, escorts, and tankers into packages; load munitions where applicable.",
         actions: {
@@ -197,6 +209,7 @@ const BASE_SEQUENCE = [
         title: "SOF employment (if used)",
         actor: "both",
         modes: ["full"],
+        requires: ["sof"],
         description:
           "Place SOF counters into target hexes for reconnaissance, target acquisition, direct action, or support.",
         actions: {
@@ -226,6 +239,7 @@ const BASE_SEQUENCE = [
         title: "Place IO tokens & cyber attacks",
         actor: "both",
         modes: ["full"],
+        requires: ["cyber"],
         description:
           "Players secretly assign IO tokens and Cyber Cards, then reveal and adjudicate.",
         actions: {
@@ -245,6 +259,7 @@ const BASE_SEQUENCE = [
         title: "Adjudicate cyber & update space dashboard",
         actor: "both",
         modes: ["full"],
+        requires: ["cyber"],
         description:
           "Resolve cyber outcomes and adjust C2, PNT, and ISR tracks and pawns.",
         actions: {
@@ -275,6 +290,7 @@ const BASE_SEQUENCE = [
         title: "Place & resolve theater ISR",
         actor: "both",
         modes: ["full"],
+        requires: ["cyber", "air", "naval", "ground"],
         description:
           "Players place ISR pawns and roll detection attempts against target hexes.",
         actions: {
@@ -295,6 +311,7 @@ const BASE_SEQUENCE = [
         title: "Resolve local detections (air focus)",
         actor: "both",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: ["air", "sam", "naval"],
         description:
           "Use AEW, fighter radars, SAMs, and other local sensors to detect air units and key platforms.",
         actions: {
@@ -323,6 +340,7 @@ const BASE_SEQUENCE = [
         title: "Finalize strike plans (if using strikes)",
         actor: "both",
         modes: ["full", "a2a-ground"],
+        requires: ["air", "sam", "naval"],
         description:
           "Players confirm which detected targets they will prioritize in the Strike Phase.",
         actions: {
@@ -357,6 +375,7 @@ const BASE_SEQUENCE = [
         title: "Air combat – stand-off A2A",
         actor: "alt",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: ["air"],
         description:
           "Resolve all long-range (range 1) air-to-air missile engagements by hex.",
         actions: {
@@ -386,6 +405,7 @@ const BASE_SEQUENCE = [
         title: "Air combat – SEAD & long-range air defense",
         actor: "alt",
         modes: ["full", "a2a-ground"],
+        requires: ["air", "sam"],
         description:
           "Resolve stand-off SEAD strikes and long-range ship/ground-based air defense vs aircraft.",
         actions: {
@@ -410,7 +430,8 @@ const BASE_SEQUENCE = [
         code: "6.A.3",
         title: "Air combat – in-hex A2A & air defense engagements",
         actor: "alt",
-        modes: ["full", "a2a", "a2a-ground"],
+        modes: ["full", "a2a-ground"],
+        requires: ["air", "sam"],
         description:
           "Resolve in-hex fighter vs fighter combat and then remaining in-hex air defense vs aircraft.",
         actions: {
@@ -440,6 +461,7 @@ const BASE_SEQUENCE = [
         title: "Strike warfare – long-range strikes",
         actor: "alt",
         modes: ["full", "a2a-ground"],
+        requires: ["air", "sam", "naval"],
         description:
           "By initiative and using C2 allocations, conduct long-range missile and air strikes by hex.",
         actions: {
@@ -465,6 +487,7 @@ const BASE_SEQUENCE = [
         title: "Strike warfare – local strikes",
         actor: "both",
         modes: ["full", "a2a-ground"],
+        requires: ["air", "ground", "naval"],
         description:
           "Adjudicate remaining local strikes (within a hex or local kill chain) after long-range actions.",
         actions: {
@@ -489,6 +512,7 @@ const BASE_SEQUENCE = [
         title: "Ground – organize & initiative (full game only)",
         actor: "both",
         modes: ["full"],
+        requires: ["ground"],
         description:
           "Set reserves, Main Effort, and determine the sequence for ground formation activations.",
         actions: {
@@ -509,6 +533,7 @@ const BASE_SEQUENCE = [
         title: "Ground – movement, fires, and combat (full game only)",
         actor: "alt",
         modes: ["full"],
+        requires: ["ground"],
         description:
           "Activate formations in sequence to conduct prep fires, movement, ground combat, and exploitation.",
         actions: {
@@ -540,6 +565,7 @@ const BASE_SEQUENCE = [
         title: "Supply check & IO reset",
         actor: "both",
         modes: ["full"],
+        requires: [],
         description:
           "Trace supply to combat units and reset offensive IO/Cyber for next turn.",
         actions: {
@@ -560,6 +586,7 @@ const BASE_SEQUENCE = [
         title: "Reset aviation & status markers",
         actor: "both",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: ["air", "naval", "sam"],
         description:
           "Return air missions to bases/carriers or leave some in place, and clear status markers.",
         actions: {
@@ -588,6 +615,7 @@ const BASE_SEQUENCE = [
         title: "Repair, regenerate, and resupply",
         actor: "both",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: [],
         description:
           "Roll for infrastructure repair, regenerate air/SOF missions, and resupply missiles.",
         actions: {
@@ -627,6 +655,7 @@ const BASE_SEQUENCE = [
         title: "Assessment and discussion",
         actor: "both",
         modes: ["full", "a2a", "a2a-ground"],
+        requires: [],
         description:
           "Pause to discuss key insights, risks, and alternative courses of action.",
         actions: {
@@ -656,18 +685,37 @@ const BASE_SEQUENCE = [
 // Mode filtering
 // -----------------------------
 
-function buildSequenceForMode(mode) {
-  // Filter phases and steps that are relevant for the selected mode
+function buildSequenceForMode(inventory) {
+  // Combine all assets from blue and red to see what is "in play"
+  const allAssets = new Set([...inventory.blue, ...inventory.red]);
+
   const phases = [];
   BASE_SEQUENCE.forEach((phase) => {
-    if (!phase.modes.includes(mode)) return;
-    const steps = (phase.steps || []).filter((s) =>
-      s.modes ? s.modes.includes(mode) : true
-    );
-    if (steps.length > 0) {
+    // Check if phase is relevant? (Currently phase doesn't have "requires" tag, only steps do)
+    // We will include phase if it has at least one valid step.
+
+    const validSteps = (phase.steps || []).filter((s) => {
+       // If no requirements, keep it
+       if (!s.requires || s.requires.length === 0) return true;
+       // If it requires X, checking if ANY of the required assets exist in the game
+       // OR logic: If a step requires "naval", we need at least one player to have "naval".
+       // Actually, usually it implies "if this asset exists in the game".
+       // Let's assume OR logic for the list of requirements?
+       // No, usually "requires: ['naval']" means it's a naval step.
+       // "requires: ['naval', 'air']" might mean it involves both?
+       // Let's stick to: if the step requires ANY of the types present in 'allAssets', include it.
+       // Wait, if a step requires "naval", and no one has naval, skip it.
+       // If a step requires "naval" AND "air", and we have only "air", do we keep it?
+       // Probably yes if it's "Naval OR Air".
+       // Let's assume the tags in 'requires' are "one of these types makes this step relevant".
+
+       return s.requires.some(r => allAssets.has(r));
+    });
+
+    if (validSteps.length > 0) {
       phases.push({
         ...phase,
-        steps
+        steps: validSteps
       });
     }
   });
@@ -678,7 +726,10 @@ function buildSequenceForMode(mode) {
 // State
 // -----------------------------
 
-let mode = "full";
+let inventory = {
+  blue: [],
+  red: []
+};
 let blueName = "Blue";
 let redName = "Red";
 let initiativeSide = "blue"; // "blue" or "red"
@@ -710,7 +761,8 @@ function rebuildFlatSteps() {
 }
 
 function storageKeyForStep(stepId) {
-  return `ows_step_reminders_${mode}_${stepId}`;
+  // Use a generic key or based on inventory hash? simplified for now
+  return `ows_step_reminders_dynamic_${stepId}`;
 }
 
 function loadReminders(stepId) {
@@ -765,8 +817,13 @@ function goToPhase(phaseIndex) {
 
 function goNext() {
   const idx = currentFlatIndex();
-  if (idx >= FLAT_STEPS.length - 1) return;
-  goToFlatIndex(idx + 1);
+  // Prompt for assessment before moving?
+  // User asked: "The app should also ask, after each step, if anything was affected or destroyed"
+  // So we intercept the "Next" action.
+  showAssessmentModal(() => {
+     if (idx >= FLAT_STEPS.length - 1) return;
+     goToFlatIndex(idx + 1);
+  });
 }
 
 function goPrev() {
@@ -920,7 +977,12 @@ function renderStep() {
   // Action instructions
   const actionList = document.getElementById("action-list");
   actionList.innerHTML = "";
-  const modeActions = (step.actions && step.actions[mode]) || [];
+  // Always use "full" actions for now, as we filter steps by inventory
+  // or we could use specific mode text if we kept modes.
+  // For simplicity, let's use "full" text but dynamically adapted?
+  // The original code had separate text for "a2a".
+  // Let's use "full" actions as default, since we are selecting specific assets.
+  const modeActions = (step.actions && step.actions["full"]) || [];
   modeActions.forEach((line) => {
     const li = document.createElement("li");
     li.textContent = line
@@ -945,9 +1007,10 @@ function renderStep() {
 
 function renderModeHeader() {
   const chip = document.getElementById("mode-chip");
-  if (mode === "full") chip.textContent = "Mode: Full Game";
-  else if (mode === "a2a") chip.textContent = "Mode: Air-to-Air Only";
-  else chip.textContent = "Mode: Air-to-Air + Ground Stations";
+  // Summarize inventory
+  const blueCount = inventory.blue.length;
+  const redCount = inventory.red.length;
+  chip.textContent = `Blue Assets: ${blueCount}, Red Assets: ${redCount}`;
 
   const initLabel = document.getElementById("initiative-label");
   const nonInitLabel = document.getElementById("non-initiative-label");
@@ -988,6 +1051,183 @@ function renderDice() {
     const li = document.createElement("li");
     li.textContent = `${r.die}: ${r.value}`;
     list.appendChild(li);
+  });
+}
+
+// -----------------------------
+// Assessment Modal
+// -----------------------------
+
+function showAssessmentModal(onConfirm) {
+  // Simple check: confirm with user
+  // In a real app, this would be a modal. For now, we'll use a confirm dialog
+  // or a custom overlay if we want to be fancy.
+  // Let's build a custom overlay dynamically.
+  
+  const existingOverlay = document.getElementById("assessment-overlay");
+  if (existingOverlay) existingOverlay.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "assessment-overlay";
+  overlay.className = "setup-overlay";
+  
+  const card = document.createElement("div");
+  card.className = "setup-card";
+  
+  card.innerHTML = `
+    <h2>Step Complete</h2>
+    <p>Did any assets get destroyed or removed from play in this step?</p>
+    <div class="setup-row">
+        <h3>Blue Inventory</h3>
+        <div class="inventory-grid" id="assess-blue-inventory"></div>
+    </div>
+    <div class="setup-row">
+        <h3>Red Inventory</h3>
+        <div class="inventory-grid" id="assess-red-inventory"></div>
+    </div>
+    <div class="setup-row" style="flex-direction: row; justify-content: flex-end; gap: 1rem;">
+       <button id="assess-confirm-btn" class="primary-btn">Continue</button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  // Populate checkboxes based on current inventory
+  const blueDiv = card.querySelector("#assess-blue-inventory");
+  const redDiv = card.querySelector("#assess-red-inventory");
+  
+  // Helper to build checkboxes
+  const makeCheckbox = (val, label, teamList) => {
+      const l = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = val;
+      cb.checked = teamList.includes(val);
+      l.appendChild(cb);
+      l.append(" " + label); // simple text append
+      return l;
+  };
+
+  // Asset types map
+  const assets = [
+     {v: "naval", l: "Naval Units"},
+     {v: "air", l: "Air Units"},
+     {v: "ground", l: "Ground Forces"},
+     {v: "sam", l: "Air Defenses"},
+     {v: "sof", l: "Special Forces"},
+     {v: "cyber", l: "Cyber/Space"}
+  ];
+
+  assets.forEach(a => blueDiv.appendChild(makeCheckbox(a.v, a.l, inventory.blue)));
+  assets.forEach(a => redDiv.appendChild(makeCheckbox(a.v, a.l, inventory.red)));
+
+  document.getElementById("assess-confirm-btn").addEventListener("click", () => {
+      // Update inventory
+      const getChecked = (container) => Array.from(container.querySelectorAll("input:checked")).map(cb => cb.value);
+      
+      inventory.blue = getChecked(blueDiv);
+      inventory.red = getChecked(redDiv);
+      
+      // Re-evaluate sequence if needed?
+      // If we remove assets, some future steps might disappear.
+      // We should probably preserve current step index if possible, or simple re-render.
+      // Ideally, we shouldn't change the PAST steps, but the future ones.
+      // Since we rebuild the whole sequence array, we need to map the current index to the new array.
+      // For simplicity: just continue to next step. The `goNext` callback handles index increment.
+      // But if we rebuild sequence, indices shift.
+      // Let's rebuild sequence *after* moving to next step? No, that might skip.
+      
+      // Correct approach:
+      // 1. Identify "current step ID" (e.g. "1-2").
+      // 2. Rebuild sequence.
+      // 3. Find where we are or where the next step is.
+      // Actually, simplest is to Rebuild Sequence NOW, then try to find the "Next" step ID from the OLD sequence in the NEW sequence.
+      
+      // However, for this iteration, let's just update inventory and call onConfirm()
+      // which moves to next flat index. 
+      // NOTE: If we change sequence, flat index is meaningless relative to old sequence.
+      // We'll defer sequence rebuild to the start of the next turn? 
+      // Or just rebuild it now and find the correct index.
+      
+      // Let's try rebuilding immediately:
+      const oldFlat = FLAT_STEPS;
+      const oldIdx = currentFlatIndex();
+      
+      // We are about to go to oldIdx + 1.
+      // Let's see what step ID that was.
+      let targetStepId = null;
+      if (oldIdx + 1 < oldFlat.length) {
+          targetStepId = oldFlat[oldIdx + 1].step.id;
+      }
+      
+      SEQUENCE = buildSequenceForMode(inventory);
+      rebuildFlatSteps();
+      
+      if (targetStepId) {
+          // Find this step in new steps
+          const newIdx = FLAT_STEPS.findIndex(x => x.step.id === targetStepId);
+          if (newIdx !== -1) {
+             // We found the next step in the new sequence
+             // set current indices to match it
+             const entry = FLAT_STEPS[newIdx];
+             currentPhaseIndex = entry.phaseIndex;
+             currentStepIndex = entry.stepIndex;
+             renderStep();
+          } else {
+             // The next step was removed due to inventory change!
+             // We should find the next available step after that one...
+             // fallback: just go to the same numerical index if possible, or last one.
+             // or search for the first step with id > targetStepId? (lexicographically roughly works)
+             // simplified: stay at current if next is gone? No, we finished current.
+             // Go to the *first* step of the *next* phase?
+             // Let's just find the first step in FLAT_STEPS that is "after" the current one in the original full list?
+             
+             // Robust way: search BASE_SEQUENCE for targetStepId, then look forward until we find one that is in FLAT_STEPS.
+             // ... implementing that is complex.
+             // Simple fallback: If next step removed, go to next available step in new list.
+             // We can assume the new list is a subset.
+             // Just find the first step in FLAT_STEPS whose index in BASE_SEQUENCE is > the index of the just-finished step.
+             
+             // Let's keep it simple: Just execute onConfirm (which does index+1), but since we rebuild, we can't use onConfirm directly.
+             // We manually handle navigation here.
+             
+             // Find where we were (oldFlat[oldIdx].step.id)
+             const finishedStepId = oldFlat[oldIdx].step.id;
+             
+             // Find the first step in FLAT_STEPS that comes AFTER finishedStepId in the canonical order.
+             // We know the canonical order is BASE_SEQUENCE.
+             // Let's flatten BASE_SEQUENCE into IDs.
+             const canonicalIds = [];
+             BASE_SEQUENCE.forEach(p => p.steps.forEach(s => canonicalIds.push(s.id)));
+             
+             const finishedCanonicalIdx = canonicalIds.indexOf(finishedStepId);
+             let nextFound = false;
+             
+             for (let i = finishedCanonicalIdx + 1; i < canonicalIds.length; i++) {
+                 const candId = canonicalIds[i];
+                 const match = FLAT_STEPS.find(x => x.step.id === candId);
+                 if (match) {
+                     currentPhaseIndex = match.phaseIndex;
+                     currentStepIndex = match.stepIndex;
+                     renderStep();
+                     nextFound = true;
+                     break;
+                 }
+             }
+             
+             if (!nextFound) {
+                 // End of game?
+                 alert("No further steps available with current inventory.");
+             }
+          }
+      } else {
+          // End of game
+          alert("Turn complete!");
+      }
+      
+      renderModeHeader();
+      overlay.remove();
   });
 }
 
@@ -1043,19 +1283,24 @@ function setupEventListeners() {
   // Setup form
   document.getElementById("setup-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    const modeSelect = document.getElementById("mode-select");
+    // const modeSelect = document.getElementById("mode-select"); // removed
     const bInput = document.getElementById("blue-name-input");
     const rInput = document.getElementById("red-name-input");
     const initiativeRadio = document.querySelector(
       "input[name='initiative']:checked"
     );
 
-    mode = modeSelect.value;
+    // mode = modeSelect.value;
     blueName = (bInput.value || "Blue").trim() || "Blue";
     redName = (rInput.value || "Red").trim() || "Red";
     initiativeSide = initiativeRadio ? initiativeRadio.value : "blue";
+    
+    // Collect inventory
+    const getChecked = (name) => Array.from(document.querySelectorAll(`input[name='${name}']:checked`)).map(cb => cb.value);
+    inventory.blue = getChecked('blue_assets');
+    inventory.red = getChecked('red_assets');
 
-    SEQUENCE = buildSequenceForMode(mode);
+    SEQUENCE = buildSequenceForMode(inventory);
     rebuildFlatSteps();
     currentPhaseIndex = 0;
     currentStepIndex = 0;
