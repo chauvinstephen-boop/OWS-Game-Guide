@@ -1,4 +1,4 @@
-// Data model – core steps
+// Data model – core steps based on OWS Series Rules v2.3
 
 export const BASE_SEQUENCE = [
   {
@@ -48,6 +48,26 @@ export const BASE_SEQUENCE = [
           "Some Decision Cards adjust readiness timers or activate formations.",
           "Cards may specify in which phase they are playable."
         ]
+      },
+      {
+        id: "1-3",
+        code: "1.3",
+        title: "Assign reserve & main effort designations",
+        actor: "both",
+        modes: ["full"],
+        requires: ["ground"],
+        description:
+          "Designate Main Effort and Reserve status for ground formations using HQ capabilities.",
+        actions: {
+          full: [
+            "Both players assign reserves and Main Effort designations for divisions/corps per HQ rules.",
+            "Main Effort provides combat bonuses; Reserve units move slower but can exploit."
+          ]
+        },
+        rulesRef: [
+          "HQ units generate these effects within their command radius.",
+          "Main Effort applies to ground combat adjudication."
+        ]
       }
     ]
   },
@@ -65,7 +85,7 @@ export const BASE_SEQUENCE = [
         title: "Strategic embarkation and movement",
         actor: "alt",
         modes: ["full"],
-        requires: ["naval", "ground"],
+        requires: ["naval", "ground", "air"],
         description:
           "Players move formations via rail, airlift, sealift, and road, then mark RSO&I.",
         actions: {
@@ -112,7 +132,7 @@ export const BASE_SEQUENCE = [
     steps: [
       {
         id: "3A-1",
-        code: "3.A",
+        code: "3.A.1",
         title: "Naval movement (if used)",
         actor: "alt",
         modes: ["full"],
@@ -129,6 +149,26 @@ export const BASE_SEQUENCE = [
         rulesRef: [
           "Submarines can choose Silent Running or cavitating movement, changing detection chances.",
           "Moving through enemy-occupied hexes can trigger later combat."
+        ]
+      },
+      {
+        id: "3A-2",
+        code: "3.A.2",
+        title: "Initiate amphibious assaults",
+        actor: "alt",
+        modes: ["full"],
+        requires: ["naval"],
+        description:
+          "Place Amphibious Assault markers for units conducting ship-to-shore movement.",
+        actions: {
+          full: [
+            "Players place Amphibious Assault markers in beach landing hexes along with the transporting ships and ground units.",
+            "These units are now committed to landing and fighting in the Ground Combat Phase."
+          ]
+        },
+        rulesRef: [
+          "Only amphibious-capable units or those with landing craft can assault.",
+          "Units are vulnerable to attack during the Combat Phase before landing."
         ]
       },
       {
@@ -189,23 +229,65 @@ export const BASE_SEQUENCE = [
         ]
       },
       {
+        id: "3B-3",
+        code: "3.B.3",
+        title: "Initiate airborne & air assaults",
+        actor: "both",
+        modes: ["full"],
+        requires: ["air"],
+        description:
+          "Place Airborne or Air Assault markers for units conducting vertical envelopment.",
+        actions: {
+          full: [
+            "Players place Airborne/Air Assault markers on target Landing Zones (LZ) along with transport aircraft and ground units.",
+            "Ensure sufficient lift capacity is assigned (e.g. 1 transport per step, or 2 for mech)."
+          ]
+        },
+        rulesRef: [
+          "Transports and units are vulnerable to air defense and CAP during the Combat Phase.",
+          "If transports survive, ground units land and fight in the Ground Combat Phase."
+        ]
+      },
+      {
         id: "3C-1",
-        code: "3.C",
-        title: "SOF employment (if used)",
+        code: "3.C.1",
+        title: "Move SOF units & roll for insertion",
         actor: "both",
         modes: ["full"],
         requires: ["sof"],
         description:
-          "Place SOF counters into target hexes for reconnaissance, target acquisition, direct action, or support.",
+          "Place SOF counters into target hexes and check for successful insertion.",
         actions: {
           full: [
-            "Both players place SOF missions in chosen hexes, noting intended roles (SR, target acquisition, direct action, support).",
-            "Immediately roll for insertion vs local detection where required; failed insertions go to Regeneration."
+            "Both players place SOF missions in chosen hexes.",
+            "Immediately roll for insertion vs local detection where required (usually d8).",
+            "Failed insertions go to the Regeneration Box."
           ]
         },
         rulesRef: [
-          "SOF SR can promote detection and later strikes against the same target.",
-          "Compromise checks can remove SOF missions even after successful insertion."
+          "Insertion roll may be modified by terrain or enemy density.",
+          "If successful, SOF remains in hex for mission execution."
+        ]
+      },
+      {
+        id: "3C-2",
+        code: "3.C.2",
+        title: "Adjudicate SOF missions",
+        actor: "both",
+        modes: ["full"],
+        requires: ["sof"],
+        description:
+          "Resolve Strategic Recon, Target Acquisition, Direct Action, or Support missions.",
+        actions: {
+          full: [
+            "Resolve Direct Action attacks (roll for compromise first, then attack).",
+            "Mark Strategic Recon success (allows local ISR detection in Phase 5).",
+            "Note Target Acquisition (promotes missile strikes in Phase 6)."
+          ]
+        },
+        rulesRef: [
+          "Compromised SOF are removed to Regeneration Box.",
+          "Successful Direct Action inflicts step losses on targets."
         ]
       }
     ]
@@ -387,57 +469,113 @@ export const BASE_SEQUENCE = [
       {
         id: "6A-2",
         code: "6.A.2",
-        title: "Air combat – SEAD & long-range air defense",
+        title: "Air combat – stand-off SEAD strikes",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["air", "sam"],
         description:
-          "Resolve stand-off SEAD strikes and long-range ship/ground-based air defense vs aircraft.",
+          "Resolve stand-off SEAD strikes against emitting SAMs.",
         actions: {
           full: [
-            "Initiative player selects a hex with SEAD vs SAM or long-range air defense interactions.",
-            "Both players resolve SEAD vs emitting SAMs and long-range SAM shots vs aircraft within range.",
-            "Repeat for each hex where SEAD or long-range SAM engagements are in play."
-          ],
-          "a2a-ground": [
-            "Initiative player selects key hexes around ground stations with SEAD and SAM interactions.",
-            "Resolve SEAD vs Patriot/S-400/HQ-9 and any long-range SAM engagements vs detected aircraft.",
-            "Update which SAMs are suppressed or out of missiles for the rest of the turn."
+            "Initiative player selects a hex with SEAD vs SAM interactions.",
+            "Resolve SEAD attacks vs emitting SAMs (SEAD attacks usually occur before SAM return fire if stand-off)."
           ]
         },
         rulesRef: [
-          "SEAD at true stand-off may strike without entering SAM engagement range.",
-          "Grey SAM shields must be defeated before enduring red shield defenses."
+          "SEAD at true stand-off may strike without entering SAM engagement range."
         ]
       },
       {
         id: "6A-3",
         code: "6.A.3",
-        title: "Air combat – in-hex A2A & air defense engagements",
+        title: "Air combat – long-range air defense",
+        actor: "alt",
+        modes: ["full", "a2a-ground"],
+        requires: ["sam", "air"],
+        description:
+          "Resolve long-range ship/ground-based air defense vs aircraft.",
+        actions: {
+          full: [
+            "Resolve long-range SAM shots vs aircraft within range.",
+            "Update which SAMs are suppressed or out of missiles for the rest of the turn."
+          ]
+        },
+        rulesRef: [
+          "Grey SAM shields must be defeated before enduring red shield defenses."
+        ]
+      },
+      {
+        id: "6A-4",
+        code: "6.A.4",
+        title: "Air combat – in-hex A2A combat",
+        actor: "alt",
+        modes: ["full", "a2a-ground"],
+        requires: ["air"],
+        description:
+          "Resolve in-hex fighter vs fighter combat (Dogfight/WVR).",
+        actions: {
+          full: [
+            "For each hex, starting with initiative player’s choice, both players pair fighters (CAP/OCA/DCA) and resolve in-hex A2A.",
+            "Remove destroyed air missions to the Regeneration Box."
+          ]
+        },
+        rulesRef: [
+          "Attack-mission fighters defend with a demoted die and cannot initiate A2A."
+        ]
+      },
+      {
+        id: "6A-5",
+        code: "6.A.5",
+        title: "Air combat – transition air to tactical map",
+        actor: "both",
+        modes: ["full"],
+        requires: ["air", "ground"],
+        description:
+          "If using tactical maps, transition surviving air units to tactical hexes.",
+        actions: {
+          full: [
+            "Move surviving air units from operational hexes to specific tactical hexes or zones if applicable."
+          ]
+        },
+        rulesRef: [
+          "Only applies if using nested tactical maps."
+        ]
+      },
+      {
+        id: "6A-6",
+        code: "6.A.6",
+        title: "Air combat – in-hex SEAD",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["air", "sam"],
         description:
-          "Resolve in-hex fighter vs fighter combat and then remaining in-hex air defense vs aircraft.",
+          "Resolve close-in SEAD attacks against air defense units.",
         actions: {
           full: [
-            "For each hex, starting with initiative player’s choice, both players pair fighters (CAP/OCA/DCA) and resolve in-hex A2A.",
-            "After fighter combat, resolve any remaining in-hex air defense shots (Patriot, ship SAMs) vs surviving aircraft.",
-            "Remove destroyed air missions to the Regeneration Box."
-          ],
-          a2a: [
-            "Hex by hex, initiative player chooses order: pair surviving fighters for in-hex A2A and roll simultaneous attacks.",
-            "If using Best Die optional rule, resolve from highest A2A die to lowest.",
-            "Record survivors and mark contested or uncontested airspace as needed."
-          ],
-          "a2a-ground": [
-            "Prioritize hexes where fighters are protecting or attacking ground stations.",
-            "Resolve in-hex A2A and then Patriot/SAM in-hex engagements vs aircraft attempting to overfly or strike those stations."
+            "Resolve any SEAD strikes from aircraft in the same hex as the target SAM/AAA."
           ]
         },
         rulesRef: [
-          "Excess CAP can engage HVAA (AEW, tankers) or attack missions within range.",
-          "Attack-mission fighters defend with a demoted die and cannot initiate A2A."
+          "Often simultaneous with short-range air defense unless SEAD initiative applies."
+        ]
+      },
+      {
+        id: "6A-7",
+        code: "6.A.7",
+        title: "Air combat – in-hex air defense engagements",
+        actor: "alt",
+        modes: ["full", "a2a-ground"],
+        requires: ["sam", "air"],
+        description:
+          "Resolve remaining in-hex air defense shots (Patriot, ship SAMs, AAA) vs surviving aircraft.",
+        actions: {
+          full: [
+            "Resolve short-range and point defense shots against aircraft in the hex.",
+            "Remove destroyed air missions."
+          ]
+        },
+        rulesRef: [
+          "Surviving aircraft can now proceed to Strike Warfare or remain on station."
         ]
       },
       {
@@ -499,17 +637,15 @@ export const BASE_SEQUENCE = [
         modes: ["full"],
         requires: ["ground"],
         description:
-          "Set reserves, Main Effort, and determine the sequence for ground formation activations.",
+          "Determine the sequence for ground formation activations.",
         actions: {
           full: [
-            "Both players assign reserves and Main Effort designations for divisions/corps per HQ rules.",
             "Determine the ground initiative method (by side, by formation I-go-U-go, or random chit draw).",
             "Lay out formation chits or order list so both players can follow activation sequence."
           ]
         },
         rulesRef: [
-          "Reserve units move at half rate and normally only fight when activated in exploitation or if attacked.",
-          "Main Effort contributes to supporting-arms modifiers on the Ground Combat Adjudication Table (GCAT)."
+          "Reserve units move at half rate and normally only fight when activated in exploitation or if attacked."
         ]
       },
       {
@@ -533,6 +669,25 @@ export const BASE_SEQUENCE = [
           "Hexside limits (steps per hexside) and supporting arms determine odds and modifiers.",
           "Suppression, delay, and fortified status significantly affect GCAT outcomes."
         ]
+      },
+      {
+        id: "6C-3",
+        code: "6.C.3",
+        title: "Security Force Battles & Partisan Attacks",
+        actor: "both",
+        modes: ["full"],
+        requires: ["ground", "sof"],
+        description:
+          "Resolve combat in rear areas involving Security Zones and Partisans.",
+        actions: {
+          full: [
+            "Resolve attacks by Partisans against supply lines or rear area units.",
+            "Resolve Security Zone defense against Partisans or SOF."
+          ]
+        },
+        rulesRef: [
+          "Partisan attacks use specific tables or modifiers."
+        ]
       }
     ]
   },
@@ -555,9 +710,9 @@ export const BASE_SEQUENCE = [
           "Trace supply to combat units and reset offensive IO/Cyber for next turn.",
         actions: {
           full: [
-            "Both players trace supply from combat units back to supply sources, marking extended or out-of-supply states.",
-            "Remove offensive IO/Cyber markers; leave applicable defensive markers in place.",
-            "Apply supply effects to ground units for the next turn’s GCAT modifiers."
+            "7.A Check Supply: Trace supply from combat units back to supply sources, marking extended or out-of-supply states.",
+            "7.B Reset IO/Cyber: Remove offensive IO/Cyber markers; leave applicable defensive markers in place.",
+            "7.C Reset Marker Track: Verify theater ISR capability on Space Dashboard."
           ]
         },
         rulesRef: [
@@ -576,17 +731,9 @@ export const BASE_SEQUENCE = [
           "Return air missions to bases/carriers or leave some in place, and clear status markers.",
         actions: {
           full: [
-            "Both players return air missions to their airfields or carriers (unless scenario allows leaving CAP/Interdiction in place).",
-            "Remove RSO&I, suppression, TACSIT, amphibious/airborne assault markers as required.",
-            "Advance any readiness or RSO&I timers and adjust carrier air mission capacity based on damage."
-          ],
-          a2a: [
-            "Both players reset surviving air missions to their airbases or allowed CAP hexes for next turn.",
-            "Remove suppression and TACSIT markers relevant to this turn’s air battles."
-          ],
-          "a2a-ground": [
-            "Both players reset surviving air missions and ensure airfields and SAMs are updated with any damage or repairs from strikes.",
-            "Remove status markers that expire at the end of the turn."
+            "7.D Reset Aviation: Return air missions to their airfields or carriers (unless scenario allows leaving CAP/Interdiction in place).",
+            "7.E Advance Timers: Reduce active timers (e.g. readiness, arrival) by one increment.",
+            "7.F Remove Status Markers: Remove RSO&I, suppression, TACSIT, amphibious/airborne assault markers as required."
           ]
         },
         rulesRef: [
@@ -605,18 +752,10 @@ export const BASE_SEQUENCE = [
           "Roll for infrastructure repair, regenerate air/SOF missions, and resupply missiles.",
         actions: {
           full: [
-            "Both players roll for port, airfield, and rail repair (with engineer modifiers where present).",
-            "Roll to regenerate SOF and air missions from the Regeneration Box according to scenario probabilities.",
-            "Resupply missile and SAM salvos that are auto-resupplied or have access to ASP counters per scenario rules.",
-            "Advance the turn marker and update any weather or reinforcement tracks."
-          ],
-          a2a: [
-            "Both players roll to regenerate destroyed air missions out of the Regeneration Box using scenario probabilities.",
-            "Reset missile counts and SAM salvos if the scenario treats them as auto-resupplied for A2A tutorials."
-          ],
-          "a2a-ground": [
-            "Both players roll to regenerate destroyed air missions.",
-            "Update Patriot/SAM missile availability and any critical stand-off munitions per scenario rules."
+            "7.G Repair Infrastructure: Roll for port, airfield, and rail repair (with engineer modifiers where present).",
+            "7.H Regenerate SOF & Air: Roll to regenerate SOF and air missions from the Regeneration Box.",
+            "7.I Resupply Missiles: Resupply missile and SAM salvos that are auto-resupplied or have access to ASP counters.",
+            "7.J Advance Turn Marker & Weather: Note reinforcements and roll for weather changes."
           ]
         },
         rulesRef: [
