@@ -48,73 +48,58 @@ export function renderScratchPad() {
   
   const tbody = table.querySelector("tbody");
   
-  const allUnits = [];
-  const addUnit = (id, team) => allUnits.push({id, team});
-  state.inventory.blueUnits.forEach(id => addUnit(id, "blue"));
-  state.inventory.redUnits.forEach(id => addUnit(id, "red"));
+  // Rebuild rows to support ordering and separators
+  // Clear existing rows to ensure correct order and separators
+  tbody.innerHTML = "";
   
-  const existingRows = Array.from(tbody.querySelectorAll("tr"));
-  existingRows.forEach(row => {
-    if (!allUnits.find(u => u.id === row.dataset.unitId)) {
-      row.remove();
-    }
-  });
+  const addUnitRows = (unitIds, team) => {
+      if (unitIds.length === 0) return;
+      
+      // Add Separator
+      const sepRow = document.createElement("tr");
+      sepRow.className = "team-separator";
+      sepRow.innerHTML = `<td colspan="5" style="background: #eef2ff; font-weight: bold; text-align: center; color: var(--accent);">${team === 'blue' ? state.names.blue : state.names.red} Forces</td>`;
+      tbody.appendChild(sepRow);
+      
+      unitIds.forEach(instId => {
+          // Parse base ID
+          const baseId = instId.substring(0, instId.lastIndexOf("_"));
+          const instanceNum = instId.substring(instId.lastIndexOf("_") + 1);
+          
+          let unitDef = null;
+          const teamData = UNIT_DATABASE[team];
+          if (teamData) {
+            for (const cat of Object.keys(teamData)) {
+                const found = teamData[cat].find(x => x.id === baseId);
+                if (found) {
+                unitDef = found;
+                break;
+                }
+            }
+          }
+          if (!unitDef) return;
+          
+          const unitState = state.unitStates[instId] || { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false };
+          
+          const row = document.createElement("tr");
+          row.dataset.unitId = instId;
+          row.innerHTML = `
+            <td><strong>${unitDef.name}</strong> <span style="font-size:0.8em; color:#666">#${instanceNum}</span></td>
+            <td><input type="text" data-id="${instId}" data-field="hex" value="${unitState.hex || ''}" placeholder="Hex..."></td>
+            <td><input type="text" data-id="${instId}" data-field="role" value="${unitState.role || ''}" placeholder="Role..."></td>
+            <td><input type="text" data-id="${instId}" data-field="dest" value="${unitState.dest || ''}" placeholder="Dest..."></td>
+            <td>
+            <div class="status-checks">
+                <label><input type="checkbox" data-id="${instId}" data-field="stealth" ${unitState.stealth ? 'checked' : ''}> Stealth</label>
+                <label><input type="checkbox" data-id="${instId}" data-field="detected" ${unitState.detected ? 'checked' : ''}> Detected</label>
+                <label><input type="checkbox" data-id="${instId}" data-field="isr" ${unitState.isr ? 'checked' : ''}> ISR</label>
+            </div>
+            </td>
+          `;
+          tbody.appendChild(row);
+      });
+  };
   
-  allUnits.forEach(u => {
-    let row = tbody.querySelector(`tr[data-unit-id="${u.id}"]`);
-    
-    let unitDef = null;
-    const teamData = UNIT_DATABASE[u.team];
-    if (teamData) {
-      for (const cat of Object.keys(teamData)) {
-        const found = teamData[cat].find(x => x.id === u.id);
-        if (found) {
-          unitDef = found;
-          break;
-        }
-      }
-    }
-    if (!unitDef) return;
-
-    const unitState = state.unitStates[u.id] || { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false };
-
-    if (!row) {
-      row = document.createElement("tr");
-      row.dataset.unitId = u.id;
-      row.innerHTML = `
-        <td><strong>${unitDef.name}</strong> <span style="font-size:0.8em; color:#666">(${u.team})</span></td>
-        <td><input type="text" data-id="${u.id}" data-field="hex" placeholder="Hex..."></td>
-        <td><input type="text" data-id="${u.id}" data-field="role" placeholder="Role..."></td>
-        <td><input type="text" data-id="${u.id}" data-field="dest" placeholder="Dest..."></td>
-        <td>
-          <div class="status-checks">
-            <label><input type="checkbox" data-id="${u.id}" data-field="stealth"> Stealth</label>
-            <label><input type="checkbox" data-id="${u.id}" data-field="detected"> Detected</label>
-            <label><input type="checkbox" data-id="${u.id}" data-field="isr"> ISR</label>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(row);
-    }
-    
-    const updateInput = (field, val) => {
-      const input = row.querySelector(`input[data-field="${field}"]`);
-      if (input && document.activeElement !== input) {
-        input.value = val || "";
-      }
-    };
-    
-    const updateCheck = (field, val) => {
-      const input = row.querySelector(`input[data-field="${field}"]`);
-      if (input) input.checked = !!val;
-    };
-    
-    updateInput("hex", unitState.hex);
-    updateInput("role", unitState.role);
-    updateInput("dest", unitState.dest);
-    
-    updateCheck("stealth", unitState.stealth);
-    updateCheck("detected", unitState.detected);
-    updateCheck("isr", unitState.isr);
-  });
+  addUnitRows(state.inventory.blueUnits, "blue");
+  addUnitRows(state.inventory.redUnits, "red");
 }

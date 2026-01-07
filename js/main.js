@@ -73,28 +73,76 @@ function showAssessmentModal(onConfirm) {
   const blueDiv = card.querySelector("#assess-blue-inventory");
   const redDiv = card.querySelector("#assess-red-inventory");
   
-  const makeCheckbox = (unitId, name, category, teamUnits) => {
+  const makeRow = (unitInstanceId, name, category) => {
       const l = document.createElement("label");
+      l.style.display = "block";
       const cb = document.createElement("input");
       cb.type = "checkbox";
-      cb.value = unitId;
+      cb.value = unitInstanceId;
       cb.dataset.category = category;
-      cb.checked = teamUnits.includes(unitId);
+      cb.checked = true; // Default checked for current inventory
       l.appendChild(cb);
-      l.append(" " + name);
+      l.append(" " + name); // Show instance name?
       return l;
   };
 
-  const populateList = (teamKey, container, teamUnits) => {
+  const populateList = (teamKey, container, teamInstanceIds) => {
       const teamData = UNIT_DATABASE[teamKey];
       if (!teamData) return;
       
-      Object.keys(teamData).forEach(cat => {
-          (teamData[cat] || []).forEach(unit => {
-              if (teamUnits.includes(unit.id)) {
-                  container.appendChild(makeCheckbox(unit.id, unit.name, unit.category, teamUnits));
+      // We need to map instance IDs back to definitions
+      // teamInstanceIds is e.g. ['nimitz_1', 'nimitz_2', 'f35c_1']
+      
+      // Group by category for display
+      const instancesByCat = {};
+      
+      teamInstanceIds.forEach(instId => {
+          // Parse base ID
+          const baseId = instId.substring(0, instId.lastIndexOf("_"));
+          const instanceNum = instId.substring(instId.lastIndexOf("_") + 1);
+          
+          // Find def
+          let unitDef = null;
+          let foundCat = null;
+          
+          // Optimization: look in categories
+          for (const cat of Object.keys(teamData)) {
+              const found = teamData[cat].find(u => u.id === baseId);
+              if (found) {
+                  unitDef = found;
+                  foundCat = cat;
+                  break;
               }
+          }
+          
+          if (unitDef && foundCat) {
+              if (!instancesByCat[foundCat]) instancesByCat[foundCat] = [];
+              instancesByCat[foundCat].push({
+                  instanceId: instId,
+                  name: `${unitDef.name} #${instanceNum}`,
+                  category: foundCat
+              });
+          }
+      });
+      
+      Object.keys(instancesByCat).forEach(cat => {
+          if (instancesByCat[cat].length === 0) return;
+          
+          const catDiv = document.createElement("div");
+          catDiv.className = "inventory-category";
+          const catHeader = document.createElement("h4");
+          catHeader.textContent = cat.toUpperCase();
+          catDiv.appendChild(catHeader);
+          
+          const grid = document.createElement("div");
+          grid.className = "inventory-grid";
+          
+          instancesByCat[cat].forEach(item => {
+              grid.appendChild(makeRow(item.instanceId, item.name, item.category));
           });
+          
+          catDiv.appendChild(grid);
+          container.appendChild(catDiv);
       });
   };
 
@@ -311,14 +359,41 @@ function renderInventorySelection() {
 
       units.forEach((unit) => {
         const label = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.name = `${teamKey}_units`;
-        input.value = unit.id;
-        input.dataset.category = unit.category;
+        label.style.display = "flex";
+        label.style.flexDirection = "column";
+        label.style.alignItems = "flex-start";
+        label.style.gap = "0.2rem";
+        label.style.padding = "0.2rem";
+        label.style.border = "1px solid #eee";
+        label.style.borderRadius = "4px";
+
+        const textSpan = document.createElement("span");
+        textSpan.textContent = unit.name;
+        textSpan.style.fontSize = "0.85rem";
+        textSpan.style.fontWeight = "500";
+
+        const controlDiv = document.createElement("div");
+        controlDiv.style.display = "flex";
+        controlDiv.style.alignItems = "center";
+        controlDiv.style.gap = "0.5rem";
+
+        const qtyInput = document.createElement("input");
+        qtyInput.type = "number";
+        qtyInput.min = "0";
+        qtyInput.value = "0";
+        qtyInput.name = `${teamKey}_units_qty`;
+        qtyInput.dataset.id = unit.id;
+        qtyInput.dataset.category = unit.category;
+        qtyInput.style.width = "50px";
+        qtyInput.style.padding = "0.2rem";
+
+        // Optional quick-add button? Or just input? Input is fine.
         
-        label.appendChild(input);
-        label.appendChild(document.createTextNode(" " + unit.name));
+        controlDiv.appendChild(qtyInput);
+        controlDiv.appendChild(document.createTextNode("Qty"));
+
+        label.appendChild(textSpan);
+        label.appendChild(controlDiv);
         grid.appendChild(label);
       });
 
@@ -395,14 +470,24 @@ function setupEventListeners() {
     setInitiative(initiativeRadio ? initiativeRadio.value : "blue");
     
     const getSelectedUnits = (teamKey) => {
-        const inputs = document.querySelectorAll(`input[name='${teamKey}_units']:checked`);
-        const unitIds = [];
+        const inputs = document.querySelectorAll(`input[name='${teamKey}_units_qty']`);
+        const unitInstances = []; // Array of unique instance IDs
         const categories = new Set();
+        
         inputs.forEach(input => {
-            unitIds.push(input.value);
-            if (input.dataset.category) categories.add(input.dataset.category);
+            const count = parseInt(input.value, 10);
+            if (count > 0) {
+                const baseId = input.dataset.id;
+                const cat = input.dataset.category;
+                categories.add(cat);
+                
+                for (let i = 1; i <= count; i++) {
+                    // Generate unique instance ID: baseId_i
+                    unitInstances.push(`${baseId}_${i}`);
+                }
+            }
         });
-        return { ids: unitIds, cats: Array.from(categories) };
+        return { ids: unitInstances, cats: Array.from(categories) };
     };
 
     const blueData = getSelectedUnits("blue");
