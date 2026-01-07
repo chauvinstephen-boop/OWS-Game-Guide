@@ -25,7 +25,7 @@ export const state = {
   
   diceHistory: [],
   
-  let unitStates = {}; // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false } }
+  unitStates: {} // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false } }
 };
 
 // State mutations
