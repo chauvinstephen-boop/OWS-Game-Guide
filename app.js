@@ -775,19 +775,6 @@ function goPrev() {
   goToFlatIndex(idx - 1);
 }
 
-function actorLabel(actor) {
-  const initiativeName = initiativeSide === "blue" ? blueName : redName;
-  const nonInitName = initiativeSide === "blue" ? redName : blueName;
-
-  if (actor === "initiative") return initiativeName;
-  if (actor === "non-initiative") return nonInitName;
-  if (actor === "both") return `${blueName} and ${redName}`;
-  if (actor === "alt") return `${initiativeName first}, then ${nonInitName}`.replace(
-    " first",
-    " (first)"
-  );
-  return `${blueName} and ${redName}`;
-}
 
 function whoActsSentence(step) {
   const initiativeName = initiativeSide === "blue" ? blueName : redName;
