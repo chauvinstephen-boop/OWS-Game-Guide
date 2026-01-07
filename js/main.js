@@ -30,13 +30,12 @@ function goPrev() {
 
 function goNext() {
   const idx = currentFlatIndex();
-  showAssessmentModal(() => {
-     if (idx >= state.flatSteps.length - 1) {
-         showEndTurnModal();
-         return;
-     }
-     goToFlatIndex(idx + 1);
-  });
+  // Directly advance without assessment modal
+  if (idx >= state.flatSteps.length - 1) {
+      showEndTurnModal();
+      return;
+  }
+  goToFlatIndex(idx + 1);
 }
 
 // Modals
@@ -246,7 +245,16 @@ function showRegenerationModal() {
       cb.type = "checkbox";
       cb.value = unitId;
       cb.dataset.category = category;
-      cb.checked = teamUnits.includes(unitId);
+      
+      // Default to checked if in inventory, BUT uncheck if marked as destroyed
+      const isDestroyed = state.unitStates[unitId] && state.unitStates[unitId].destroyed;
+      cb.checked = teamUnits.includes(unitId) && !isDestroyed;
+      
+      if (isDestroyed) {
+          l.style.textDecoration = "line-through";
+          l.style.color = "red";
+      }
+      
       l.appendChild(cb);
       l.append(" " + name);
       return l;
@@ -367,6 +375,17 @@ function renderInventorySelection() {
         label.style.border = "1px solid #eee";
         label.style.borderRadius = "4px";
 
+        const img = document.createElement("img");
+        // Try to load specific image, fallback to placeholder logic if needed (handled via alt or css)
+        img.src = `assets/${unit.id}.png`; 
+        img.alt = "Unit";
+        img.style.width = "40px";
+        img.style.height = "40px";
+        img.style.objectFit = "contain";
+        img.style.border = "1px solid #ccc";
+        img.style.borderRadius = "4px";
+        img.onerror = () => { img.style.display = 'none'; }; // Hide if missing
+
         const textSpan = document.createElement("span");
         textSpan.textContent = unit.name;
         textSpan.style.fontSize = "0.85rem";
@@ -414,6 +433,7 @@ function renderInventorySelection() {
         controlDiv.appendChild(qtyInput);
         controlDiv.appendChild(btnPlus);
 
+        label.appendChild(img);
         label.appendChild(textSpan);
         label.appendChild(controlDiv);
         grid.appendChild(label);

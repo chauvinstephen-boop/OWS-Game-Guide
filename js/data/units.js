@@ -34,7 +34,9 @@ export const UNIT_DATABASE = {
     ],
     ground: [
       { id: "m142", name: "M142 HIMARS", category: "ground" },
-      { id: "lcc_nsm", name: "LCC/LCP NSM (Marines)", category: "ground" }
+      { id: "lcc_nsm", name: "LCC/LCP NSM (Marines)", category: "ground" },
+      { id: "airfield", name: "Airfield (Main Base)", category: "ground" },
+      { id: "farp", name: "FARP (Forward Arming Refueling Point)", category: "ground" }
     ],
     sam: [
       { id: "pac2", name: "Patriot PAC-2", category: "sam" },
@@ -70,7 +72,9 @@ export const UNIT_DATABASE = {
     ],
     ground: [
       { id: "df21c", name: "DF-21C (MRBM)", category: "ground" },
-      { id: "df26", name: "DF-26 (IRBM)", category: "ground" }
+      { id: "df26", name: "DF-26 (IRBM)", category: "ground" },
+      { id: "airfield", name: "Airfield (Main Base)", category: "ground" },
+      { id: "farp", name: "FARP", category: "ground" }
     ],
     sam: [
       { id: "hq9", name: "HQ-9 (Long Range SAM)", category: "sam" },
