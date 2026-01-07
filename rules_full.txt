@@ -1,0 +1,4101 @@
+Operational
+Wargame
+System
+
+ABSTRACT
+
+The Operational Wargame System (OWS) is a board
+game series covering contemporary and future
+conflict. It is a wargame toolkit that enables wargaming
+scenarios in the 2025 to 2035 timeframe. The design
+centers on plans and decisions at the high tactical to
+operational level of war across all warfighting domains.
+
+Lead Game Designer: Tim Barrick
+
+SERIES RULES VERSION 2.3
+
+December 10, 2024
+
+Point of Contact:
+Tim Barrick
+Wargaming Director
+Brute Krulak Center for Innovation & Future Warfare
+Marine Corps University
+Quantico, Virginia
+Email: timothy.barrick@usmcu.edu
+
+Operational
+Wargame System
+Series Rules, Version 2.3
+Contents
+
+Introduction .......................................................................................................................................... 1
+Components .......................................................................................................................................... 1
+Sequence of Play ................................................................................................................................... 9
+Planning Phase .................................................................................................................................... 11
+Strategic Movement Phase ................................................................................................................. 12
+Tactical Movement Phase ................................................................................................................... 13
+IO/Cyber/Space Phase ........................................................................................................................ 21
+ISR Phase ............................................................................................................................................. 24
+Combat Phase ..................................................................................................................................... 26
+Ground Movement & Combat ........................................................................................................ 33
+Regeneration Phase ........................................................................................................................ 45
+Assessment Phase ........................................................................................................................... 46
+Credits & Design Notes ................................................................................................................... 47
+
+Introduction
+1.1. The Operational Wargame System (OWS) is
+a
+board
+game
+series
+covering
+contemporary and future conflicts. It is a
+wargame toolkit to enable scenarios in the
+2022 to 2035 timeframe. The design
+centers on plans and decisions at the high
+tactical to operational levels of war across
+all warfighting domains.
+
+Components
+2.1. Colored, Multi-Sided Dice. The core of the
+OWS game system is the use of colored
+multi-sided dice to reflect scalable
+capabilities, lethality, and combat
+modifiers. Dice range from four sided (D4)
+to twenty sided (D20) dice, including D6,
+D8, D10, D12, and D16 with each die
+uniquely colored to match counter
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+When a situation emerges that challenges
+subject matter expertise, then determine
+the new probabilities for success and roll a
+d10 versus that probability. Additionally,
+game facilitators may apply “House Rules”
+that apply classified considerations or
+models into the adjudication process.
+2.1.2. Game Map. The game map depicts the
+physical terrain where combat operations
+take place, as well as inset boxes to depict
+relevant off-map regions. The OWS game
+system includes multiple map scales to
+account for game play at various levels.
+When desired, maps can be used in
+combination.
+2.1.2.1. Operational Map. The hex scale on the
+operational map is 200 nm (370 km) per
+hex
+2.1.2.2. Regional Map. The hex scale on the
+regional map is 100 nm per hex.
+2.1.2.3. Tactical Map. The hex scale on the
+tactical map varies from 10 to 20 km. Some
+tactical maps include an additional hex
+layer portrayed by yellow hexes that
+represent 50 nm (100 km) zones.
+2.1.3. Space Capability Dashboard. The Space
+Capability Dashboard depicts each side’s
+capabilities with respect to Command and
+Control
+(C2)
+Networks;
+Position,
+Navigation, and Timing (PNT); and Theater
+Intelligence,
+Surveillance,
+and
+Reconnaissance (ISR). Each of these three
+functional areas is represented by an
+abstract satellite constellation that
+displays on the dashboard a player side’s
+capability in that area. This capability can
+be targeted by the opposing side.
+2.1.4. Player Hand. Each side maintains a Player
+Hand of cards and tokens. This hand is kept
+secret from the opposing players.
+2.1.5. Attrition Box. The Attrition Box is where
+units that are permanently lost are placed.
+
+symbols and to enable rapid player
+recognition (black D4, red D6, yellow D8,
+green D10, blue D12, purple D16, and
+white D20). The greater the number of
+sides on the die, the more effective the
+capability it models.
+
+2.1.1. Core Adjudication Technique. The OWS
+dice system uses a universal adjudication
+method to resolve all outcomes. Offensive
+and sensing capabilities are indicated using
+a die symbol, while defensive capabilities
+are represented by a red or gray shield with
+a number; and, signature is indicated by a
+satellite or radar display symbol.
+2.1.1.1. Die Promotion and Demotion. When a
+modifier is applied to a capability die, it
+causes the die to be “promoted” or
+“demoted” depending on the type of
+modifier, such as promoting a strike from a
+D8 to a D10. Each promotion increases the
+die size by one increment, and each
+demotion reduces the die size by one
+increment.
+Multiple modifiers are
+cumulative.
+Sum all promotion and
+demotions together then apply the net
+result to determine the modified die.
+2.1.1.2. Determining Success. In all cases, a die
+roll greater than or equal to the defensive
+number is a success (“meet or beat”). A die
+roll less than the defense number is a
+failure.
+2.1.1.3. Critical Hits. If the final attack roll is
+double the basic defense number (red
+shield), then 2 hits are applied against the
+target. If the die roll is 3x or 4x the target’s
+defense number then 3 and 4 hits
+respectively are applied.
+2.1.1.4. Semi-Rigid Adjudication. OWS is a semirigid rule set that does not account for
+every possible situation across all domains.
+2
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+2.2. Counters. Counters represent air, sea, and
+land military forces. Players use dry-erase
+markers on the counters themselves to
+record combat hits and associated
+capability degradation, as well as the
+consumption of missiles.
+2.2.1. Signature. A ground, air or naval unit’s
+detection signature is indicated by either a
+satellite symbol with number or a sensor
+symbol with number (sometime referred
+to as its stealth capability). Those with
+satellite symbols are detectable by theater
+ISR. Those with a sensor symbol can only
+be detected by a “local” sensor capability.
+The signature is the target number for
+detection attempts. Detection attempts
+must roll equal to or greater than this
+number to detect the unit.
+2.2.2. Missiles.
+Offensive
+missiles
+are
+represented in the game by die symbols
+which represent a salvo of missiles. Each
+missile salvo typically represents ~8
+missiles. A red silhouette is usually placed
+next to the die to represent what kind of
+targets it can engage – whether air (side
+silhouette of an aircraft), naval (side
+silhouette of a ship) or ground (a rectangle
+intended to represent an airfield runway).
+2.2.2.1. Missile Magazine. A unit’s missile
+magazine, i.e. the number of missile
+salvoes it carries with it, is indicated by the
+number of dice represented on the counter
+next to a red target silhouette. Shown next
+to a missile salvo is a super numeral that
+indicates that missile’s range in hexes.
+2.2.2.2. Salvo Markers. These markers represent
+missile attacks generated in the game and
+are used as a player aid to help visualize
+complex attacks and to assist in allocating
+missile salvoes against multiple targets in a
+strike action. They are generated by the
+attack dice shown on ground, air, and naval
+counters. These missile salvoes are
+
+2.1.6. Regeneration Box. The Regeneration Box
+(sometimes referred to as the “Recycle
+Bin”) is where players put units lost in
+combat with the potential to regenerate,
+specifically air and SOF mission counters.
+2.1.7. Land Hexes
+2.1.7.1. Ports. Anchor symbols represent port
+facilities and are used to resupply naval
+units, offload and embark ground units,
+and as a node to trace line of supply. Some
+maps portray ports accompanied by a
+shield and white check boxes. The shield is
+the defense value that is used when a port
+is targeted by a strike and the boxes are the
+number of hits it can take. These boxes also
+represent the port’s capacity to embark or
+disembark ground units. For example, a
+port with 4 white boxes has a capacity to
+embark/disembark 4 steps of ground units
+during a single turn.
+2.1.7.2. Airfields. The airfield symbol represents
+an airport or airbase and is used to base
+aircraft units, launch and support air
+missions, conduct embarkation and
+debarkation of ground units from air
+transport units, and serves as a source of
+supply. Airfields include a number that
+indicates the number of air units
+(squadrons) than can base there. Some
+game maps also include check box symbols
+that are used to track hits and remaining
+capacity.
+2.1.8. Deep Sea Hexes. Indicated by the dark
+blue shaded sea zones. There is no stacking
+limit to the number of naval units that can
+operate in a Deep Sea hex.
+2.1.9. Littoral Waters Hexes. Indicated by the
+light blue shaded sea zones. There is no
+stacking limit to the number of naval units
+that can operate in a Littoral Waters hex.
+ASW detection efforts in Littoral Waters
+are demoted due to reverberation and
+coastal traffic noise.
+3
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+2.2.2.5. Tracking Missile Resupply. Missile
+munitions are tracked during the game and
+are dependent on an individual scenario’s
+special rules regarding critical munition
+resupply. During the Missile Resupply
+segment of the Regeneration Phase,
+missiles may be resupplied if allowed by
+the scenario’s special rules. This is done by
+erasing the marks off “consumed” missiles
+to show that they have been replenished
+and subtracting consumed missiles from
+the scenario’s critical munitions inventory.
+2.2.2.6. Ammunition Counters. Ammunition
+counters are used to help track critical
+munition inventories. These are used to
+resupply critical munitions for naval vessels
+and some ground units, and can be used by
+air units conducting strikes –
+particularly bombers. ASP
+counters can be targeted and
+defend with the red shield. If
+an ASP counter is successfully
+hit, roll a D6 to determine the
+number of missile salvoes to
+destroy and mark off the
+counter.
+2.2.2.7. Hypersonic & Ballistic Missiles. Missiles
+that fall into the category of hypersonic or
+ballistic missiles are indicated by an “H”,
+“HGV”, or by an “SRBM”, “MRBM”, or
+“IRBM” text note respectively. Such
+missiles are immune to intercept by
+patrolling fighter aircraft missions. Ballistic
+missiles can only be defended by grey
+shields with an associated “BMD” notation
+on the counter. If no BMD capable air
+defenses are present, then ballistic missiles
+bypass other grey shields and target a
+unit’s red shield. Some BMD capable units
+also depict a red down arrow indicating a
+more capable system that also demotes
+inbound ballistic missile salvos. Hypersonic
+missiles are governed by special scenario
+
+“promoted” or “demoted” depending on
+applied effects.
+
+Red side Missile Salvo markers
+2.2.2.3. Defense Systems. Defensive capabilities
+are represented in the game as shields. Red
+shields are an enduring defense and grey
+shields are consumable.
+2.2.2.3.1. The Red Shield – Enduring Defense.
+The enduring defense number of a unit is
+portrayed as a red shield that is never
+consumed. DESIGN NOTE: The red shields
+are an abstract representation of armor
+protection, point defense systems,
+defensive countermeasures such as
+jamming and decoys, and vulnerabilities
+such as signature.
+2.2.2.3.2. The Grey Shield – Consumable
+Defense.
+Grey
+shields
+represent
+consumable defensive capabilities such as
+air defense missiles which add a “first
+layer” defense to a unit which must be
+defeated before the red shield can be
+targeted. If these are marked with a
+circular arrow in the top right corner, then
+they regenerate at the end of the turn in
+the Regeneration & Logistics Phase. As
+these are used, they are marked out by a
+dry erase marker.
+2.2.2.4. Auto-Resupply of Munitions. Dice and
+shields noted with a curved arrow symbol
+10 indicate the ability to auto-resupply
+
+at the end of the turn in the Regeneration
+Phase. Artillery and Rocket units without
+that
+symbol
+track
+ammunition
+consumption as a critical munition per
+special scenario rules.
+
+4
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+combat. If there are no white boxes, or just
+one, then the unit is considered a single
+“step.” If there are 2, 3 or 4 white boxes
+then it is a 2, 3 or 4 step unit respectively.
+Hits sustained in combat are absorbed as
+step losses with the white box and
+corresponding attack capabilities marked
+out by a dry erase marker. When the
+damage steps have all been “hit,” the unit
+is considered a mission kill (severely
+damaged or sunk) and it is removed to
+either the Regeneration or Attrition Box.
+EXCEPTION: The circular air squadron base
+(olive green in color) is a two step counter
+with a step loss represented by flipping it
+to its reverse side with the flames to
+reduce it to a single step. If hit a second
+time, then it is eliminated, along with its
+associated air mission, to the Attrition Box.
+2.2.4. Air Units. Air units are portrayed in the
+game using two circular counters for each
+squadron. Squadron Base counters (with
+an olive drab background) are always
+located at airfields and represent the
+aircraft currently in maintenance,
+readying, etc., as well as the ground
+infrastructure and personnel. Air Missions
+(represented in national colors or bright
+green (support missions)) are linked to
+matching squadron base counters and
+represent the aircraft performing a
+specified mission at any one time over the
+course of a turn. Air missions that are lost
+in combat can be regenerated, but
+squadron base counters (destroyed on the
+ground) are lost permanently, along with
+their associated air missions. Aircraft
+carriers function as the squadron base for
+their associated air units. When aircraft
+carriers are damaged, the number of air
+missions it generates is correspondingly
+reduced.
+
+rules as to whether or not they can be
+intercepted by various air defense systems.
+If undefined, then Hypersonic Glide
+Vehicles
+(HGVs)
+are
+considered
+indefensible and bypass all grey shields.
+Other hypersonic missiles, indicated by an
+“H,” can be defended by BMD capable air
+defenses.
+
+2.2.2.8. Multi-Role Systems. A capability that
+can be used for either attack or defense is
+outlined with a white rectangle. Once this
+choice is made, both the shield and the
+represented attack die are marked
+consumed.
+
+EXAMPLE: The US Navy SM-6 missile is
+represented in the game with a “7” grey
+shield and a blue D12 attack that has a
+range of 1 versus air and ship targets (see
+DDG Flight IIA above). The “H” shows that
+this attack capability is hypersonic. And the
+“BMD” indicator means that these SM-6
+defensive shields can be used versus
+ballistic missile attacks.
+2.2.3. Steps & Step Loss. The size of a unit is
+indicated by white check boxes referred to
+as “steps.” Steps determine how much
+combat damage the unit can absorb as well
+as informing transportation requirements,
+stacking, and hexside limits for ground
+5
+
+Operational Wargame System
+Series Rules
+
+Version 2.3 – 10 Dec 2024
+
+OVERVIEW
+
+2.2.6. Submarines. Submarines are portrayed in
+the game using a square counter
+representing a single vessel.
+SUBMARINE COUNTER FEATURES:
+AIR MISSIONS - SQUADRON BASE
+
+Country
+
+Ship Type
+Ship Name
+
+Anti-Ship and
+Land Attack
+Missile Salvos
+& Range
+
+Stealth Value
+ISR Target #
+Enduring
+Defense Value
+
+AIR MISSION COUNTER FEATURES:
+
+2.2.7. Ground Units. Ground units are portrayed
+in the game using a square counter. For
+ground maneuver units, a battalion is 1
+step. Most units are portrayed at the
+Brigade or Regiment level and are shown
+as a 3 “step” unit (3 white boxes). If the
+counter does not contain a white box, then
+it is assumed to be a single step unit and is
+lost when suffering a hit.
+
+Air Mission Counter Name
+*Sensor Range
+Combat Radius
+Attack Range
+Attack Value
+Defense Value
+Country
+Mission
+*Stealth Capability
+CAS
+AEW
+
+CAP
+
+STRIKE
+
+AIR ASSAULT
+
+TANKER
+
+ASW
+
+TRANSPORT
+
+GROUND COUNTER FEATURES:
+Unit Symbol
+
+2.2.5. Naval Surface Units. Naval surface units
+are portrayed in the game using a
+rectangular counter. Units are portrayed as
+either a single ship or as a task group of two
+to five ships.
+
+Unit Name
+Mobility Type
+Primary Equipment
+Enduring
+Defense Value
+
+Country
+
+ISR Detection
+
+Hits to Sink
+or “Steps”
+
+Enduring
+Defense Value
+
+Air Defense
+Missiles
+
+Target Type
+& Range
+Anti-Air and
+Anti-Sub
+sense & attack (Enduring)
+
+Country
+Higher HQ
+Ground Combat
+Anti-Air capability
+(Point Defense)
+
+EXAMPLE: Below shows 1/7 as a battalion
+counter and 7th Marines as a 3 step
+regimental counter.
+
+NAVAL COUNTER FEATURES:
+Ship Type
+Ship Name
+
+Anti-Ship (Torpedo)
+And Anti-Sub sense & attack
+(Enduring)
+
+Anti-Ship and
+Land Attack
+Missile Salvos
+
+6
+
+2.2.7.1. Headquarters Units. Headquarters units
+can generate HQ’s effects. HQ effects are:
+(a) Main Effort designation, (b) Reserve
+designation,
+and
+(c)
+Information
+Operations effects. These can be allocated
+to any unit within the HQ’s command
+radius which is indicated by the TAC and OP
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+2.2.7.4. Air Defense Units. Air defense units
+have organic radar that enables detection
+of air units out to the range of the
+counter’s missiles. During combat
+sequences, an air defense unit can apply
+defensive shields for units within its
+defensive umbrella. Or, it may engage
+threat aircraft that are in range. Air
+defense units may defend or attack each
+turn against threat aircraft and missile
+salvos for which it has unexpended salvos.
+Once it commits to defend or attack, the
+shield and die are marked expended. These
+are reset at the end of the turn during the
+Regeneration Phase, provided munitions
+are available.
+
+numbers (“TAC” = Tactical map
+50nm/100km hex radius. “OP” =
+Operational map 200 nm hex radius). This
+support can be used once per turn.
+
+2.2.7.2. SOF Units. Special Operations Force
+(SOF) counters represent SOF missions and
+are an abstract representation of SOF
+capabilities. SOF missions can be used to
+conduct strategic reconnaissance (SR) to
+enable local ISR detections, perform target
+acquisition to promote a missile strike,
+conduct a direct action attack, and/or
+support a ground attack by a conventional
+unit.
+
+2.3. Status Markers. Various markers are
+included in the game to indicate the status
+of a unit. These include Reception, Staging,
+Onward Movement, and Integration
+(RSO&I) markers, Suppressed markers, and
+TACSIT 1.
+2.3.1. RSO&I. Place an RSO&I marker on units
+that are embarking or disembarking onto
+or from ships or aircraft. Units in an RSO&I
+status are demoted in combat and attacks
+against those units are promoted. RSOI
+Markers are removed at the
+end of the turn during the
+Regeneration Phase unless
+special
+scenario
+rules
+indicate otherwise.
+2.3.2. Suppressed. If a unit is
+successfully struck by fires it
+becomes suppressed and a
+suppression marker placed
+
+2.2.7.3. Artillery & Rocket Units. Artillery and
+Rocket units have a combat modifier for
+Indirect Fire (IDF) that can be applied in the
+Ground Combat Phase to promote a
+ground unit’s attack, or in the case of the
+defender to demote the attacker. Range is
+calculated to the hex that is under attack.
+Alternatively, an artillery or rocket unit can
+“Strike” a targeted ground unit in the Prep
+Fire or Defense Fire Phase using the Fires
+Effect Table. Artillery units with munitions
+expend a salvo (also referred to as fire
+mission) each time a Strike or IDF attack
+option is used.
+
+7
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+scenario rules. The following are examples
+of weather counters.
+
+on it. See paragraph 10.15.7 for details on
+Suppression.
+2.3.3. TACSIT1. A TACSIT 1
+marker is used to indicate
+that a unit is detected and
+targetable by strikes.
+TACSIT 1 markers are
+removed at the end of the turn during the
+Regeneration Phase.
+DESIGN NOTE: This is an optional counter that
+may be omitted in games where units are only
+placed face up and visible when in a detected
+status. In such games, use of the TACSIT 1
+marker may be redundant. However, players
+may find it useful on occasion to emphasize a
+particular unit’s detection status.
+
+2.3.4. Amphibious & Airborne Assaults. Assault
+markers are used to indicate a unit
+conducting an airborne or amphibious
+assault. Amphibious Assaults are placed on
+the board during the Naval Movement
+Phase. Airborne Assaults are placed during
+the Air Movement Phase. Place the
+appropriate marker on the stack with the
+assaulting ground unit and its transport in
+the targeted hex. The associated ground
+combat is not resolved until the Ground
+Movement & Combat Phase. The assault
+markers are removed at the end of the turn
+during the Regeneration Phase. See
+paragraph 10.15.8 for more details on
+Amphibious, Airborne and Air Assaults.
+
+2.3.5. Weather Markers. Weather markers are
+used to indicate the weather conditions
+associated with tactical game maps. These
+vary by map and region. The specific in
+game effects are governed by the weather
+charts specific to each map and special
+8
+
+Operational Wargame System
+Series Rules
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+Sequence of Play
+3.1. Overview. Each turn of the game represents
+a 24 hour day unless otherwise specified in
+a scenario’s special rules. OWS can be
+scalable in turn duration depending on the
+purpose of the game. Each player
+alternates taking actions through the
+Sequence of Play. Some phases are
+simultaneous while most phases entail a
+back and forth game mechanic with one
+side taking an action then game play shifts
+to the other side for their action, and so on
+until both sides are complete.
+3.2. Setup. To begin the game, determine which
+optional and advanced rules you will utilize
+and identify the associated map and order
+of battle for your scenario. To help with
+scenario setup, there are Game Books for
+most countries represented in the game.
+3.3. Phase 1: Planning and Readiness Decisions.
+Players conduct planning to determine
+what actions they intend to make.
+3.4. Phase 2: Strategic Movement. Each side
+conducts strategic movement related to
+the flow of forces via Rail, Airlift, Sealift,
+Road, to include embarkation and
+disembarkation. The number of actions a
+side can conduct is governed by specific
+scenario rules (such as determining the
+availability of rail cars). Units that conduct
+strategic movement are considered in an
+RSO&I status. Security Zones and Partisan
+placement (see rule 10.15.10) is also
+conducted in this phase.
+3.5. Phase 3: Tactical Movement. The initiative
+side, determined by the scenario rules, has
+the option to either move their forces first
+or defer first move to the other side in each
+of the Naval, Air, and SOF Employment
+Steps.
+3.6. Phase 4: Information Environment
+Operations & Cyber. Players secretly note
+
+the placement of IO/Cyber effects. Once
+both sides have decided on their
+placement, all IO tokens and Cyber cards
+intended for this Phase adjudication are
+placed on the map. Effects are then
+adjudicated (i.e. any relevant Cyber
+Attacks, Disrupt C2, Assure C2, and
+Countermeasure tokens).
+3.7. Phase 5: Theater ISR and Local Detections.
+Players place their remaining Theater ISR
+pawns on the map on the hexes they want
+to target. Once the theater ISR capability is
+determined for each side, then ISR
+outcomes are adjudicated hex by hex for
+the whole map.
+3.8. Phase 6: Combat. Combat is resolved with
+Air Combat occurring first, followed by
+Strike Warfare and then Ground Combat.
+In this phase, initiative is determined by
+either a chit draw sequence or an I-GO-UGO method.
+3.9. Phase 7: Regeneration & Logistics. During
+the Regeneration & Logistics Phase,
+players reset the board for the next turn,
+advance the clock on timers, and conduct
+repair, resupply, and regeneration.
+3.10. Phase 8: Assessment. With the turn
+complete, an opportunity may be
+presented to discuss wargame insights.
+
+9
+
+Operational Wargame System
+Series Rules
+
+PHASE
+
+1.
+
+STEP
+
+OVERVIEW
+
+Version 2.3 – 10 Dec 2024
+
+OWS Turn Sequence
+
+Version: 2.1
+11 Feb 2023
+
+NOTES
+
+Planning & Readiness Decisions
+
+Step 1. Player planning & unit readiness determination
+Step 2. Issue orders; Play decision cards
+Step 3. Assign reserve & main effort designations
+
+2. Strategic Movement
+
+Step 1. Conduct stratlift, sealift, rail & road movement
+Step 2. Generate Security Zones and Partisans (ADV)
+
+3. Tactical
+Movement
+
+3.A. Naval Movement
+
+Step 1. Move naval units (Surface & Sub)
+Step 2. Initiate amphibious assaults (Place by Beach)
+
+3.B. Air Tasking Order & Air
+Movement
+
+Step 1. Determine & place air missions (CAP/OCA/DCA)
+Step 2. Prepare strike mission packages (place as stack)
+Step 3. Initiate airborne & air assaults (Place on LZ Hex)
+
+3.C. SOF Employment
+
+Step 1. Move SOF units and roll for successful insertion
+Step 2. Adjudicate SOF missions
+
+4. IO/Cyber/Space
+
+Step 1. Place IO tokens & cyber attacks (Secret)
+Step 2. Adjudicate Cyber Attacks & IO Tokens
+Step 3. Adjudicate the space capability dashboard
+
+5. Theater ISR & Local Detections
+
+Step 1. Place & resolve theater ISR
+Step 2. Resolve local detections by hex
+Step 3. Finalize Strike Plans (Players Prioritize Targets)
+
+6. Combat
+
+6.A. Air Combat
+(Simultaneous Effects)
+
+Step 1. Stand Off, Long Range Air-to-Air
+Step 2. Stand Off, Long Range SEAD Strikes
+Step 3. Long Range Air Defense
+Step 4. In-Hex Air-to-Air Combat
+Step 5. Transition Air to Tactical Map
+Step 6. In-Hex SEAD
+Step 7. In-Hex Air Defense Engagements
+
+6.B. Strike Warfare
+(Sequential Effects)
+
+Step 1. By initiative, by hex, adjudicate long range Strike
+Step 2. Be initiative, by hex, adjudicate local Strikes
+
+6.C. Ground Movement & Combat
+
+Step 1. Decision Cards & Initiative Determination
+Step 2. Organize
+Step 3. By Action Unit - Ground Movement & Combat
+Step 4. Security Force Battles & Partisan Attacks (ADV)
+
+7.A. Check Supply
+
+Check unit supply status
+
+7.B. Reset IO/Cyber Tokens
+
+Remove attacks; Defensive can stay
+
+7.C. Reset Marker Track
+
+Verify theater ISR capability
+
+7.D. Reset Aviation Missions
+
+Return to base; May leave air missions in place
+
+7.E. Advance Timers
+
+Reduce active timers one number
+
+7.F. Remove Status Markers
+
+Remove RSO&I, suppression, main effort, cavitation
+
+7.G. Repair Infrastructure
+
+Roll for port, airfield, rail and radar repair
+
+7.H. Regenerate SOF & Air
+
+Roll for SOF & Air regeneration
+
+7.I. Resupply Missiles
+
+Roll for Arty & AD units or use Tracker; ASP resupply
+
+7.
+Regeneration
+& Logistics
+
+7.J. Advance Turn Marker & Weather Note upcoming reinforcements; Roll for Weather
+
+8. Assessment
+
+Facilitated assessment
+
+10
+
+Operational Wargame System
+Series Rules
+
+Version 2.3 – 10 Dec 2024
+
+PLANNING
+
+Planning Phase
+4.1. Overview. Player planning can be informal
+or formal, written or unwritten depending
+on game purpose and objectives. The level
+of detail applied to this step is entirely
+optional.
+4.2. Decision Cards. Some scenarios have
+Decision Cards that pertain to critical
+scenario related decisions, such as
+Strategic Mobilization, OPLAN Activation,
+Zapad Exercise, Article 5 Declaration, etc.
+These cards inform and adjust the
+readiness status of select units and may
+drive other game actions or effects. There
+is not a requirement to play a Decision Card
+in this phase and some Decision Cards can
+be played in other phases of the turn.
+
+MOVE __
+
+CJTF-1 CDR Guidance
+
+Provide Commander’s Intent (e.g. Purpose, Method, End State) or Operational Directive for the next 4 days
+
+PIR 1
+
+PIR 2
+
+PIR 3
+
+FFIR 1
+
+FFIR 2
+
+FFIR 3
+
+OBJECTIVES
+
+DECISIONS
+
+COMMANDER’S INTENT
+
+TASKS
+
+PRIORITY TARGETS
+
+4.3. Orders Documentation. If desired, and
+dependent on game objectives, players can
+be required to write down their plans and
+orders via a selected format or medium. To
+the right is just one example format that
+can be used to document player orders.
+
+11
+
+PRIORITY IW EFFECTS
+
+Operational Wargame System
+Series Rules
+
+STRATEGIC MOVEMENT
+
+Strategic Movement Phase
+
+Version 2.3 – 10 Dec 2024
+
+transported, but they are not required to
+start the turn in the same hex as the
+ground unit. The ground unit is moved
+along with the air transport to the intended
+destination. Once moved to the
+destination airfield, an RSO&I marker is
+stacked on the air transport and ground
+unit. They remain in an RSO&I status until
+the end of the same turn in which they
+were transported. The RSO&I marker
+comes off during the Regeneration Phase.
+A mechanized or armored unit can only be
+transported one step at a time by air and
+only by heavy lift aircraft indicated with a
+tank symbol. That also requires double the
+number of air transports to lift the step. If
+the air transport is targeted and destroyed,
+then the ground unit is also destroyed. The
+destroyed air transport mission is placed in
+the Regeneration Box. Contract air can
+transport
+the
+fly-in-echelon
+for
+prepositioned forces and light infantry.
+
+5.1. Overview. In this phase, players conduct
+inter/intra theater air, sea, rail and road
+movements. And, if playing with the
+optional Security Zone and Partisan rules,
+players generate those capabilities during
+this turn.
+5.1.1. Embarkation, Transportation, & RSO&I
+5.1.1.1. RSO&I Marker. When being transported,
+ground units are placed in an RSO&I status
+by putting the RSO&I marker on the unit.
+5.1.1.2. Ship Embarkation and Transportation.
+To embark on a ship, a ground unit must
+start the turn in a port hex along with the
+intended naval transport. A ship can
+transport one ground step per infantry
+silhouette on its hit boxes. Once underway,
+if the naval transport receives a step loss to
+any of the boxes marked with a ground unit
+symbol, then a step loss is incurred against
+the transported ground unit also. When
+the ship moves into the destination port,
+an RSO&I marker remains on the ship and
+unit for one full turn (assuming 1 day
+turns).
+OFFLOAD EXAMPLE: An LMSR pulls into
+port during Turn 2’s Naval Movement
+Phase. The ship and ground units are
+stacked with an RSO&I marker for the
+remainder of that turn and the following
+turn and cannot move. During Turn 3’s
+Regeneration Phase, the RSO&I marker is
+removed. The ground unit and ship are
+then free to move normally during Turn 4.
+
+5.1.1.4. Rail Embarkation and Transportation. To
+embark on rail transport, a ground unit
+must be in a railhead co-located with rail
+cars at the beginning of the turn. One rail
+car counter can lift one ground unit step.
+The unit spends one turn embarking, one
+turn in rail transit, and then one turn
+offloading (24 hour turns).
+
+5.1.1.5. Road Transport by Heavy Equipment
+Transporter (HET). A ground unit can be
+transported by HET on a 1:1 ratio of HETs
+per step. The unit embarks and moves in
+one turn, then spends one full turn
+disembarking and in an RSO&I status.
+
+5.1.1.3. Air Embarkation and Transportation. To
+embark on an air transport, a ground unit
+must start the turn in an airfield hex. An air
+transport mission is required for each step
+12
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+Tactical Movement Phase
+
+Version 2.3 – 10 Dec 2024
+
+[Note: Diesel subs are not restricted to
+operating within 2 hexes of a friendly port.]
+
+6.1. Overview. In the standard scenario, the
+game turn spans a 24 hour time period.
+6.2. Moving Through Enemy Units. When a
+player attempts to move a naval or air unit
+through an enemy unit, the non-moving
+player may declare combat / intercept and
+halt the unit if it is detected. The combat is
+resolved in the Combat Phase.
+6.3. Naval Movement. The initiative side
+determines whether to move first or defer
+first move to the other side. Players move
+all desired naval units. Ships move per the
+movement table based on type of zone and
+ship type.
+6.4. Naval Movement Rates. Operational Map:
+CVNs
+4 hexes
+Surface Combatants
+3 hexes
+Auxiliary Ships
+2 hexes
+Patrol Craft
+2 hexes*
+SSN, SSGN, SSBN
+3 hexes**
+SSK
+2 hexes**
+*Patrol Craft must remain within 2 hexes of
+a friendly port or mother ship
+**If subs move max, they are marked with
+cavitation
+6.4.1. Special Movement Limitations. Some
+naval units have special movement
+limitations and are marked with brown
+shading to indicate a movement restriction
+rule.
+6.4.1.1. Patrol Craft (PC). PCs are limited to 2 hex
+movement and must remain within range
+of a friendly port or mother ship. EXAMPLE:
+The People’s Liberation Army Navy (PLAN)
+Houbei patrol craft must confine their
+movement to operate within 2 hexes of a
+Chinese controlled port.
+6.4.1.2. Diesel Submarines. Diesel submarines
+are indicated with a brown background to
+show their lower movement rate
+compared to nuclear attack submarines.
+
+6.4.2. Submarine Movement & Sensing. When
+conducting normal movement, SSNs,
+SSGNs and SSBNs can move 2 hexes (400
+nm) and SSK can move 1 hex (200 nm) per
+turn
+without
+cavitating
+(6.4.2.2).
+Submarines can detect surface platforms in
+the same hex but must roll for detection
+using their torpedo attack die roll as the
+sensing die roll. Submarines attempting to
+detect
+surface
+platforms
+remain
+undetected unless detected by ASW
+missions (6.4.4). If in Silent Running mode
+(6.4.2.1), the sensing die roll versus surface
+platforms is promoted. If a submarine is
+not in Silent Running mode, it cannot make
+a detection attempt versus other
+submarines unless the target submarine is
+cavitating.
+6.4.2.1. Silent Running. When a player chooses
+to keep a submarine in the same hex and
+not move, a Silent Running marker can be
+placed on the submarine. Silent Running
+results in a demotion for any local
+detection attempts against it. Silent
+Running is removed when the submarine
+initiates an attack or when it moves to
+another hex. Silent Running also promotes
+local detection attempts and enables a
+submarine to roll for a detection attempt
+against other submarines.
+
+6.4.2.2. Cavitation. When a player chooses to
+move an SSN, SSGN, or SSBN at the flank
+speed movement of 3 hexes or an SSK 2
+hexes, a cavitation marker is placed on the
+13
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+Version 2.3 – 10 Dec 2024
+
+can engage a High Value Unit (HVU) such as
+an aircraft carrier that is in the same hex. If
+detected and engaged by the ASW Screen,
+and the submarine survives, then the
+submarine must abort its attack and
+disengage. If it remains undetected, then
+the submarine can proceed to engage a
+HVU target.
+6.4.5. Mine Warfare. Mine counters are
+provided as an optional capability.
+Considering that hexes on the operational
+map are 200 nm in scale,
+mines applied into a hex do
+not
+completely
+block
+movement. Specific details
+on mine warfare should be
+addressed in special scenario
+rules. Play of mines on
+tactical maps is better suited
+since hexes are 10 to 20 km in width.
+6.4.5.1. Sea Mine Emplacement.
+Mines either start a
+scenario already in place or
+are actively laid during the
+Naval Movement by ships
+that are mine capable. This mine laying
+effort is secretly noted off-map. If the
+adversary places a detection asset in the
+target hex, then a die roll is made to
+determine if the mine laying effort is
+detected. If detected, mines are made
+visible on the map.
+6.4.5.2. Mine Strikes. Once a ship enters a
+minefield, the minefield counter is placed
+on the map and a die roll is made for a
+potential mine strike against all ships
+entering the hex (assuming a tactical map).
+This mine attack is conducted immediately
+during the conduct of Naval Movement.
+Other ships in the formation are then given
+the opportunity to abort movement into
+the hex unless the player decides to accept
+the risk and subject each ship to a mine
+attack. Mine attacks are either D6 or D8
+
+submarine which promotes any detection
+rolls against the submarine.
+6.4.3. Active EMCON. Ships, ground units, and
+aircraft that are actively emitting are
+indicated by turning them face up. They
+are automatically detected and targetable
+when actively emitting (TACSIT 1). This
+decision is made for each counter during
+the movement phase and is particularly
+relevant to air defense units, Airborne
+Early Warning (AEW) aircraft, and ships in
+Ballistic Missile Defense mode.
+6.4.4. Anti-Submarine Warfare (ASW) Missions.
+Players designate naval units
+in ASW mode by placing an
+ASW marker on top of the
+counter. Units in ASW mode
+can only move one hex or the ASW marker
+is removed and no submarine detections
+are possible. During the ISR detection
+phase, ships in ASW mode may attempt to
+detect submarines in the hex, with that
+attempt promoted for each ASW asset in
+the hex up to a maximum of a d12. Special
+Rules Note: Some situations may warrant
+an exception to this limit with an
+adjustment up to a d16 ASW detection roll.
+However, this should only be in
+exceptional circumstances where a
+submarine is clearly exposed to a high risk
+of detection due to the terrain and a high
+concentration of ASW capabilities. This
+may be referred to as the “D16 Exception
+Clause for High Risk ASW Detections.”
+6.4.4.1. ASW Screens. For naval task groups with
+at least two separate ASW assets (surface
+ships, aircraft, and/or submarines in silent
+running) in ASW mission mode, they gain
+an “ASW Screen” status. This transitions
+the submarine attack sequence from a
+simultaneous adjudication to a sequential
+adjudication – requiring a submarine to
+survive
+detection
+and
+potential
+engagement by the ASW Screen before it
+14
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+Version 2.3 – 10 Dec 2024
+
+6.5. Air Tasking Order and Air Movement. In this
+step, players generate air missions and
+place them on the map within movement
+constraints. This includes Combat Air
+Patrol (CAP), Defensive or Offensive
+Counter Air (DCA/OCA), Maritime Patrol
+(ASW), Interdiction, Close Air Support
+(CAS), Airborne Early Warning (AEW),
+Aerial Refueling (e.g. Tanker), Suppression
+of Enemy Air Defenses (SEAD), and Strike
+missions. Placements must conform to
+combat radius and fuel constraint rules.
+6.5.1. Making a Strike Package. During this step,
+players may build “strike packages” by
+combining air missions in multiple modes
+such as CAP, Strike, Tanker and SEAD.
+Strike and SEAD missions may leverage
+their organic attack capability or may be
+loaded with a munitions counter. This is
+done by loading a fighter or bomber with
+munitions and assigning any desired
+fighter escorts or tankers as a single “strike
+package”. These may be placed in an
+airborne holding area in the vicinity of the
+player’s originating airfields and do not
+have to move to their launch basket until
+their strike action is declared in the Strike
+Phase. Specific targets or launch points do
+not need to be designated at this time.
+Players should consider this step the
+application of their Aviation Tasking Order
+(ATO).
+6.5.1.1. Munitions Counters. Munition counters
+are used to represent the ordnance
+loadout for strike missions. Fighters may
+carry up to two strike salvos while bombers
+can carry up to six strike salvos
+(represented by the round munitions
+counter). When a fighter aircraft is used in
+a Strike mission, it can use either its organic
+attack capability or a munitions counter
+but not both.
+
+attacks depending on the mine capabilities
+played in the scenario. The attack roll is
+made against the ship or submarine’s red
+shield number. The Critical Hit rule applies.
+6.4.5.3. Mine Sweeping. Ships capable of mine
+sweeping make a mine clearance roll
+versus the mines during Naval Movement.
+The probability of success is dependent on
+mine clearance capabilities and should be
+addressed in special scenario rules or
+matrix adjudication.
+6.4.6. Amphibious Assault. There are multiple
+ship-to-shore movement methods that can
+be conducted to execute an amphibious
+assault. Only units with an amphibious
+designation can “swim” directly from a
+transport to the shore. All other ground
+units must have an appropriate means of
+transport that delivers them directly
+ashore, i.e. a Landing Ship Tank (LST),
+Landing Ship Medium (LSM), Landing Craft
+Air Cushion (LCAC), or a Floating Causeway.
+During the naval movement phase, units
+conducting an amphibious assault can be
+placed in a beach landing hex under an
+Amphibious Assault marker. Both the ships
+and amphibious unit are open to attack
+during the Combat Phase. If the ship
+survives the Strike Phase then the ground
+units fight ashore during the Ground
+Combat Phase. The marker representing
+the amphibious assault remains in play
+until the Regeneration Phase and is then
+removed if the forces succeeded in gaining
+control of the target hex. See paragraph
+10.15.8 for more details on Amphibious,
+Airborne and Air Assaults.
+
+15
+
+Operational Wargame System
+Series Rules
+
+Bomber Loadouts:
+
+MOVEMENT
+Fighter Loadouts:
+
+Version 2.3 – 10 Dec 2024
+
+missions to extend their combat radius.
+Larger tanker aircraft, such as KC-135s can
+support two air mission counters
+simultaneously (indicated by the two black
+fighter silhouettes on the counter). Smaller
+tanker aircraft, such as the MQ-25 and KC130J, can only support one (with one black
+fighter silhouette). The ranges of these
+counters vary. Some, like the KC-46, have
+an unlimited operating radius indicated by
+an “*” while others, like the MQ-25, have a
+specified combat radius indicated by the
+number in the cluster of grey hexes on the
+counter at the 4 o’clock position.
+
+DESIGN NOTE: An ASP counter of six attack
+dice corresponds to a bomber strike mission’s
+capacity. The six attack dice symbolize a volley
+of ~48 missiles, thus a Bomber mission counter
+represents an abstraction of 2 or 3 B-1s or B52s, or in the case of China, 6 to 9 H-6s.
+
+6.5.1.2. Air to Air Combat and Attack Missions.
+When a fighter in an “attack” mission
+(Strike, SEAD, CAS, Interdiction, SUCAP) is
+engaged in air-to-air combat, it uses a
+demoted die roll from its organic attack
+capability. It cannot initiate an air-to-air
+action but can defend itself if attacked.
+6.5.2. The Fuel Source Rule / Combat Radius. All
+air mission counters must stay within their
+combat radius of a fuel source. A fuel
+source can be a friendly airbase, a tanker
+aircraft mission, a FARP, or an aircraft
+carrier (if the air mission is carrier capable).
+6.5.3. Fighter Maximum Operating Range. The
+maximum operating radius of a fighter
+mission from its Squadron counter or base
+is no more than 3x its combat radius for
+Strike Missions or 2x its combat radius for
+CAP (DCA or OCA), CAS, and Interdiction.
+Such extended range operations require
+tanker or FARP support.
+
+6.5.5. Basing. Fixed Wing air units can only
+operate from an airbase or an aircraft
+carrier (including LHDs and LHAs). Basing
+location is indicated by the olive drab
+squadron counter associated with that
+unit. When operating from an aircraft
+carrier, the squadron counter remains offmap. The carrier represents its squadron
+support unit and airbase. Each airbase has
+a maximum capacity for air units that
+cannot be exceeded.
+6.5.6. Aircraft Carrier Operations. An aircraft
+silhouette inside one of the white step
+boxes on a naval counter indicates the
+ability to generate an air mission. Aircraft
+carriers and amphibious assault ships
+generate from 1 to 4 air missions. Support
+missions such as Tanker and AEW are NOT
+counted against this number, they are
+automatically provided on a one-to-one
+basis to this air sortie generation number.
+When one of these air mission symbols is
+crossed out on the ship due to damage
+then the unit’s ability to generate aviation
+missions is also reduced. A CV, CVN, or
+
+DESIGN NOTE: This constraint is intended to
+reflect factors associated with crew day, time on
+station, and fuel. Players may choose to extend
+this radius as an exception to the rules but should
+only do so with a plausible explanation for how
+this is accomplished, such as by allocating
+additional tanker support.
+
+6.5.4. Tanker Movement and Support.
+Refueling Aircraft, or Tankers enable air
+16
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+Version 2.3 – 10 Dec 2024
+
+on the counter. For each hex beyond the
+one they are in, this sensor roll is demoted
+by one die. For example, an E-3 AWACS
+rolls a D12 to detect stealth aircraft in the
+same hex, a D10 versus stealth aircraft one
+hex away, a D8 for aircraft two hexes away,
+and a D6 for aircraft three hexes away.
+
+LHA/LHD may only serve as a Fuel Source
+for missions operating from that unit.
+6.5.7. Stealth Aircraft. Stealth aircraft are those
+with low radar signature and are depicted
+with a local detection indicator, such as the
+F-35A below with its stealth / local
+detection value of 8. The highest detection
+die roll that can be made against a stealth
+aircraft is a d12. When operating in
+emissions control (EMCON), the counters
+are flipped to their “Unknown” side with
+the white silhouette. When in this mode,
+they can engage other aircraft in the same
+hex but cannot engage into an adjacent
+hex unless supported by another sensor
+that is actively emitting such as an E-3 or E2D Airborne Early Warning (AEW) aircraft.
+
+6.5.9.1. AEW and Air-to-Air Engagements
+[Advanced Rule]. The presence of an AEW
+asset in support of air-to-air engagements
+promotes attack die rolls for those
+engagements where friendly fighter
+aircraft are in the sensing range of the AEW
+capability. If playing with the “Best Die”
+sequencing rule 9.7.2., this promotion
+contributes to determining the sequence
+of engagements.
+6.5.9.2. AEW and Surface Ship Detection. An
+AEW aircraft can roll for detection of
+surface ships out to a maximum range of 1
+hex using the same demoted die roll it
+makes for aircraft in that adjacent hex.
+6.5.9.3. Cooperative Engagement Capability
+(CEC). When an E-2D Hawkeye is within 1
+hex of a U.S. surface combatant that is
+expending air defense missiles in defense
+against a cruise missile attack, the cruise
+missiles are demoted twice. For allied
+units, only those with a “CEC” designation
+on the counter may benefit from this
+capability (such as the Japanese Maya class
+DDG shown below).
+
+6.5.8. SEAD and Electronic Warfare. SEAD and
+EW Aircraft such as the F/A-18G Growler,
+F-16J and EC-37B that are Electronic
+Warfare capable can be employed in
+EW/SEAD mode to enable strikes and
+suppress
+adversary
+air
+defense
+capabilities. Such aircraft either promote
+strikes against the targeted unit (i.e. the
+EC-37B example below) or demote surfaceto-air missile attacks against aircraft in the
+same hex as the SEAD capability (i.e. the F16J and F-18G).
+
+6.5.9. Airborne Early Warning (AEW) and
+Radar. Aircraft equipped with long range
+radar are indicated with a radar sensor
+symbol and with a mission titled AEW. AEW
+missions can detect air and surface units in
+their same hex using the die roll indicated
+17
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+6.5.9.4. Ship Radar. Ships with an anti-air missile
+capability have a radar detection range
+equivalent to the range of their anti-air
+missiles.
+EXAMPLE: The Maya DDG’s
+Aegis system has a range of
+1 hex for air detections as
+indicated by the air defense
+capability with shield 7 and
+range of 1.
+6.5.9.5. Ground Radar. Ground
+based radars are indicated
+by a radar symbol in the “Special” portion
+of the counter. Air defense systems have
+an inherent radar range equivalent to their
+attack range. To activate the radar the
+counter is turned face up and is considered
+detected and targetable. Radars autodetect all aircraft in range unless the
+targeted unit is a stealth aircraft, in which
+case a die roll must be made for a local
+detection.
+
+Version 2.3 – 10 Dec 2024
+
+CAS or Interdiction mode, the fighter
+mission counter is placed on the map in the
+designated hex with its Strike side face up
+and a SUCAP/CAS/Interdiction marker
+placed on top of it.
+6.5.10.1. CAP/DCA/OCA Missions. Fighters
+placed in CAP can engage opposing fighters
+and bombers within range. Only fighters
+equipped with long range missiles
+(denoted on the counter with a super
+numeral 1 next to their attack die) can
+engage into an adjacent hex provided they
+are working in conjunction with a radar
+sensor that can detect the target. CAP
+missions represent aircraft in a Defensive
+Counter Air (DCA) or Offensive Counter Air
+(OCA) posture. This distinction is
+abstracted to simplify game play and is
+reflected in player intentions and decisions
+in air engagements. For more precise air
+doctrine, players may choose to use the
+OCA and DCA markers instead.
+6.5.10.2. Strike Missions. Fighters placed in a
+STRIKE mission mode can attack opposing
+ships, ground units, air bases, ports, etc. In
+the Combat Phase, aircraft strikes are
+resolved using the rules for naval combat
+or the Fires Effects Table when the target is
+a ground unit (see Ground Combat).
+
+6.5.9.6. Long Range Fighter Radar. For fighter
+aircraft with long range radar, such as the
+F-35, players may choose to remain in
+EMCON or may activate the radar to search
+for threat aircraft and ships in adjacent
+hexes. When actively emitting, stealth
+characteristics are lost and the aircraft is
+made visible to the other side.
+6.5.10. Fighter Mission Designation. Fighter
+units can perform five possible air
+missions. These include (1) Combat Air
+Patrol (CAP) – Offensive or Defensive
+Counter Air, (2) Surface Combat Air Patrol
+(SUCAP), (3) Strike, (4) Close Air Support
+(CAS), and (5) Interdiction. When placed in
+a CAP or Strike mission, the air mission
+counter does not require any additional
+markers. However, if placed in a SUCAP,
+
+6.5.10.3. CAS Missions. Fighters placed in a CAS
+mission mode are indicated by placing the
+CAS mission marker on an aircraft mission
+with the STRIKE mode
+face up. The effects of a
+CAS mission are applied
+during the adjudication of
+ground combat.
+6.5.10.4. Interdiction and SUCAP. Interdiction
+and Surface Combat Air Patrols (SUCAP)
+are used to disrupt movement – ground
+18
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+Version 2.3 – 10 Dec 2024
+
+6.5.12. Air Assaults. During the air movement
+phase, air assault capable units that start
+the turn in an airfield or LHD/LHA hex with
+an air assault capable transport can be
+placed in a targeted land hex along with its
+transport aircraft. The same number of air
+transport counters are required as the
+number of steps of the air assault unit.
+Both the aircraft and air assault unit are
+open to attack by defensive CAPs and air
+defense units during the Combat Phase
+when that hex is selected for combat
+adjudication. If the air unit survives air
+combat, then the air unit is returned to
+base and the air assaulted ground unit is
+considered on the ground. See paragraph
+10.15.8 for more details on Amphibious,
+Airborne and Air Assaults.
+
+(Interdiction)
+or
+naval
+(SUCAP).
+Interdiction missions are placed in a
+specific “zone” or “kill box” on the tactical
+maps (depicted on most maps by a yellow
+or orange hex that spans 100 km). If a
+ground or naval unit attempts to move
+through an Interdiction or SUCAP mission,
+then an attack is conducted. If the ground
+or naval unit is suppressed or damaged,
+then its movement is halted and effects are
+applied. Once that air unit has used its
+attack capability, then it is expended and
+cannot be used against other units in this
+turn.
+
+6.5.11. Airborne Assaults. During the air
+movement phase, airborne capable units
+that start the turn in an airfield hex can be
+placed in a targeted land hex under an
+Airborne Assault marker along with its
+transport aircraft. The same number of air
+transport markers are required as the
+number of steps of the airborne unit. An
+exception is mechanized airborne units
+which require two air transports for each
+ground unit step. Both the aircraft and
+airborne unit are open to attack by
+defensive CAPs and air defense units
+during Air Combat when that hex is
+selected for combat adjudication. If the
+transport survives air combat, then the
+transport is returned to base and the
+airborne unit is considered on the ground.
+See paragraph 10.15.8 for more details on
+Amphibious, Airborne and Air Assaults.
+
+6.5.13. Expeditionary Aviation Operations (or,
+Agile Combat Employment (ACE))
+[Optional Rule]. As determined by special
+scenario rules, a side with the capability to
+conduct expeditionary aviation operations
+may place aviation squadrons in nonairfield hexes, thereby requiring a
+detection attempt by adversary forces.
+STOVL, rotary wing and tilt rotor units can
+operate from any non-mountain, nonforest hex. Fixed wing can operate from
+major highways with a plausible section of
+road that can serve as a 6000 foot runway.
+Use a 7 as a default target number for
+detection attempts with theater or local
+ISR unless specified otherwise in special
+scenario rules. Additionally, place a
+Defense +1 marker on those air units to
+enhance their defensive capabilities. Given
+engineer unit support, a Defense +1 can be
+flipped to Fortified +2.
+19
+
+Operational Wargame System
+Series Rules
+
+MOVEMENT
+
+6.6. SOF Employment. Special Operations
+mission counters are placed in a targeted
+hex during the SOF Employment Step. In
+the basic game rules, they do not require a
+means of insertion to be identified or
+declared, this is assumed. [Note: In
+optional advanced rules, players may
+impose insertion constraints.] If placed in a
+hex that is considered under adversary
+control then an immediate roll is made to
+determine if the unit was detected upon
+insertion. This is rolled with a D8 and the
+insertion fails if the result is equal to or
+greater than the local detection value of
+the SOF unit (usually an 8). This roll may be
+promoted or demoted depending on the
+context and associated factors (such as the
+number of units in the hex, the presence of
+opposing SOF, or the surrounding terrain).
+Failed missions are placed in the
+Regeneration Box.
+6.6.1. SOF Missions. See the chart on the
+following page for potential SOF
+employment missions. This can be
+expanded or modified based on player
+intentions. SOF missions are adjudicated
+once both sides have placed their SOF
+missions.
+6.6.1.1. SOF Direct Action (DA). When SOF does
+a DA attack, it must first pass a local
+detection check for compromise (this is in
+addition to a detection roll done upon SOF
+insertion). A D8 is rolled for detection
+(promoted or demoted depending on the
+situation). If compromised, the SOF unit’s
+attack is unsuccessful and it is removed
+from the map and placed in the
+Regeneration Box where it can be reactivated at the end of the turn in the
+Regeneration Phase. A SOF unit can
+conduct DA against ports, airfields, air
+units, Headquarters, Air Defense, Artillery,
+Missile units, ammunition depots, and
+ships located in port. If the SOF unit passes
+
+Version 2.3 – 10 Dec 2024
+
+the compromise check, then a die roll is
+made using the SOF’s attack capability
+versus the defensive capability of the
+target. A successful DA attack results in one
+step loss to the target. If the defense
+number of the target is doubled, then the
+attack results in 2 step losses.
+6.6.1.2. SOF
+Regeneration.
+During
+the
+Regeneration Phase, roll a 1D4 to
+determine how many SOF missions are
+regenerated. The number rolled equals the
+number missions regenerated. For each
+SOF mission selected, roll another 1D4 and
+place the SOF on the Turn Track that many
+turns ahead. If a 1 is rolled, then the SOF
+unit can be back in play in the next SOF
+Phase. This method must be adjusted if the
+turn duration is extended.
+
+20
+
+Operational Wargame System
+Series Rules
+
+OIE / CYBER / SPACE
+
+IO/Cyber/Space Phase
+
+Version 2.3 – 10 Dec 2024
+
+unit or capability. If the targeted unit is
+undefended (i.e. no Assured C2 capability
+placed in support of it) then roll the Disrupt
+C2 attack die versus the targeted unit’s red
+shield defense number. If the unit is
+defended with an Assured C2 token, then
+the die roll must be made against the
+Assured C2 defense first. If the Disrupt
+attempt equals or exceeds the Assured C2
+defense number, then the attacker must
+then roll again versus the red shield of the
+targeted unit. If the result is equal to or
+greater than the red shield number then
+the targeted unit’s capabilities are
+disrupted. The specific disruption effect
+varies by unit type. A HQ unit cannot
+generate IO tokens or a Main Effort. Ship,
+artillery, rocket, missile, and air defense
+units with Disrupted C2 cannot fire.
+Aircraft missions are demoted. Space
+functions on the Space Dashboard are
+demoted. If multiple Disrupt C2 tokens are
+placed on the same capability, such as
+Theater ISR, then it is demoted multiple
+times.
+7.2.1.2. Assure C2. This is a defensive capability
+intended to protect units from a Disrupt C2
+attack. If placed on a unit that is not
+attacked by a Disrupt C2 token, then there
+is no effect for the turn. If it is placed on a
+unit or capability that is under a Disrupt C2
+attack, then adjudicate the outcome in the
+same way as missile defense. The Assure
+C2’s grey shield becomes an
+extra layer of defense that
+must be defeated before
+rolling against the target’s
+red shield.
+7.2.1.3. SIGINT & EMSO. This is an offensive IO
+capability placed on a targeted threat unit
+during the IO/Cyber or
+Combat Phase to promote
+detections
+and
+attacks
+against a targeted unit. All
+
+7.1. Overview. In OWS, Information Operations
+(IO), Information Warfare (IW), and
+Operations
+in
+the
+Information
+Environment Operations (OIE) are used
+interchangeably
+in
+reference
+to
+information related capabilities. The token
+is referred to as the IO Token,
+understanding that there are important
+doctrinal differences between these terms
+across various services and countries. In
+the IO/Cyber Phase, players apply effects
+using a combination of IO Tokens and
+Cyber Cards. Players allocate these effects
+and place tokens on the map in either
+defensive or offensive modes. IO Tokens
+regenerate every turn while Cyber Cards
+are one-time effects and are removed from
+the game after their use.
+7.2. IO Token Placement. Players plan their IO
+and Cyber actions and note them secretly
+before placing them on the board. These
+are placed on the map face down so as not
+to indicate to the other
+side player intentions.
+These tokens are revealed
+when needed to support
+adjudication.
+7.2.1. Information Operations Tokens. IO
+Tokens can be applied in the IO/Cyber
+Phase in an offensive manner to degrade or
+disrupt opponent capabilities. Or, they can
+be placed to protect communications or to
+disrupt detection. IO tokens can also be
+placed in the Combat Phase to support an
+attack, such as with the SIGINT/EMSO
+token.
+7.2.1.1. Disrupt C2. This is an offensive capability
+which attempts to disrupt
+or
+deny
+threat
+communications
+capabilities. This is placed
+against a specific threat
+21
+
+Operational Wargame System
+Series Rules
+
+OIE / CYBER / SPACE
+
+Version 2.3 – 10 Dec 2024
+
+remains on the map. Any
+ground combat into or out of
+that hex is demoted twice.
+7.4.1. Fallout and Radiation Plume.
+For nuclear strikes on tactical
+game maps (20km or less per
+hex), players determine wind
+direction using a 1D6 or real
+weather patterns. Place an additional
+radiation counter in the downwind hex.
+This represents the radiation plume from
+nuclear fallout and causes a double
+demotion to combat in that hex. This is
+removed in the next turn’s Regeneration
+Phase.
+7.5. Space Capability Dashboard. After IO and
+Cyber Cards have been played, then the
+game facilitator adjudicates any impacts
+on space capabilities by referencing the
+Space Capability Dashboard. All Disrupt C2
+or Cyber Cards that impact space related
+capabilities are adjudicated and their
+effects are applied for the remainder of the
+game turn.
+7.5.1. C2 Satellite Constellation. This number
+represents an aggregate of each side’s
+overall command and control network
+status and determines how many long
+range strike actions each side may conduct
+during the Combat Phase (determined by
+an I-GO-U-GO mechanic or by chit draw).
+7.5.2. Position, Navigation, and Timing Satellite
+Constellation. This represents each side’s
+PNT constellation and can be targeted.
+There is a normal mode with no effect and
+a disrupted mode which causes a demotion
+to all strikes extending beyond one hex.
+
+detection attempts and attacks against the
+target unit are promoted. This effect can
+be countered with Active & Passive
+Countermeasures that cancels out the
+effect without need for a die roll.
+7.2.1.4. Active & Passive Countermeasures. This
+is a defensive IO capability
+placed on a unit to enhance
+avoidance of detection and
+to enhance survivability.
+Both detection and strike
+rolls against this unit are demoted. This
+demotion effect can be canceled with a
+SIGINT/EMSO token. In fires related
+actions, when targeted with artillery, air
+strikes, or missiles, the first step loss is
+incurred against this IO token which is then
+removed. This absorbing of a hit does not
+apply to ground combat.
+7.3. Offensive Cyber. Cyber attacks are
+represented in the game using Cyber
+Cards. Individual scenario rules dictate
+how many cyber cards each side has.
+Typically, players select three Cyber Cards
+at the beginning of the scenario. These do
+not get regenerated during the course of
+game play. The remaining Cyber Cards are
+permanently discarded from the scenario.
+
+7.4. Nuclear Strikes. A Tactical Nuke token is
+included in the game. If authorized by the
+scenario rules, players have an enduring
+Tactical Nuke Strike capability that
+immediately destroys the targeted counter
+when played. The token is returned to
+hand and can be employed in the next
+Combat Step. The tactical nuke marker is
+flipped over to its radiation side and
+22
+
+Operational Wargame System
+Series Rules
+
+OIE / CYBER / SPACE
+
+7.6. ISR Satellite Constellation. This is
+represented by two rows. The top row is
+used to define the capability level (i.e.
+detection die roll) while the bottom row
+determines the number of ISR pawns that
+each side can employ. Both can be targeted
+by Disrupt C2 and protected by Assured C2.
+
+Version 2.3 – 10 Dec 2024
+
+When targeted, the attacking player must
+assign the Disrupt C2 effect against either
+the capability level (i.e. the ISR die roll
+track) or the capacity level (i.e. ISR pawns).
+One Disrupt C2 token effect cannot
+demote both simultaneously.
+
+23
+
+Operational Wargame System
+Series Rules
+
+ISR
+
+ISR Phase
+
+Version 2.3 – 10 Dec 2024
+
+(usually a value of 7), are automatically
+detected on tactical maps when in the
+adjacent hex of an adversary unit. If in the
+open, and an ISR asset is placed within
+range to detect, then they are
+automatically detected. If they are in
+covered terrain (forest, hills, mountain,
+urban) then a die roll is made to determine
+detection provided a sensor is in range to
+detect. If a light infantry unit is in urban
+terrain or forest, then the detection
+attempt is demoted.
+8.3.3. Low
+Signature
+Units.
+Submarines, Stealth Surface
+Vessels, Stealth Fighters, Stealth
+Bombers, and Special Operations Forces
+(SOF) are considered Low Signature units
+and are designated with a Local Detection
+symbol that looks like a sensor screen. In
+most cases, these units may only be
+detected by enemy units with a matching
+attack capability.
+EXAMPLE: Only surface naval vessels and
+ASW aircraft with an anti-submarine attack
+value may attempt to detect enemy
+submarines. SOF units may attempt
+detection of other SOF units.
+8.4. Theater Detections. When adjudicating
+detections, roll the die equivalent to the
+Theater ISR level of the side attempting the
+detection and match it against the
+indicated value on the targeted unit. If the
+roll is equal to or greater than
+the number, then the unit is
+detected.
+8.4.1. TACSIT 1. When a unit is
+detected, a TACSIT 1 marker is placed on
+the unit to show that it was detected and
+can be targeted in combat. Alternatively,
+detected counters can be flipped face up
+while non-detected remain in a “masked”
+face down status on their “Unknown” side.
+8.5. Local Detections. Units on the map may
+attempt to detect other units with a Local
+
+8.1. Overview. There are two types of ISR and
+detection – Theater and Local. Each player
+receives a limited number of Theater ISR
+pawns which can be employed anywhere
+on the map to detect adversary units. All
+other detections are made by the units on
+the map, which is referred to as local
+detection.
+8.2. Theater ISR. The number of Theater ISR
+pawns each player can employ is identified
+on the Space Capability Dashboard. The
+quality of that ISR capability is indicated by
+a marker on the dice scale on the Space
+Dashboard.
+8.3. Unit Signature Types and Detection. A
+unit’s signature type (High Signature
+represented by a satellite symbol with a
+number on it or Low Signature represented
+by a sensor symbol with a number)
+determines what type of detection method
+is used to detect it.
+8.3.1. Fixed Installations. Units at air bases and
+permanent Ammunition Supply Points are
+considered fixed units or installations and
+thus always detected. The opposing side
+may always attack these units without a
+preceding detection attempt. While not
+represented by a counter, ports and
+airfields are also considered fixed
+installations, subject to attack without
+additional detection effort.
+8.3.2. High Signature Units. By default, most
+ground, air, and surface naval units are
+considered high signature. They are
+designated as such with a High Signature
+Detection symbol that looks like a satellite.
+Naval and air units are automatically
+detected by the opposing side when they
+occupy the same hex as enemy naval and
+air units (unless they are low signature).
+8.3.2.1. Ground Unit Detection. Ground units
+with the theater detection symbol on them
+24
+
+Operational Wargame System
+Series Rules
+
+ISR
+
+Version 2.3 – 10 Dec 2024
+
+attempting to penetrate defensive counter
+air patrols or air defenses in order to obtain
+a detection of surface targets, first resolve
+the detection of the ISR asset by the
+defender (in most cases such a platform is
+a stealthy drone). If detected, then
+immediately resolve the air engagement
+by defending assets. If the ISR asset is shot
+down, then only those assets which
+engaged are considered detected. If it is
+not shot down, then it may attempt local
+detections per normal rules.
+8.6. Adjudicating ISR Detections. When
+adjudicating ISR detections, except for
+Contested Air ISR Situations, the actual
+sequencing does not matter. Below is
+provided as a guide:
+a. Resolve Contested Air ISR Cases
+(This must go first)
+b. Resolve all Theater ISR Detections
+c. Resolve all ASW Detections
+d. Resolve all Submarine Detections
+e. Resolve all AEW / Stealth
+Detections
+f. Resolve all SOF Detections
+g. Resolve all UAS Detections
+h. Resolve all local detections
+i. Resolve all Ground Unit Detections
+8.7. Finalize Strike Plans. After all ISR
+adjudication, players assess detected
+Target Areas of Interest (TAIs) and finalize
+their SEAD and Strike Warfare plans,
+determining
+priorities
+and
+attack
+sequence.
+
+Detection attempt. This represents visual
+or sensor detections (such as radars and
+sonars). When units with a theater ISR
+value are in the same hex as other like
+units, then detection is generally
+automatic. But, for low signature units, a
+detection roll is always required.
+8.5.1. SOF Special Reconnaissance (SR). To
+replicate SR capabilities, SOF have a die roll
+promotion that can be applied in the ISR
+Phase to enhance detection against a
+specified target, such as an artillery or HQ
+unit. This die roll promotion can also be
+applied in the Combat Phase to promote
+Strikes against the same designated target
+if the detection was successful. SOF
+mission counters can only apply this
+capability against one targeted unit per
+turn. When SOF use this capability, a
+compromise check is conducted (usually a
+d8 roll).
+8.5.2. ASW Capability and Local Detection. A red
+submarine silhouette on a counter with a
+corresponding die indicates the unit can
+detect and attack submarines. If the unit is
+in ASW mission mode, then it can roll (with
+any appropriate modifiers) to attempt a
+local detection of a submarine. This same
+die is also rolled when attacking an
+identified submarine. If there is no
+submarine symbol then the unit cannot
+detect or attack submarines.
+8.5.3. Cooperative Sensing. Multiple units with
+similar sensing capabilities can be
+combined to increase the probability of
+detection. When multiple assets are
+working in tandem, rather than rolling
+multiple dice, combine them into one
+detection roll by promoting the highest
+sensor. For ASW operations and when
+sensing stealth aircraft, do not promote
+the detection roll higher than a D12.
+8.5.4. Contested Air ISR Situations. When a
+situation emerges where one side is
+
+DESIGN NOTE: This Finalize Strike Plans step in the
+turn sequence is particularly important to
+ensuring players execute strike actions in a
+manner consistent with their plans and not
+merely in a reactive manner. Recommend
+allocating at least ten to fifteen minutes for each
+side to review detections and availability of longrange strikes so they can then adapt and confirm
+their strike plans for the turn.
+
+25
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Combat Phase
+
+Version 2.3 – 10 Dec 2024
+
+9.2.1.2. Excess Shields – Layered [Advanced
+Rule]. An additional gray shield allocated
+by the defender versus an inbound salvo
+adds a new defensive layer that an
+attacking salvo must penetrate. The
+maximum layering is two shields per
+inbound missile salvo.
+EXAMPLE: If five gray shields are
+committed versus three inbound D10
+missile salvos, then two of the missile
+salvos must roll twice to successfully
+penetrate the two grey shields facing them
+before they can roll against the enduring
+red shield. The missile salvos are not
+demoted as they are in the basic “Demote”
+rule.
+9.3. Rail Guns and High Energy
+Lasers (HEL). Rail Gun and
+HEL
+capabilities
+are
+represented by either an
+increased basic defense
+capability (red shield) or by a
+gray
+shield
+that
+can
+regenerate. Note the DDG(X)
+example to the right.
+9.4. Fires Versus Ground Units. For strikes
+against ground units, the Fires Effects
+Table is consulted to determine whether or
+not a hit or suppression result is
+adjudicated. Terrain and the type of target
+may require that multiple hits be scored
+before effects can be applied against a
+ground unit.
+9.4.1. Missiles versus Ground Units [Optional
+Rule]. Ground maneuver units (i.e. infantry
+and tank brigades) cannot be destroyed by
+conventional
+cruise,
+ballistic
+and
+hypersonic missiles. They can lose steps
+and suffer suppression effects but cannot
+lose their last step to such a strike.
+9.5. Generating Missile Salvoes. When players
+fire missile salvoes, they cross out the
+appropriate die symbol with a dry erase
+marker to show expenditure. The
+
+9.1. Overview. The Combat Phase is sub-divided
+into three major segments: Air Combat,
+Strike Warfare, and Ground MovementCombat.
+9.2. Layered Air Defense. Gray shield symbols
+represent consumable anti-air missiles. An
+attack against a unit must first defeat any
+gray shields applied to its defense before
+engaging the unit’s enduring defense
+capability (i.e. its red shield). This defensive
+protection can be extended to any unit
+inside an air defense unit’s missile range
+but can only be applied once per turn per
+gray shield. This means that an attack salvo
+intercepted by air defense has to succeed
+twice to obtain a hit. It must first roll
+against any gray defensive shields then, if
+successful, roll again against the red shield
+of the targeted unit. If that die roll equals
+or exceeds the target number then a hit is
+adjudicated.
+9.2.1. Shot Calculus Decision. For missile salvo
+engagements, the attacking player assigns
+missile salvos against specific targets. Then
+the defending players must declare their
+shot calculus decisions prior to the attacker
+rolling dice by allocating available grey air
+defense shields to defend specific assets.
+The defender declares which shields are
+defending which targeted units. If matched
+on a 1:1 basis to an inbound salvo, then the
+missile salvo must defeat the defense value
+of the gray shield before it is applied
+against the red shield of the targeted unit.
+9.2.1.1. Excess Shields – Demote [Basic Rule].
+For each additional gray shield allocated by
+the defender in excess of an inbound salvo,
+an attack die roll is demoted. For example,
+if five gray shields are committed versus
+three inbound D10 missile salvos, then two
+of the salvos are demoted to D8s.
+
+26
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+may either double up on opposing fighters
+or may engage other air targets such as the
+opposing side’s High Value Airborne Assets
+(HVAA) (AEW, Tankers, and Bombers) or
+other air missions conducting Strike, CAS,
+SEAD or Interdiction missions as long as
+they are within range and detected.
+9.7.2. Air Platform “Best Die” and the Sequence
+of Adjudication [Optional Rule]. As an
+optional rule, adjudicate air combat in each
+step with the “Best Die” platform rolling
+first and applying their effects before
+rolling for the next platforms that have
+lower die capabilities. This optional rule is
+unique to air-to-air combat.
+EXAMPLE: During the In-Hex Air-to-Air
+Combat step, air units with a d12 attack
+capability would fire and apply effects
+before those with a d10 or d8, and so on.
+9.7.3. Air Combat Sequence. When adjudicating
+air combat, do so in the following step
+sequence with results adjudicated by step,
+but within each step the results are
+simultaneous:
+
+appropriate missile salvo marker is then
+placed on the map next to the intended
+target.
+EXAMPLE: A ship with three green D10
+symbols can generate three D10 salvo
+counters that are allocated against
+targeted platforms.
+
+9.6. Applying Damage. A single step unit is
+removed from the game board to either
+the Regeneration Box or the Attrition Box
+when it is hit. When there are multiple hit
+boxes, cross off boxes from top to bottom
+and right to left. Thus the top right box is
+crossed off first, followed by the bottom
+right box, then the top box on the next
+column, and so on.
+9.6.1. Damage to Naval Vessels. Multi-step
+ships that sustain damage but are not sunk
+suffer a suppression effect that knocks
+them out of combat and air operations for
+the remainder of the turn in which they are
+struck. Strikes from that ship cannot be
+generated and an aircraft carrier’s air
+missions are sent to the Regeneration Box
+where they roll in the Regeneration Phase
+to determine if they can be launched in the
+next turn with the number of air missions
+constrained by the carrier’s remaining
+capacity.
+9.7. Air Combat Step. The game facilitator
+determines the sequence of which hexes
+are resolved first for air combat.
+9.7.1. Air Combat Sequence and Advantage. In
+the Air Combat Phase, when air combat is
+initiated, players match up engaged CAP,
+OCA, and DCA fighters to determine if one
+side has advantage in the number of air
+superiority missions in the air battle. For
+the side with excess air superiority
+missions (CAP, OCA, DCA), those fighters
+
+Step 1. Stand Off Air to Air. Resolve all long
+range (1 hex range) air to air missile
+engagements.
+Step 2. Stand Off SEAD Strikes. Resolve
+SEAD strikes with a range of 1 or more
+whose range exceeds that of defending air
+defense systems. Note: SEAD strikes
+against targets that are emitting count as
+local strikes regardless of the range. If a
+SEAD target is not emitting, strikes against
+it consume one long range strike allocation
+from the C2 function on the Space
+Capability Dashboard (one strike allocation
+applies to all SEAD targets in a single
+operational map hex).
+Step 3. Long Range Air Defense. Resolve
+long range (range of 1 or more on
+27
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+has a red down arrow on it, then demote
+the air defense engagement.
+
+operational map) air defense attacks
+versus air units. This includes both
+shipborne and ground-based air defense
+capabilities.
+
+Step 7. Air Defense Engagements. In the
+final round of air combat, surviving air
+defense units with unexpended munitions
+may engage any aircraft that are in range.
+
+Step 4. In-Hex Air-to-Air Combat. Resolve
+all in-hex air-to-air combat. The player with
+the greater number of CAP, OCA, and DCA
+fighter missions lines up air combat
+missions by shooter and target and rolls to
+determine results. Then the other player
+declares air-to-air targets and rolls. Then
+apply the results of both sides’ air-to-air
+attacks. For air missions such as CAS, SEAD,
+and Interdiction, they may only make
+defensive air-to-air die rolls versus the air
+mission that is attacking them. Such
+defenders have their air-to-air die roll
+demoted.
+
+9.7.4. Air Combat Results. When aircraft
+mission counters are hit, they are removed
+from the map and placed in the
+Regeneration Box where they can be
+regenerated at the end of the turn in the
+Regeneration Phase.
+9.7.5. High Density Air Combat – Air
+Battleboards. On Tactical Maps, when
+used in isolation from a Theater Map, such
+as the tactical maps for Norway, the Baltics
+and Taiwan, given the density and
+complexity of air operations, a Battleboard
+is used to streamline the adjudication of air
+combat. During the Air Movement Phase,
+players place air missions and long range
+surface to air capabilities in the
+appropriate box on the Air Battleboard.
+The center hex on the Battleboard
+represents the skies directly above the
+main battle area on the tactical map. The
+adjacent boxes are used to array stand-off
+and support aircraft and air defense
+capabilities. Once arrayed, combat is
+adjudicated per the air combat sequence in
+paragraph 9.7.3.
+9.8. Strike Warfare Step. In this step, players
+take turns conducting strike actions in a
+sequence determined by initiative chit
+draw, decision card, or an I-GO-U-GO
+method. The number of long-range strike
+actions each side can take is determined by
+the number on the C2 Constellation on the
+Space Capability Dashboard or by special
+scenario rules. When a strike action is
+taken, a player declares a target hex and
+then declares all strikes (both long-range
+
+Step 5. Transition Air to Tactical Map. If a
+tactical map is being used, surviving
+Interdiction, SEAD, Strike, CAS and
+Transport missions that are in the
+corresponding hex or Air Battle Board on
+the operational map transition to the
+tactical map and are allocated to specific
+zones (the yellow 50 NM / 100 KM hexes).
+Step 6. In-Hex SEAD. Align in-hex SEAD
+missions versus air defense targets. If the
+SEAD’s strike munitions have standoff (i.e.
+can fire with impunity based on an analytic
+comparison of the munition’s max
+effective range versus the max effective
+range of the defending air defense unit’s
+sensors and missiles), then resolve the
+attack without the aircraft getting
+engaged. If the attacker cannot achieve
+standoff versus the air defense unit, and
+the air defense unit decides to engage
+versus the SEAD, then adjudicate the die
+rolls simultaneously. If the SEAD mission
+
+28
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+example, if a side’s C2 Constellation is on
+the 6 box, then that side may conduct 6
+long range strikes.
+9.9.3. Sequencing Strikes. Prior to game start,
+players determine what method to use to
+adjudicate the Strike Sequence. This may
+be a simple I-GO-U-GO method. Or, a chit
+draw system can be used. In the chit draw
+method, place the number of chits into a
+cup that corresponds with each side’s C2
+capability. Then randomly draw for the
+sequence of play. As each chit is drawn,
+immediately resolve that player’s declared
+strike action. Then draw the next chit to
+determine who gets the next action.
+Continue until all chits are drawn.
+9.9.4. Missile Attacks. A missile strike may NOT
+be conducted against targets that have not
+been detected.
+9.9.4.1. CAPs Intercepting Missiles. When
+resolving combat in a hex, if a CAP
+(Defensive Counter Air) was un-engaged in
+air combat, it may intercept threat missile
+and loitering munition salvos. This is
+treated as an in-hex air-to-air engagement
+with sub-sonic cruise missiles defending
+with a 5 shield and super-sonic missiles
+with a 7 (Note: Use these default values
+unless otherwise specified by markings on
+the counter or special scenario or house
+rules). A single CAP can engage a single
+inbound missile salvo. CAPs cannot
+intercept hypersonic or ballistic missile
+salvos.
+9.9.4.2. Missile Launches and TACSIT 1. Anytime
+a ship or ground unit fires a
+missile, it is immediately
+placed in a TACSIT 1 status
+and is considered detected.
+9.9.4.3. Submarine Missile Attacks. When a
+submarine uses its organic missiles to
+strike land or surface targets, any airborne
+ASW assets in that same hex may
+immediately roll for a local ISR detection of
+
+and local) that will occur in that target hex
+by generating munition salvos from any
+capability within range and aligning them
+against their designated target (i.e.
+sourcing from “many” hexes to target
+“one” – or the “Many-to-One Strike
+Rule.”).
+9.9. “One-to-Many” Strike Rule [Optional
+Rule]. As an optional rule, players can
+alternatively choose to strike many targets
+in multiple hexes with fires sourced from a
+single hex (i.e. the “One-to-Many Strike
+Rule” variation).
+EXAMPLE: The US player decides to fire the
+Ohio SSGN’s 18 Tomahawk missile salvos
+generating 18 salvo markers and allocating
+them against up to 18 targets in multiple
+hexes. This, and any additional fires
+sourced from the same hex, would
+constitute a single long range strike action.
+9.9.1. Strike Warfare: Long-Range Strikes and
+Local Strikes. Players first resolve strikes in
+hexes involving long-range strike actions.
+When adjudicating these strikes, this
+should include those local strikes
+associated with the declared target hex.
+After all long-range strike actions (and any
+associated local strikes) are resolved, then
+adjudicate all additional Local Strikes, by
+initiative and by hex. “Local” is defined as
+confined within a single hex or a plausible
+local kill chain not reliant on higher
+headquarters coordination represented by
+the C2 function on the Space Dashboard.
+[Exception:
+Naval
+surface-to-surface
+engagements into an adjacent hex are
+considered local strikes.] Local strike
+actions are resolved simultaneously with
+the defending side able to fire back.
+9.9.2. C2 Capability and the Number of Strikes.
+The number of long range strikes each side
+may execute is constrained by that side’s
+corresponding C2 capability as portrayed in
+the Space Capability Dashboard. For
+29
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+the submarine. This cannot be combined
+with other assets. If detected, then the
+submarine is turned face up and a TACSIT 1
+marker is placed on the submarine. ASW
+assets in range may then immediately be
+used to attack the submarine. The
+submarine missile attack that triggered this
+sensing opportunity is adjudicated
+regardless of the outcome of this ASW
+engagement.
+9.9.4.4. Modifiers to Missile Attacks. Consult
+the chart on the next page for additional
+modifiers that may be applied in missile
+engagements.
+9.9.5. Submarine Torpedo Attacks. When a
+submarine attempts a torpedo attack
+against a detected surface ship, it follows
+the following sequence:
+9.9.5.1. Step 1. Remove Silent Running. If the
+sub was in a silent running posture, remove
+the silent running status since the sub is
+now maneuvering into an attack position.
+9.9.5.2. Step 2. Check & Resolve ASW Screen. If
+the ASW Screen rule (6.4.4.1.) is in effect,
+then resolve ASW detection and its
+possible attack. If the sub is detected and
+survives then it must abort the attack and
+evade. [DESIGN NOTE: The presence of
+multiple ASW platforms imposes a
+sequential adjudication – ASW Attempt
+then Torpedo Attack. If there is only one
+ASW asset, then the adjudication has
+simultaneous effect. This is the key
+distinction of the ASW Screen rule.]
+9.9.5.3. Step 3. Check & Resolve Target or
+Single ASW. If there was no ASW Screen,
+then the effects of ASW and the sub attack
+are simultaneous. The single ASW asset
+rolls for ASW detection if it is in an active
+ASW status. If successful, then it
+prosecutes an ASW attack versus the sub.
+The effects are resolved as simultaneous to
+the submarine’s torpedo attack of Step 4.
+Note: This is not a second attempt by the
+
+Version 2.3 – 10 Dec 2024
+
+targeted unit if its ASW detection capability
+was factored into an ASW Screen.
+9.9.5.4. Step 4. Torpedo Attack. The sub rolls
+one die for its torpedo capability versus the
+red shield of the targeted ship. The critical
+hit rule applies. If the die roll equals or
+exceeds the red shield number of the
+target, then apply the appropriate number
+of hits (1 hit if equal to or greater, 2 hits if
+the die roll doubles the shield, 3 hits if the
+die roll triples the shield…).
+9.9.5.5. Step
+5.
+Submarine
+Re-Attack
+Opportunity. If the submarine player
+scored a hit and wants to either re-attack
+the targeted ship or attack another target
+in the same hex, then they can declare a
+second attack. Play now enters an I-GO-UGO adjudication that is sequential with the
+ASW detection going first with a gained die
+promotion up to a maximum of d12.
+Additionally, any ASW capable platforms in
+the hex are considered in an active ASW
+status now regardless of their status
+previously. If the sub is detected and
+survives the ASW attack, then it must abort
+and evade. However, as long as the sub
+remains undetected and continues to
+score hits, it can continue to conduct
+attacks with the ASW platforms gaining a
+die promotion each time up to a maximum
+of d12. The moment a torpedo attack fails,
+the submarine must break off the
+engagement.
+9.9.5.6. SSK Limitations. An SSK may only
+initiate a torpedo attack if it starts the
+Combat Phase in Silent Running posture.
+9.9.6. Strikes versus Ground Units. Strikes
+versus ground units are resolved using the
+Fires Effects Table on page 32.
+9.9.6.1. Air Strike. As part of a declared strike
+action, players can incorporate any on-call
+strike packages that were formed in the Air
+Strike Prep step. Once the air strike is
+declared, the player moves the air strike to
+30
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+this point in the turn can conduct a Fighter
+Sweep in advance of the strike mission
+provided they do not violate fuel
+constraints. If a defensive CAP is in range of
+the air strike as it moves, it may attempt an
+intercept provided it has a detection
+opportunity (i.e. an active radar in range or
+it is in the same hex as the bomber). Any
+fighters that survived the air combat round
+and are in uncontested airspace may be
+
+a launch point and potential air intercepts
+are dynamically resolved. If the air mission
+survives intercepts to arrive at its launch
+basket then the strike against the targeted
+unit is resolved.
+9.9.6.2. Air Strikes: Movement and Intercept
+Procedure. Air units being used to conduct
+a strike trace and show their route to their
+weapon launch point. Declared fighter
+escorts that have been unengaged up to
+
+31
+
+Operational Wargame System
+Series Rules
+
+COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+intended target is resolved once the strike
+aircraft arrive in their weapon release hex.
+9.9.7. Targeting Infrastructure: Ports, Airfields
+Railways, Fuel, ASPs. Infrastructure can be
+targeted by missile salvos, air strikes and
+SOF attacks. The standard defense factor
+for an airbase, port, and rail is 3 unless
+marked otherwise on the map or a
+counter. For each step loss incurred, add
+one damage to the infrastructure. For fuel
+and Ammunition Supply Points (ASPs), for
+each hit, roll 1D6 and reduce the number
+of missile salvos or fuel by that amount.
+Damage at airfields and ports reduces their
+operating capacity. For airfields, this
+reduces the number of air missions it can
+generate and support with fuel. If the
+operating capacity of an airfield or port is
+reduced to zero then it is out of action and
+cannot perform any actions until repaired.
+
+applied to intercept the strike package –
+thereby giving them the opportunity to
+engage twice in the same turn. Any
+interceptors are applied 1:1 versus
+escorting fighters. If interceptors exceed
+the number of escort fighters, then the
+excess fighters may directly engage the
+strike aircraft. Once fighter to fighter
+combat is resolved, if the interceptors
+overcome the fighter escorts, they may
+proceed to engage the strike aircraft. If the
+strike aircraft survives this detection and
+attack sequence, then movement to the
+launch point continues. Movement
+through follow on hexes could trigger
+another round of air combat as the strike
+aircraft seek to penetrate defending
+aircraft and air defenses to arrive at a
+missile release point. The strike against the
+
+32
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Ground Movement & Combat
+
+Version 2.3 – 10 Dec 2024
+
+unit activation is shifted to the end of the
+activation sequence and determined by
+random draw for all disrupted or destroyed
+HQs.
+10.2.5. Decision Cards. Some Decision Cards,
+such as Planned Offensive, enable a side to
+seize the initiative and dictate the
+sequence of some unit activations. If both
+sides play the same card, then an opposed
+die roll determines whose card goes first.
+10.3. Ground Sequence of Play. The ground
+sequence of play is the following:
+
+10.1. Overview. During this portion of the turn,
+players conduct ground movement and
+combat.
+10.2. Initiative. Prior to the game start,
+determine what method will be used for
+ground initiative. There are several
+possible approaches:
+10.2.1. Ground Initiative By Side. In this method,
+one side moves and conducts combat for
+all of their ground forces then play shifts to
+the other side for their ground movement
+and combat.
+10.2.2. Ground Initiative using I-GO-U-GO by
+Formation. Using this method, players
+alternate moving one Div/Corps/Group
+Army/Front formation of their choice and
+alternate turns until both sides have
+actioned all their units.
+10.2.3. Ground Initiative using Random Unit
+Chit Draw. Place the unit counter for all “in
+play” blue and red divisions, corps, and
+group armies in a cup and draw to
+determine the sequence of unit
+activations. Resolve movement and
+combat for an “activated” unit then draw
+another unit chit. Only counters associated
+with the activated unit may be employed
+(task organization is determined formally
+or informally in the planning phase).
+10.2.4. Ground Initiative using Planned Unit
+Activation with Random Chit Draw. In this
+method, players determine in the Planning
+Phase the sequence of unit activations for
+their side. This sequence is noted for later
+reference in the Ground Step. If their
+senior HQ and subordinate HQs remains
+undisrupted, then in the Ground Step that
+side may activate units in the planned
+sequence, one HQ at a time, with the
+sequence between sides determined by
+random chit draw. If a HQ is either
+destroyed or in a disrupted status then its
+
+Ground Phase
+1. Decision Cards (All)
+2. Organize (All)
+2.A. Reserve / Task Org
+2.B. HQ Effects (ME & IO)
+2.C. Missions (Air & Grnd)
+3. Initiative Determination
+3. Actioning Unit:
+3.A. Conduct Prep Fires
+3.B. Consume Fuel Points (Adv.)
+3.C. Move & Declare Combat
+3.D. Allocate Supporting Fires
+3.E. Conduct Defensive Fires
+3.F. Resolve Ground Combat
+3.G. Exploitation Move
+3.H. Exploitation Combat
+4. Next Initiative Draw
+1. Decision Cards (all sides). Both sides play
+Decision Cards pertaining to Ground Force
+initiative.
+2. Organize (all sides)
+2.A. Reserve Designation & Task
+Organization. Each side places units in
+33
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+Combat Adjudication Table (GCAT).
+Calculate odds, net column shifts, and net
+promotions and demotions per the GCAT
+modifiers and table. Then roll a single die
+on the Ground Combat Adjudication Table.
+Then apply results.
+3.F. Exploitation Move (Reserve Only or
+Combat Result). Attacker may commit
+units marked Reserve as an Exploitation
+Force and conduct movement up to ½
+movement points.
+3.H. Exploitation Combat. The Exploitation
+Force may attack into a hex and may be
+supported by available unexpended
+supporting fires. Resolve combat normally.
+4. Next Initiative Player or Unit. Then play
+shifts to the next actioning unit per the
+initiative method in use for the game.
+--------------------------------------------------------
+
+reserve status as desired and confirms task
+organization developed in the Planning
+Phase.
+2.B. Allocate HQ Effects (Main Effort &
+OIE/IO Tokens). Each side places Main
+Effort and IO tokens associated with their
+ground combat HQs that have not already
+been played in the IO Phase.
+2.C. Assign Ground Unit Missions (Delay,
+Defend). Each side places units in Delay
+and Defend missions.
+3. Initiative Determination - Actioning
+Unit:
+3.A. Conduct Prep Fires. Actioning unit
+conducts shaping fires with artillery and
+assigned air. Air strikes considered under
+the direction of tactical ground HQs can be
+conducted as local actions during this
+impulse. Artillery units that conduct Prep
+Fire are marked expended.
+3.B. Consume Fuel Points (Advanced Rule).
+Players consume fuel associated with unit
+moves.
+3.C. Move and Declare Combat. Actioning
+unit’s forces can move up to full movement
+allowance. Units in reserve
+status may move ½ movement
+points. Place the “Combat”
+marker on declared ground
+combat actions.
+3.D. Allocate Supporting Fires. Artillery
+units and available Close Air Support are
+assigned to support declared ground
+combat. Mark artillery with an IDF Support
+marker.
+3.E. Conduct Defensive Fires. Defending
+units in the zone of action may conduct
+defensive artillery missions against fires or
+maneuver units. Defender allocates
+supporting fires to declared ground
+combat actions.
+3.F. Resolve Ground Combat. Resolve
+declared combat actions in attacker’s
+choice of sequence using the Ground
+
+DESIGN NOTE: Turn Duration in Ground War
+Scenarios. In basic game rules, the turn duration is
+24 hours. For protracted campaign scenarios, a
+lengthier turn may better model the ground war.
+This is particularly appropriate if an associated
+naval fight is limited or non-existent (i.e. the
+Russo-Ukraine War). But, the longer the turn
+duration, the more it risks improperly modeling
+the tempo of a campaign. One approach used with
+some success to model the Russo-Ukraine War is
+a 1 week turn with an Operational Phase that
+spans Strategic and Tactical Movement,
+IO/Cyber/Space, Theater ISR, Air Combat and
+Strike Warfare. This is then followed by two backto-back 3.5 day Ground Phases to cycle through
+ground operations twice before Logistics &
+Regeneration.
+
+5. Security Force Battles (Advanced Rule).
+Once all regular ground combat and
+movement is completed, then resolve rear
+area actions. Identify zones where a
+Security Force Battle requires adjudication.
+Calculate any bonuses for each side and
+then conduct the die roll off to determine
+who controls the zone.
+34
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+EXAMPLE:
+HQ PROFICIENCY TABLE
+US Div
+2
+Russian Div/CAA
+4
+China Grp Army
+4
+A US division is under attack from an
+actioning Russian division. In the Conduct
+Defensive Fires impulse, the US division
+attempts a reaction move by a brigade and
+its supporting artillery and reconnaissance
+units (total of 3 counters) that are in a
+Reserve posture. On a d6, the US player
+rolls a 4, leading to a result of 2 counters
+that can reaction move up to half of their
+movement allowance. The Reserve status
+marker is then removed. In this example, a
+roll of 1 or 2 by the US player would result
+in a failed reaction attempt.
+10.5. Main Effort. During the HQ Effects step
+(2.B), each Division and/or Corps level HQ
+may designate one Main Effort
+(ME)(dictated by special scenario rules).
+The ME may be any ground unit associated
+with that HQ (maneuver or fires). The ME
+designation is considered one of six
+“supporting arms” modifiers which
+contribute to the net column shifts and
+dice promotions/demotions on the GCAT.
+10.6. Defense Missions. During the
+Missions step (2.C), units which
+do not move may be placed in a
+Defense mission posture. Units
+in Defense receive a +1 to their organic
+defense value (red shield). If the unit
+moves, the Defense marker is removed
+from the map.
+10.7. Fortified. Units which start the
+Ground Phase already in
+Defense and are co-located with
+an Engineer unit may upgrade
+their position to Fortified (+2 defense)
+status (flip the Defense counter). When a
+unit moves from under a Fortified marker,
+the Fortified marker stays on the map
+
+6. Partisan Attacks (Advanced Rule). For
+those zones where Partisan Forces gain
+control, play then shifts to resolving
+Partisan attacks.
+10.4. Reserves. Each HQ unit in the
+game may designate in the
+Reserve/Task Org Step (2.A),
+any number of units to be in
+a reserve status.
+10.4.1. Reserve Employment. Reserve units may
+only move 1/2 of their movement point
+allowance (rounding down) during the
+normal ground movement (3.C). Reserve
+units cannot fight in normal ground
+combat (3.F) unless they are the target of
+an attack. If attacked, the reserve marker is
+removed.
+10.4.1.1. Activating Reserve Units.
+Reserve units may be activated
+(remove reserve marker) in the
+owning player’s Exploitation
+Move (3.G) to conduct Exploitation
+Movement (1/2 of MP allowance) and
+Exploitation Combat (3.H).
+10.4.1.1.1. Defensive Reaction Move (Optional
+Special Rule). During the Conduct
+Defensive Fires Impulse, a Defending unit
+may roll for a react attempt with reserve
+units in the defending unit’s Divisional or
+Corps level formation. A HQ proficiency
+rating is designated in special scenario
+rules that is used to determine success.
+This number is on a scale of 1 to 6, with 1
+as the best proficiency and 6 as the worst.
+The difference between a d6 die roll and
+the proficiency number is the number of
+reserve units (counters, not steps) that the
+defender may move up to half their
+movement rate. A HQ under a Disrupt C2
+or Suppression status receives a minus 2
+modifier on the Reaction die roll attempt.
+
+35
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+The base movement capability for each
+mode is as follows:
+
+unless deliberately removed. If a unit
+moves into a hex that contains a Fortified
+marker, it remains on top of the marker
+until the next turn. It may “occupy” the
+Fortified position on the next turn provided
+it does not move (place the Fortified
+marker on top).
+10.8. Delay. During the Missions step
+(2.C), units may be placed in a
+Delay mission posture. Units in a
+Delay posture cannot attack.
+When units executing a delay mission are
+attacked, they cause a die roll demotion to
+the attacker on the GCAT, ignore a 1 step
+loss result and must retreat 1 hex after
+combat if they survive. If 2 or more step
+losses are inflicted, then one step loss must
+be taken on the delaying unit but
+additional step losses are cancelled with
+the mandatory retreat.
+10.8.1. Recon Units & Delay Missions. Recon
+units can opt to transition to a delay
+mission during the opposing player’s turn
+when attacked but must declare this prior
+to combat adjudication.
+10.9. Stacking. Ground unit stacking on tactical
+maps (20km/10nm Hexes) is constrained
+by the following rules:
+a. 1 step = a battalion size formation
+b. Most brigade & regiment counters
+are 3 step units
+c. 20km Maps. For 20km maps, up to
+9 steps may stack in a hex.
+d. 10km Maps. For 10km maps, up to
+5 steps may stack in a hex.
+e. HQ and SOF do not count against
+stacking.
+f. Light Infantry units in urban terrain
+do not count against stacking
+limits.
+10.10. Ground Movement. There are four modes
+of ground movement in OWS: foot, ski,
+wheeled, and tracked. Units with a mix of
+capabilities use the least mobile capability.
+
+Wheeled = 15 points
+Tracked = 10 points
+Foot = 2 points
+Ski = 4 points
+10.10.1. Counting Movement Points. Units
+expend movement points based on the
+cost of the terrain. Cost of terrain varies
+depending on weather. Players consult the
+Movement Chart to determine the cost in
+movement points per hex. Units may
+always move 1 hex except when the chart
+says “NP” (Not Possible). If after moving 1
+hex, a unit has insufficient points to pay the
+full movement cost of the next hex, then it
+must stop movement.
+10.10.2. Disorganized
+Movement.
+Light
+infantry units may utilize non-standard
+disorganized movement (buses, cars,
+trucks) to use the wheeled movement rate
+in a turn. When doing so, they end their
+move with a Suppressed marker and are
+prohibited from attacking. The suppression
+marker is removed in the Regeneration
+Phase.
+10.10.3. Zones of Control. A zone of control
+(ZOC) is an area of influence that extends
+from a unit into adjacent hexes. On 20km
+maps, only motorized or mechanized
+formations with 2 or more steps exert a
+ZOC. On 10km maps, any battalion size
+motorized or mechanized formation exerts
+a ZOC, and light infantry formations with at
+least 2 battalions stacked exert a ZOC.
+10.10.3.1. Movement into a ZOC. When
+entering a hex with an adversary ZOC, a
+ground unit must stop movement.
+10.10.3.2. Bypass Movement. A friendly unit
+occupying a hex in an opposing side’s ZOC
+enables other units to conduct a bypass
+movement thru that hex to an adjacent hex
+36
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+succeeds in forcing the enemy from the
+hex, then a bridge is placed on the map.
+10.11.3. Follow-on Movement. The engineer
+unit may leave the bridge in place and
+continue movement. An engineer unit
+could place multiple bridges in the span of
+a turn provided it has the movement points
+to do so.
+10.12. Engineers & Obstacles. Engineer units
+remaining in a hex for the duration of the
+ground movement impulse can
+emplace an Obstacle counter
+in that hex. An obstacle
+counter in a hex is a die demotion on the
+GCAT. Engineer units are considered one of
+six “supporting arms” modifiers which
+contribute to the net column shifts and
+dice promotions/demotions on the GCAT.
+10.13. Combat
+Service
+Support
+(CSS)
+[ADVANCED RULES]. For games where
+greater sophistication is desired to model
+CSS constraints, players may opt to include
+fuel and munition consumption as part of
+game play.
+10.13.1. CSS Units. CSS units are formed at two
+echelons – Tactical and Depot level, to
+enable stockpiling and distribution of fuel
+and munitions. Orders of battle vary on CSS
+configurations, so special scenario rules
+dictate how tactical and depot level units
+are depicted in the game.
+10.13.1.1. Tactical CSS Units. Generally, Bn CSS
+units are used at the Tactical echelon and
+correspond with Brigade, Regiment and
+sometimes Division level CSS capabilities.
+
+for a cost of +2 movement points (in
+addition to the cost of terrain). If that new
+hex is also a ZOC, then the bypassing unit
+must stop movement upon entering that
+hex.
+10.10.3.3. Movement from a ZOC. Units
+beginning movement in a ZOC hex, may
+move 1 hex to an adjacent ZOC and then
+must stop movement unless that hex is
+occupied by another friendly unit thereby
+enabling bypass movement (10.10.3.2). In
+which case, a bypass movement may occur
+for +2 movement points. If moving into a
+hex without a ZOC (such as executing a
+withdrawal), a unit incurs a +2 movement
+point cost to dis-engage from the threat
+ZOC.
+10.11. Engineers & Bridges. Engineer units
+count as a single step for stacking, strategic
+movement, and hexside limit
+purposes. Engineer units with
+the bridge symbol on them can
+establish a bridge across a
+major river. An engineer unit
+can establish one bridge per
+step. A bridge once placed on
+the map can be removed in the
+Regeneration Phase to reconstitute the
+bridge capability for the engineer unit. Up
+to 10 steps may cross an engineer bridge
+each turn with a +2 to movement as units
+cross the bridge.
+10.11.1. Unopposed River Crossing. If the
+crossing site (hex) is free of enemy ZOCs,
+and an engineer unit moves into the hex,
+for +2 movement points, the engineer unit
+can place a bridge in that hex.
+10.11.2. Opposed Crossing. If the
+crossing site (hex) is in an enemy
+ZOC, then a River Assault must
+be conducted during Ground
+Combat. The engineer unit must be part of
+the assault stack but does not count
+against the hexside limit. If the attack
+
+Fuel Requirements: 1 Day Turns
+
+37
+
+Country
+
+Unit
+
+Fuel Points (FP)
+
+Rus/PRC
+
+Mech/Tank
+
+1 FP / Brigade
+
+NATO
+
+Mech/Mot
+
+1 FP / Brigade
+
+NATO
+
+Hvy Armor
+
+2 FP / Brigade
+
+Any
+
+Helo
+
+1 FP / Squadron
+
+Any
+
+Fighter
+
+2 FP / Squadron
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+10.13.1.2. Depot CSS Units. CSS counters
+(determined by order of battle and special
+scenario rules) are used to represent the
+Depot level CSS echelon.
+10.13.2. CSS
+Commodities.
+Two
+CSS
+commodities are represented in the game
+- Fuel and Munitions. CSS units have the
+capacity to store, transport and distribute
+these commodities. CSS units are assigned
+values for how much fuel and munitions
+they can store, transport and distribute.
+These capacities are not interchangeable,
+meaning, for example, that fuel numbers
+cannot be reduced to increase munition
+capacity.
+10.13.2.1. Fuel Points. Fuel Points are used to
+enable tank, mechanized and motorized
+ground units and air units to move.
+Consumption rates from turn to turn vary
+based on turn duration and unit types and
+are dictated by special scenario rules. As a
+rule of thumb, 1 point of fuel = ~30K gallons
+of fuel. For one day turns (i.e. one day of
+combat operations), one fuel point enables
+1 Russian or Chinese equipped combined
+arms brigade (with supporting artillery) to
+maneuver; or, a NATO style motorized or
+mechanized brigade (such as a Stryker
+Brigade Combat Team). 2 fuel points (~60K
+gallons of fuel) are required to maneuver a
+Heavy Brigade Combat Team. Those fuel
+points are consumed regardless of how far
+those units move or how many units move.
+10.13.2.2. Ground Munition Counters. Antitank guided missiles (ATGMs), artillery, and
+rocket munitions can be
+represented in the game using
+ammunition counters. Each of
+these counters represents two
+ammunition steps and enables
+two fire missions, with the flip
+side marked as “Low Ammo”.
+Flip the counter when it is used
+to enable a fire mission. A “Low Ammo”
+
+Version 2.3 – 10 Dec 2024
+
+counter is removed when flipped. Each of
+these counters represents the combat load
+for a battalion for one to three days of
+combat (approximately 700 to 1000
+rounds per artillery step, 25 to 100 rockets
+per rocket step, 5 missiles per ATACMs
+salvo, and 50 to 100 ATGMs per ATGM
+salvo).
+10.13.2.3. CSS Commodity Placement. Fuel
+points and Ground Munitions are generally
+stacked with CSS units, though they can
+also be placed as an independent fuel
+dump or ammunition supply point by
+themselves or co-located with an airfield or
+port.
+10.13.2.4. CSS Consumption & Distribution.
+CSS units inherently distribute fuel and
+munitions to units within their distribution
+radius,
+enabling
+consumption
+of
+commodities stacked with the CSS unit
+during the Movement impulse to pay for
+fuel consumption costs and during artillery
+adjudication to pay for fire missions.
+Tactical echelon CSS units are replenished
+from Depot level units during the Logistics
+& Regeneration Phase. The distribution
+radius of CSS units (both tactical and
+depot) varies by special scenario rules due
+to national level characteristics in order of
+battle and doctrine.
+10.14. Action Points & Orders. [ADVANCED
+RULES] Action points are an abstract
+representation of command & control,
+leadership, and morale which translate
+into operational tempo. The number of
+Action Points a side has determines the
+number of “Orders” it can issue to activate
+ground units during the Ground Phase.
+Only those units tagged with “Orders” or
+“Reserve” can conduct movement and
+combat actions in the Ground Phase. If
+playing with two Ground Phases in a
+protracted turn, then players may opt to
+enable all units to move in the first Ground
+38
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+deliberately planned and allowed by
+special scenario rules, when a Division or
+Corps level HQ is in play, their Main Effort
+designation can be used to enable a
+Division or Corps Bombardment action as a
+Prep Fire that can mass up to 4 artillery or
+rocket units in a single Prep Fire strike.
+10.15.4. Fires Effects Table. Resolve all Prep
+and Defensive Fires using the Fires Effects
+Table. The number of hits required to
+achieve suppressive or destructive effects
+varies based on terrain and target type (as
+indicated on the Table).
+10.15.4.1. Precision Guided Munitions (PGMs).
+Air delivered PGMs may receive a
+promotion to their die rolls for certain
+terrain and unit types indicated on the
+Fires Effects Table. This PGM
+modifier is only applicable to
+air missions with the munitions
+counter shown to the right and
+to attack helicopters.
+10.15.5. Fire Missions. For artillery units, each
+attack die represents a fire mission that
+can be employed in Prep Fire, Defensive
+Fire, or as Indirect Fire Support (IDF SPT)
+during the Ground Combat impulse. To
+simplify bookkeeping, a player must
+employ fire missions from one counter all
+at once and then mark it “Expended”.
+Special scenario rules may enable
+players to employ fire missions
+from one counter in any of the
+listed steps but must then keep
+track as a unit cannot expend a fire
+mission more than once per turn.
+An option to aid in tracking is to
+place the IDF SPT marker on artillery units
+as they are allocated in each step to
+indicate commitment and then place an
+“Expended” marker once adjudicated.
+Alternatively, players can mark off missions
+with a black dry erase marker as they are
+expended.
+
+Phase and then constrain the second
+Ground Phase by action points.
+10.14.1. Sourcing Action Points. Each side
+receives a designated number of Action
+Points determined by special scenario
+rules. These action points may vary by side
+or by formation.
+10.14.2. Action Point Allocation & Orders. In
+the Planning Phase, each side places
+Orders markers on the HQ or unit counters
+that are planned for action in
+this turn. If playing double
+blind then these are either
+secretly written down or are
+kept invisible in Vassal. Each
+side can issue the number of
+orders equivalent to its
+available Action Points, plus 2 free “feint”
+orders if playing in a head-to-head tabletop
+mode where counters are visible.
+10.15. Ground Combat.
+10.15.1. Hexside Limitations. No more than 3
+steps may attack across a single hexside
+into an adjacent hex. But, multi-axis
+attacks from multiple adjacent hexes are
+possible.
+10.15.2. Fires. The actioning player may
+conduct fires directly associated with the
+actioning HQ’s battlespace and mission in
+the Prep Fire, Defensive Fire and Ground
+Combat impulses. Fires must be declared
+and allocated by hex prior to adjudication.
+10.15.3. Fires & Span of Control. Unless
+dictated otherwise by special scenario
+rules, a single fires
+adjudication (i.e. one action
+within Prep Fire, Defensive
+Fire, or Ground Combat) is
+limited to employing 2
+artillery or rocket battalions,
+or 1 Brigade Artillery Group
+(BAG).
+10.15.3.1. Division or Corps
+Bombardment
+(Optional).
+When
+39
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+10.15.8. Amphibious, Airborne and Air
+Assaults. When an Amphibious or Airborne
+Assault force receives the initiative, during
+Ground
+Movement
+surviving
+amphibious ships land the landing
+force into the target “beach head”
+hex, surviving air transports drop
+airborne forces into the targeted
+airborne drop zone hex, and
+helicopter or tilt-rotor units land
+air assault forces.
+10.15.8.1. Unopposed Landing. If the beach
+head, drop zone or landing zone does not
+contain enemy units then the landing force
+may be placed into the hex (regardless of
+ZOCs). Units may then attack into an
+adjacent hex. Mechanized forces
+only may advance from their landing
+zone or beach head one additional
+hex in any direction and then attack
+an adjacent enemy unit provided their
+initial landing area was not in a ZOC. Up to
+12 steps of ground units may land in the
+beach head, drop zone, landing zone in an
+unopposed amphibious, airborne and/or
+air assault in a single turn and then
+advance in any un-opposed direction, but
+only mechanized forces can attack from
+that adjacent hex that turn.
+10.15.8.2. Combined Assault. In a combined
+amphibious, airborne and air assault
+on the same hex, an attacker may
+employ up to 6 steps in an assault wave
+from the sea and up to 6 steps in an assault
+wave from the air (combined between
+airborne and air assault).
+10.15.8.3. Opposed Landing. If the beach head,
+drop zone or landing zone contains enemy
+units then the landing force assaults the
+hex. The landing force may assault with up
+to 6 steps in the assault wave from the air
+and up to 6 steps from the sea. If the initial
+assault is inconclusive then a second round
+of combat is immediately conducted.
+
+10.15.6. Indirect Fire Support & Close
+Air Support. Missions allocated as
+IDF SPT or CAS are considered
+“supporting arms” modifiers which
+contribute to the net column shifts
+and dice promotions/demotions on the
+GCAT.
+10.15.7. Suppression. As a result of
+fires, targeted units may become
+suppressed with a Suppressed
+marker placed on them. A
+suppressed unit can only move one hex. A
+suppressed maneuver unit is factored into
+the GCAT modifiers. A suppressed artillery
+unit cannot conduct IDF Support but may
+fire in Prep Fire or Defensive Fire at a
+demoted state for the remainder of this
+turn. A suppressed HQ unit has any HQ
+Effects (Main Effort, IO/OIE markers)
+immediately removed from the map. A
+suppressed air defense unit cannot apply
+defensive shields to intercept missile
+salvos but may offensively engage aircraft
+within range with a single demotion
+applied. A suppressed unit does not exert a
+ZOC or count towards a step determination
+on ZOC capability. Suppression counters
+are removed during the Regeneration
+Phase.
+DESIGN NOTE: Using “Suppressed” terminology
+was an early game design decision that
+unfortunately conveys a very tactical and short
+duration effect. In hindsight, a “Disrupted” effect
+better conveys the intended impact on the
+affected unit (i.e. casualty impacts and the longerterm disruption in tempo and command & control
+due to combat action). Additionally, if a longer
+duration than 24 hours is used for a turn, then the
+“one hex” movement rule for suppressed units
+becomes implausible and a limited movement
+point expenditure is more appropriate. These are
+house rule considerations that should be
+identified when the decision is made to execute a
+longer turn.
+
+40
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+each side and then round down for ratio
+determination.
+10.15.9.1.2. Supporting Arms Calculation. Next,
+the number of contributing supporting
+arms factors is calculated to determine a
+sum total supporting arms modifier for the
+defender and for the attacker. The
+threshold is 2+ to meet the first column
+shift modifier, 4+ to gain an attacker die
+promotion, and 6+ for another column
+shift. These result in independent
+modifiers being applied which result in a
+net column shift and die promotion for
+supporting arms factors. Supporting arms
+factors include:
+Artillery (each die)
+Close Air Support (each air mission)
+Naval Gunfire Support (each ship)
+Engineer or SOF Unit (each)
+SIGINT/EMSO/Disrupt C2 (each)
+Main Effort
+10.15.9.1.3. Quality Comparison. The attacker
+and defender’s lead units are compared to
+determine which side has a quality
+advantage. To gain a quality advantage, a
+side must score 3+ advantage points. A
+dice value comparison between three
+steps from each side is used to determine
+advantage points. Best dice are compared
+against best dice. If the difference is
+greater, then 1 point is scored for each
+comparison. If a side cannot generate
+sufficient steps for comparison then the
+other side scores that as an advantage
+point.
+Example 1:
+
+Additional reserve steps may be
+committed to the assault to bring the total
+up to 6 steps from the sea and 6 from the
+air. If this second wave fails to dislodge the
+defender, then both sides are left stacked
+in the hex.
+10.15.8.4. Artillery Units and Amphibious &
+Airborne Assault. Artillery units landing in
+the assault waves for amphibious and
+airborne assaults cannot contribute to
+combat. IDF SPT may be provided by
+surface combatants and CAS by aircraft
+that are in direct support of the assault.
+10.15.9. Ground Combat Adjudication. Ground
+combat is adjudicated using the Ground
+Combat Adjudication Table (GCAT). First,
+the odds are calculated based on the total
+number of attacking steps (from all
+hexsides) versus the total number of
+defending steps. Round fractions down.
+Then, the attacker and defender declare
+lead units for the basis of quality
+comparison,
+base
+attack
+die
+determination, and defensive shield
+determination. The modifiers on the GCAT
+are consulted to determine the net column
+shift and die promotion/demotion. Then a
+single die is rolled relative to the
+defender’s shield value and the results of
+the chart consulted to determine the
+outcome of ground combat. Then the
+results are applied.
+10.15.9.1. Lead Unit. The lead unit for an attack
+is chosen by the attacking player unless
+one is a Main Effort unit in which case that
+unit is the lead unit. For the defender, the
+strongest defending unit (highest red
+shield) is the lead unit used to determine
+combat results.
+10.15.9.1.1. Odds Calculation. For odds
+calculations, add up the combat arms
+battalion maneuver steps (i.e. mech,
+armor, infantry) involved in the combat on
+
+The 1ABCT is the attacker and the 12th Tank
+Regiment is the defender. Comparing dice
+values across all 3 dice, 1ABCT scores an
+advantage of 3 (1 points for the d12 vs d8,
+41
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+and 1 point each for the d12 vs d10 values).
+Thus, on the GCAT, the 1ABCT gains the
+Attacker Quality Advantage (3+) die
+promotion modifier.
+Example 2:
+
+Version 2.3 – 10 Dec 2024
+
+advantage in combat, whether attacking or
+defending. DESIGN NOTE: This is arguably
+the simplest approach. And, based on
+Russian combat performance in Ukraine
+could be the best way to represent
+Ukrainian or NATO quality by giving them
+the quality bonus in all combat
+engagements versus Russian units.
+10.15.9.1.5. Determining Net Modifiers &
+Combat Results. Once the Supporting
+Arms and Quality advantages are
+identified, then consult the Column Shift
+modifiers on the GCAT to determine the
+net shift left or right from the base Odds
+column. Then consult the die demotion
+and promotion modifiers to determine the
+net impact to the base die roll of the
+attacker’s lead unit. Then roll that die on
+the identified odds column and compare
+the die roll to the defender’s shield to
+determine which row contains the combat
+outcome.
+
+In this example, the 12th Tank Regiment is
+attacking the 1st Battalion of the 36th Naval
+Infantry Brigade. A d10 is compared to the
+Ukrainian d8 scoring the Russians a 1 point
+quality advantage. And, since there are no
+other steps to compare, the Russians score
+2 more points giving them 3 points of
+advantage and the resulting quality
+modifier on the GCAT.
+10.15.9.1.4. The Alternative Quality Advantage
+Rule. Another option is to simplify this
+comparison to a special scenario rule
+whereby one side always gets the quality
+
+42
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+10.15.9.1.6. Applying Results. The following are
+possible combat results on the GCAT:
+A#: The attacker applies the corresponding
+number of step losses.
+D#:
+The
+defender
+applies
+the
+corresponding number of step losses.
+R#: An R# result after a step loss indicates
+a forced retreat that the side losing the
+steps must also apply.
+EXP: An EXP result gives the attacking units
+the opportunity to execute an Exploitation
+Phase movement and combat.
+Cancelling a Retreat. A unit can cancel a
+retreat by losing an additional step.
+Cancelling a Step Loss. The first step loss is
+always applied unless a unit is in a Delay
+mission posture. Additional step losses can
+be applied to a Retreat result instead.
+Fortified Units. A fortified unit can ignore
+an R1 result.
+10.15.10. Rear Area & Partisan Strategies
+(OPTIONAL ADVANCED RULE). For those
+scenarios when rear area operations and
+partisan or resistance activities are played
+to reflect the type of conflict in the
+scenario, players may choose to leverage
+the Security Zone and Partisan or Diversant
+Decision Cards and associated counters.
+10.15.10.1. Security Zones. In
+the Strategic Movement
+Phase, Security Zones are
+established by removing
+from the board 3 steps of
+ground combat units and placing them on
+the Security Zone card (off map). Then
+place a Security Zone marker (visible) in the
+yellow hex “zone” of choice. This marker
+provides security within that zone (100km
+width).
+10.15.10.2. Partisans & Diversant. In the
+Strategic Movement Phase,
+Partisans or “Diversant” (for
+red forces) are activated in
+a similar manner but
+
+Version 2.3 – 10 Dec 2024
+
+secretly placed on board in a zone of
+choice. Table top games note this on paper
+while keeping counters off the map until
+the Security Force Battles step. In games
+using Vassal, the counters are made
+invisible.
+10.15.10.3. Battle for Control. In the Security
+Force Battles step, make all Partisans
+visible on board. For those zones where
+Partisans or Diversant are active without a
+Security Zone, immediately flip the counter
+to the “DISRUPTED” side and apply effects.
+Where both Partisans and a Security Zone
+are active, resolve a battle for control. Each
+side rolls a D10 modified by a +1 for any
+supporting SOF or ATGM units. And, for the
+Security Zone, add another +1 for any
+attack helicopters and light, motorized or
+mech infantry in direct support (must be
+placed on SZ marker). Both sides may
+promote using SIGINT EMSO and if any
+additional Partisan or Security Zone
+markers are present in hex. If the Security
+Forces roll a 14 or higher (after modifiers)
+AND double the Partisans die roll, then the
+Partisan counter is destroyed along with
+the 3 steps placed on the Partisan Strategy
+card and any SOF and ATGMs stacked with
+the Partisans.
+10.15.10.4. Partisan Attacks. If
+the Partisans gain an equal
+or higher roll, then the
+Partisans counter is flipped
+and Disrupted effects are
+applied. This counter remains face up until
+the next turn’s Security Force Battle. All
+threat movement is +2 MP per hex through
+the zone, supply cannot be traced through
+the zone, and the Partisans may conduct
+one attack on a unit of choice. That target
+assumes a defense of 3 even if it has a
+higher or lower organic defense. If target is
+in same hex as another combat unit, then
+defense is raised to a 4. Partisans roll 3D4.
+43
+
+Operational Wargame System
+Series Rules
+
+GROUND MOVEMENT & COMBAT
+
+Version 2.3 – 10 Dec 2024
+
+counter. In the Security Force Battle step,
+this ATGM may be used to attack any
+combat unit in zone in an unmodified D12
+vs the defense of the unit.
+The defending unit returns
+fire with a demoted die roll.
+Effects are adjudicated
+simultaneously.
+
+If 3 hits, then adjudicate a step loss.
+Otherwise, target is Suppressed and
+remains so through the next turn.
+10.15.10.5. Advanced ATGMs & Partisans. For
+any ATGM units contributed to a Partisan
+line of effort, rather than placing it on the
+Partisan decision card, place the ATGM
+unit on the map stacked with a Partisan
+
+44
+
+Operational Wargame System
+Series Rules
+
+REGENERATION
+
+Regeneration Phase
+
+Version 2.3 – 10 Dec 2024
+
+were one time play capabilities are
+discarded from play. For those Cyber
+attacks that require a recovery die roll, roll
+for recovery per the instructions on the
+cyber card.
+11.3. Reset the Space Dashboard. On the Space
+Dashboard
+reset
+the
+satellite
+constellations to their default value unless
+a cyber effect is still in play or permanent
+damage has been adjudicated.
+11.4. Reset Aviation Missions. Each player
+returns aviation missions to their airfields
+and aircraft carriers. Players may opt to
+leave CAP, OCA, DCA, Interdiction, SUCAP
+and CAS missions and supporting tankers in
+place to expedite game play.
+11.5. Advance Timers. For units that are on a
+readiness
+countdown
+or
+RSO&I
+countdown, advance the timer to the next
+lower number. If zero, then remove the
+timer.
+11.6. Remove Status Markers. Each player
+removes their RSO&I, Suppression
+markers, Airborne and Amphibious Assault
+markers as appropriate.
+11.6.1. Repair Infrastructure: Ports, Airfields
+and Rail. Each player rolls to repair ports,
+airfields and rail as needed. A roll of a 1 on
+a six-sided die (D6) repairs a step loss. If an
+Engineer unit is present, a single step
+repair can be gained with a roll of a 1, 2 or
+3 on a D6.
+11.7. Regenerate SOF and Air Missions. Each
+player rolls to regenerate the number of
+missions from the Regeneration Box that
+are available. These die rolls are
+determined by special scenario rule based
+on a probability die roll applied to each
+counter in the Regeneration Box.
+EXAMPLE: A possible scenario rule could be
+that US air missions regenerate on a 50% (6
+or better on a d10) probability while PRC
+air missions regenerate on a 40% (7 or
+better on a d10) probability.
+
+11.1. Check Supply. Supply is
+checked at the beginning of
+the Regeneration Phase and
+effects last through the
+following turn. To be
+considered in normal supply, ground
+combat units must be within 2 zones (the
+large yellow hexes on the tactical map) and
+an uninterrupted line of supply to their
+supply source. In most scenarios, the
+supply source is the CSS unit associated
+with that ground unit. If the 2 zones are
+questionable, then trace supply using 15
+wheeled movement points between the
+combat unit and the supply source.
+11.1.1. Uninterrupted Line of Supply. An
+uninterrupted line of supply is a line of
+hexes between the combat unit and the
+supply source that is free of enemy ZOCs.
+11.1.2. Extended Supply. If a combat
+unit can trace an uninterrupted
+line of supply to its supply
+source but that line extends
+beyond 2 zones, then it is considered in a
+Low Supply status on the GCAT resulting in
+a column shift.
+11.1.3. Out of Supply. If a combat unit
+cannot trace an uninterrupted
+supply line to a supply source
+then it is considered Out of
+Supply. An out of supply unit can only
+move up to half its movement point
+allowance. And in combat, it incurs a 2
+columns shift adjustment on the GCAT.
+11.2. Remove IO/Cyber. Each player removes
+their offensive IO/Cyber effects from the
+map unless the cyber effect is enduring.
+Defensive tokens (i.e. Assured C2 and
+Active/Passive Countermeasures) may
+remain on the map in play as they may
+come into effect during the next turn’s
+movement phase. Any Cyber attacks that
+45
+
+Operational Wargame System
+Series Rules
+
+REGENERATION
+
+11.8. Reset Fires and Air Defense Units. Special
+scenario rules dictate whether or not
+artillery and air defense units are
+resupplied each turn. In the absence of
+special rules, those units with a curved
+arrow on the attack die are reset while
+those without remain expended until
+resupplied with salvos from an ASP marker.
+11.9. Resupply Missiles. Each player may
+resupply critical munitions provided the
+units are co-located with an appropriate
+ASP. A ship can be resupplied when in a
+port using one of that port’s actions
+towards resupply. (Note: Special scenario
+rules may limit or designate which ports
+enable resupply).
+11.10. Advance the Turn Marker. Finally,
+advance the Turn Marker on the Turn
+Track.
+
+Assessment Phase
+12.1. This Phase is optional and provides an
+opportunity for an instructor or game
+facilitator to discuss with players any key
+insights or learning points that emerged
+during the game turn.
+
+46
+
+Version 2.3 – 10 Dec 2024
+
+Operational Wargame System
+Series Rules
+
+GAME DESIGN
+
+Version 2.3 – 10 Dec 2024
+
+Credits & Design Notes
+The Operational Wargame System Game 001: Assassin’s Mace: War in the Pacific, Game 002: Griffin’s
+Mace: War in Europe, and Game 003: Ukraine: War on the Steppes focus on hypothetical Great power
+conflicts in the 2025 to 2035 timeframes and are intended to help professional military students and
+operational staffs understand the relationships between time and distance factors, the rapid tempo of
+decision making, risk calculus decisions, the sequencing of operations, determination of objectives,
+targeting priorities, and the overall complexities of joint warfighting and all domain operations in the future
+operating environment.
+Lead Designers: Tim Barrick, Mark Gelston, Curt Hudson, Paul Vebber
+Series Rules Editor: James Sterrett
+Graphics: Brian Burgess, Greg Mobley, Aaron Martinez, Mark Gelston, Paul Vebber, and Tim Barrick
+Supporting Designers: Nate Barrick, Matt Jones, James Sterrett, Mike Dunn, David Redpath, Tom
+Flounders, Aaron Johnston, Matt Woodhead, Phil Dupree, Howard Kee, Jim Lacey, Fred Turner, James
+Gannon, Mitch Reed, Paul “Kiwi” Jaenichen, Dennis Cremin, Thomas Altman, Ivo de Nooijer, Scott
+Chambers, Chris Brinker, Charlotte Lathrop, Jerry Hall
+Beta Testers: Sebastian Bae, Christian Palmer, Sean Day, Jim Lacey, Mike Dunn, Don Marrin, James Gannon,
+Alfred Turner, Andrew Coutts, Andrew Donohoo, Darren Huxley, John McGarry, Matt Caffrey, Tobin BergenHill, Matt Parks, Thom DeCarlo, James Orr, Matt Bauman, Jake Mender, Jörg Muth, Chris Niedziocha, Nate
+Strickland, Mitch Reed, Ben Herbold, Tom Flounders, Mike Gambone, Jim Chartiers, “Tally”, David Woodley,
+Corbin Williamson, and multiple faculty and students in seminars at Marine Corps War College, Naval War
+College, School of Advanced Warfighting, Marine Corps Command & Staff College, School of Advanced
+Military Studies, Air War College, National Defense University, and the MAGTF Staff Training Program.
+Vassal Module: Tim Barrick and the Mitre Team: Thom DeCarlo, Tobin Bergen-Hill, Jonathon Byington
+
+Wargame Learning Outcomes
+•
+•
+•
+•
+•
+•
+•
+
+Understand the relationship between operational time and distance
+factors and the tempo of decision making in modern combat.
+Command integrated Joint Forces in a dynamic maritime and/or land
+campaign spanning the spectrum of conflict.
+Appreciate threat capabilities and kill chains and the risks associated with
+operating against a highly capable anti-access / area denial (A2AD) threat
+in mutually contested spaces.
+Appreciate resource considerations in a peer fight to ensure resilience is
+built into planning factors.
+Understand risk calculus decisions.
+Understand the nature of 21st century all domain combined arms
+warfare.
+Combine battles into campaigns to achieve strategic ends.
+47
+
+NOTES:
+
+Operational
+Wargame
+System
+
+
