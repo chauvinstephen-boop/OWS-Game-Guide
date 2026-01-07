@@ -23,6 +23,8 @@ body {
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
+  /* Prevent accidental full-page horizontal scroll on mobile. */
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -466,6 +468,7 @@ body {
   background: #f3f4fb;
   cursor: pointer;
   font-size: 0.9rem;
+  min-width: 0;
 }
 
 .nav-buttons button:hover {
@@ -487,6 +490,12 @@ body {
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.5rem;
   margin-top: 1rem;
+}
+
+.scratch-pad-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .scratch-pad-full-width h3 {
@@ -670,6 +679,29 @@ body {
     flex: 1;
     padding: 0.8rem;
     font-size: 1rem;
+  }
+
+  /* Scratch pad: keep content readable without widening the page */
+  .scratch-pad-full-width {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .scratch-pad-table th,
+  .scratch-pad-table td {
+    padding: 0.35rem;
+  }
+
+  .status-checks {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .scratch-pad-table label {
+    white-space: normal;
+  }
+
+  .toggle-switch .label-text {
+    font-size: 0.7rem;
   }
   
   /* Dice buttons on mobile */

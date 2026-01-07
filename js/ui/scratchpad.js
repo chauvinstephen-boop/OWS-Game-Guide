@@ -23,6 +23,9 @@ export function renderScratchPad() {
   const container = document.getElementById("scratch-pad-container");
   if (!container) return;
 
+  // Ensure scratch pad can't force full-page horizontal overflow:
+  // keep the table inside an overflow-x wrapper.
+  let tableWrap = container.querySelector(".scratch-pad-table-wrap");
   let table = container.querySelector(".scratch-pad-table");
   
   // Upgrade check: if table exists but column count mismatches (we added a column), destroy it
@@ -34,6 +37,8 @@ export function renderScratchPad() {
 
   if (!table) {
     container.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
+    tableWrap = document.createElement("div");
+    tableWrap.className = "scratch-pad-table-wrap";
     table = document.createElement("table");
     table.className = "scratch-pad-table";
     table.innerHTML = `
@@ -49,7 +54,8 @@ export function renderScratchPad() {
       </thead>
       <tbody></tbody>
     `;
-    container.appendChild(table);
+    tableWrap.appendChild(table);
+    container.appendChild(tableWrap);
     
     // Event listeners
     container.addEventListener("input", (e) => {
@@ -78,6 +84,12 @@ export function renderScratchPad() {
         }
       }
     });
+  } else if (table && !tableWrap) {
+    // Backward-compat: older sessions may have a table without the wrapper.
+    tableWrap = document.createElement("div");
+    tableWrap.className = "scratch-pad-table-wrap";
+    table.parentNode.insertBefore(tableWrap, table);
+    tableWrap.appendChild(table);
   }
   
   const tbody = table.querySelector("tbody");
