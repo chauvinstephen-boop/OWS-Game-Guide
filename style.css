@@ -23,6 +23,8 @@ body {
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
+  /* Prevent accidental horizontal scroll on small screens */
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -487,6 +489,9 @@ body {
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.5rem;
   margin-top: 1rem;
+  /* Keep wide scratchpad tables from widening the whole page */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .scratch-pad-full-width h3 {
@@ -529,6 +534,7 @@ body {
 .status-checks {
   display: flex;
   gap: 0.8rem;
+  flex-wrap: wrap;
 }
 
 /* Dice roller */
@@ -643,6 +649,10 @@ body {
   .setup-card {
     margin: 0 0.75rem;
   }
+
+  .setup-row.two-col {
+    flex-direction: column;
+  }
   
   /* Mobile Navigation Optimization */
   .navigation-footer {
@@ -670,6 +680,15 @@ body {
     flex: 1;
     padding: 0.8rem;
     font-size: 1rem;
+  }
+
+  /* Scratch pad: allow content to wrap instead of forcing page width */
+  .scratch-pad-table {
+    min-width: 720px;
+  }
+
+  .scratch-pad-table label {
+    white-space: normal;
   }
   
   /* Dice buttons on mobile */

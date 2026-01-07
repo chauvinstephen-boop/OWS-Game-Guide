@@ -450,5 +450,19 @@ function setupEventListeners() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Simple device detection for responsive UI tweaks.
+  // Primary layout is still handled by CSS media queries; this adds a reliable hook.
+  const mq = window.matchMedia("(max-width: 720px), (pointer: coarse)");
+  const applyDeviceFlag = () => {
+    document.documentElement.dataset.device = mq.matches ? "mobile" : "desktop";
+  };
+  applyDeviceFlag();
+  if (typeof mq.addEventListener === "function") {
+    mq.addEventListener("change", applyDeviceFlag);
+  } else if (typeof mq.addListener === "function") {
+    // Safari < 14
+    mq.addListener(applyDeviceFlag);
+  }
+
   setupEventListeners();
 });
