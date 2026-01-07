@@ -1403,7 +1403,12 @@ function renderInventorySelection() {
 // -----------------------------
 
 function setupEventListeners() {
-  renderInventorySelection();
+  try {
+    renderInventorySelection();
+  } catch (e) {
+    console.error("Failed to render inventory:", e);
+    alert("Error loading unit database. Please check console.");
+  }
 
   // Phase nav
   document.getElementById("phase-list").addEventListener("click", (e) => {
