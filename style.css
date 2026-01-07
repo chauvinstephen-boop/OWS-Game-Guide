@@ -472,8 +472,44 @@ body {
   background: #e4e7fb;
 }
 
-/* Dice roller */
+/* Right Sidebar */
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+}
 
+/* Scratch Pad */
+.scratch-pad-section {
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  padding: 0.75rem;
+}
+
+.scratch-pad-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.scratch-pad-table th,
+.scratch-pad-table td {
+  border: 1px solid var(--border);
+  padding: 0.3rem;
+  text-align: left;
+}
+
+.scratch-pad-table input {
+  width: 100%;
+  padding: 0.2rem;
+  font-size: 0.85rem;
+}
+
+/* Dice roller */
 .dice-roller {
   background: var(--bg-alt);
   border-radius: var(--radius);

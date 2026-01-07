@@ -127,28 +127,34 @@
       </footer>
     </main>
 
-    <aside class="dice-roller" aria-label="Dice roller utility">
-      <h2>Dice roller</h2>
-      <div class="dice-buttons">
-        <button data-die="4">d4</button>
-        <button data-die="6">d6</button>
-        <button data-die="8">d8</button>
-        <button data-die="10">d10</button>
-        <button data-die="12">d12</button>
-        <button data-die="16">d16</button>
-        <button data-die="20">d20</button>
+    <aside class="right-sidebar">
+      <div class="dice-roller" aria-label="Dice roller utility">
+        <h2>Dice roller</h2>
+        <div class="dice-buttons">
+          <button data-die="4">d4</button>
+          <button data-die="6">d6</button>
+          <button data-die="8">d8</button>
+          <button data-die="10">d10</button>
+          <button data-die="12">d12</button>
+          <button data-die="16">d16</button>
+          <button data-die="20">d20</button>
+        </div>
+        <div class="dice-result">
+          <strong>Last roll:</strong>
+          <span id="last-roll">—</span>
+        </div>
+        <div class="dice-history">
+          <h3>Last 5 rolls</h3>
+          <ul id="dice-history-list"></ul>
+        </div>
       </div>
-      <div class="dice-result">
-        <strong>Last roll:</strong>
-        <span id="last-roll">—</span>
-      </div>
-      <div class="dice-history">
-        <h3>Last 5 rolls</h3>
-        <ul id="dice-history-list"></ul>
+      
+      <div id="scratch-pad-container" class="scratch-pad-section">
+        <!-- Persistent Scratch Pad -->
       </div>
     </aside>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
