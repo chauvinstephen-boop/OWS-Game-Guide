@@ -163,7 +163,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Players place Amphibious Assault markers in beach landing hexes along with the transporting ships and ground units.",
-            "These units are now committed to landing and fighting in the Ground Combat Phase."
+            "These units are now committed to landing and fighting in the Ground Combat Phase.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -240,7 +241,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Players place Airborne/Air Assault markers on target Landing Zones (LZ) along with transport aircraft and ground units.",
-            "Ensure sufficient lift capacity is assigned (e.g. 1 transport per step, or 2 for mech)."
+            "Ensure sufficient lift capacity is assigned (e.g. 1 transport per step, or 2 for mech).",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -282,7 +284,8 @@ export const BASE_SEQUENCE = [
           full: [
             "Resolve Direct Action attacks (roll for compromise first, then attack).",
             "Mark Strategic Recon success (allows local ISR detection in Phase 5).",
-            "Note Target Acquisition (promotes missile strikes in Phase 6)."
+            "Note Target Acquisition (promotes missile strikes in Phase 6).",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -449,16 +452,19 @@ export const BASE_SEQUENCE = [
           full: [
             "Initiative player chooses the first hex to adjudicate stand-off A2A combat.",
             "In that hex, both players declare long-range A2A shots (range 1 fighters) and roll per matchups.",
-            "Repeat for each hex where stand-off A2A is possible."
+            "Repeat for each hex where stand-off A2A is possible.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           a2a: [
             "Starting with a hex chosen by the initiative player, both players declare long-range A2A engagements.",
             "Roll and remove destroyed missions to the Regeneration Box as appropriate.",
-            "Continue across all hexes with possible stand-off A2A."
+            "Continue across all hexes with possible stand-off A2A.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
             "Adjudicate stand-off A2A first in hexes where fighters are protecting or attacking ground stations.",
-            "Then resolve remaining hexes with stand-off A2A engagements."
+            "Then resolve remaining hexes with stand-off A2A engagements.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -478,7 +484,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Initiative player selects a hex with SEAD vs SAM interactions.",
-            "Resolve SEAD attacks vs emitting SAMs (SEAD attacks usually occur before SAM return fire if stand-off)."
+            "Resolve SEAD attacks vs emitting SAMs (SEAD attacks usually occur before SAM return fire if stand-off).",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -497,7 +504,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Resolve long-range SAM shots vs aircraft within range.",
-            "Update which SAMs are suppressed or out of missiles for the rest of the turn."
+            "Update which SAMs are suppressed or out of missiles for the rest of the turn.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -516,7 +524,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "For each hex, starting with initiative player’s choice, both players pair fighters (CAP/OCA/DCA) and resolve in-hex A2A.",
-            "Remove destroyed air missions to the Regeneration Box."
+            "Remove destroyed air missions to the Regeneration Box.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -552,7 +561,8 @@ export const BASE_SEQUENCE = [
           "Resolve close-in SEAD attacks against air defense units.",
         actions: {
           full: [
-            "Resolve any SEAD strikes from aircraft in the same hex as the target SAM/AAA."
+            "Resolve any SEAD strikes from aircraft in the same hex as the target SAM/AAA.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -571,7 +581,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Resolve short-range and point defense shots against aircraft in the hex.",
-            "Remove destroyed air missions."
+            "Remove destroyed air missions.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -591,12 +602,14 @@ export const BASE_SEQUENCE = [
           full: [
             "Using the strike allocations from the C2 track, initiative player declares a target hex and all long-range strikes into it (Many-to-One).",
             "Defender declares air defense shot allocation (grey shields, CAP vs missiles) before any dice are rolled.",
-            "Resolve missile and bomber strikes, then alternate strike actions per chosen sequence method until all long-range strike chits are used."
+            "Resolve missile and bomber strikes, then alternate strike actions per chosen sequence method until all long-range strike chits are used.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
             "Initiative player uses long-range strikes primarily to attack or defend ground stations (airfields, SAMs, radars).",
             "Defender allocates Patriots and fighter CAP to intercept missile or cruise salvos where permitted.",
-            "Alternate strike actions until both sides have exhausted their long-range strike allocations."
+            "Alternate strike actions until both sides have exhausted their long-range strike allocations.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -617,11 +630,13 @@ export const BASE_SEQUENCE = [
           full: [
             "By initiative, by hex, resolve any residual local strikes that did not consume C2 allocations.",
             "Include artillery fires, short-range air strikes, and naval gunfire within the same hex or local kill chain.",
-            "Apply Fires Effects Table for strikes vs ground units and mark step losses and suppression."
+            "Apply Fires Effects Table for strikes vs ground units and mark step losses and suppression.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
             "Resolve local air strikes vs ground stations that are within the attacker’s hex or local radius.",
-            "Use the Fires Effects Table to determine step losses or suppression on airfields and SAM batteries."
+            "Use the Fires Effects Table to determine step losses or suppression on airfields and SAM batteries.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -662,7 +677,8 @@ export const BASE_SEQUENCE = [
             "Per initiative method, activate one formation: conduct prep fires, then move units and declare combats.",
             "Allocate supporting artillery and CAS, resolve defensive fires, and then resolve ground combat using GCAT.",
             "If results allow exploitation, commit reserves and conduct exploitation movement and combat.",
-            "Repeat for each formation until all ground actions are complete."
+            "Repeat for each formation until all ground actions are complete.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
@@ -682,7 +698,8 @@ export const BASE_SEQUENCE = [
         actions: {
           full: [
             "Resolve attacks by Partisans against supply lines or rear area units.",
-            "Resolve Security Zone defense against Partisans or SOF."
+            "Resolve Security Zone defense against Partisans or SOF.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
