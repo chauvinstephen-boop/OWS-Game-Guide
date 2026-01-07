@@ -2,6 +2,23 @@
 import { UNIT_DATABASE } from "../data/units.js";
 import { state, updateUnitState } from "../state.js";
 
+// Optimization: Pre-compute unit map for faster lookups
+let unitMap = null;
+function getUnitDef(baseId, team) {
+    if (!unitMap) {
+        unitMap = {};
+        for (const t of ['blue', 'red']) {
+            if (!UNIT_DATABASE[t]) continue;
+            for (const cat of Object.keys(UNIT_DATABASE[t])) {
+                UNIT_DATABASE[t][cat].forEach(u => {
+                    unitMap[u.id] = u;
+                });
+            }
+        }
+    }
+    return unitMap[baseId];
+}
+
 export function renderScratchPad() {
   const container = document.getElementById("scratch-pad-container");
   if (!container) return;
@@ -80,17 +97,7 @@ export function renderScratchPad() {
           const baseId = instId.substring(0, instId.lastIndexOf("_"));
           const instanceNum = instId.substring(instId.lastIndexOf("_") + 1);
           
-          let unitDef = null;
-          const teamData = UNIT_DATABASE[team];
-          if (teamData) {
-            for (const cat of Object.keys(teamData)) {
-                const found = teamData[cat].find(x => x.id === baseId);
-                if (found) {
-                unitDef = found;
-                break;
-                }
-            }
-          }
+          let unitDef = getUnitDef(baseId, team);
           if (!unitDef) return;
           
           const unitState = state.unitStates[instId] || { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false };

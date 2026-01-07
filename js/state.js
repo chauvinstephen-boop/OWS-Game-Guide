@@ -31,6 +31,7 @@ export const state = {
 // State mutations
 export function setInventory(newInventory) {
   state.inventory = newInventory;
+  pruneUnitStates();
   rebuildSequence();
 }
 
@@ -58,6 +59,16 @@ export function updateUnitState(id, field, value) {
 export function resetIndices() {
   state.indices.phase = 0;
   state.indices.step = 0;
+}
+
+// Cleanup unit states for keys no longer in inventory to prevent memory leaks
+function pruneUnitStates() {
+  const activeUnits = new Set([...state.inventory.blueUnits, ...state.inventory.redUnits]);
+  Object.keys(state.unitStates).forEach(key => {
+    if (!activeUnits.has(key)) {
+      delete state.unitStates[key];
+    }
+  });
 }
 
 // Logic to build sequence based on inventory
