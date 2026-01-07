@@ -375,7 +375,18 @@ function renderInventorySelection() {
         const controlDiv = document.createElement("div");
         controlDiv.style.display = "flex";
         controlDiv.style.alignItems = "center";
-        controlDiv.style.gap = "0.5rem";
+        controlDiv.style.gap = "0.3rem";
+
+        const btnMinus = document.createElement("button");
+        btnMinus.type = "button";
+        btnMinus.textContent = "-";
+        btnMinus.style.padding = "0 0.4rem";
+        btnMinus.style.cursor = "pointer";
+        btnMinus.onclick = (e) => {
+            e.preventDefault();
+            const val = parseInt(qtyInput.value, 10) || 0;
+            if (val > 0) qtyInput.value = val - 1;
+        };
 
         const qtyInput = document.createElement("input");
         qtyInput.type = "number";
@@ -384,13 +395,24 @@ function renderInventorySelection() {
         qtyInput.name = `${teamKey}_units_qty`;
         qtyInput.dataset.id = unit.id;
         qtyInput.dataset.category = unit.category;
-        qtyInput.style.width = "50px";
+        qtyInput.style.width = "40px";
+        qtyInput.style.textAlign = "center";
         qtyInput.style.padding = "0.2rem";
-
-        // Optional quick-add button? Or just input? Input is fine.
         
+        const btnPlus = document.createElement("button");
+        btnPlus.type = "button";
+        btnPlus.textContent = "+";
+        btnPlus.style.padding = "0 0.4rem";
+        btnPlus.style.cursor = "pointer";
+        btnPlus.onclick = (e) => {
+            e.preventDefault();
+            const val = parseInt(qtyInput.value, 10) || 0;
+            qtyInput.value = val + 1;
+        };
+
+        controlDiv.appendChild(btnMinus);
         controlDiv.appendChild(qtyInput);
-        controlDiv.appendChild(document.createTextNode("Qty"));
+        controlDiv.appendChild(btnPlus);
 
         label.appendChild(textSpan);
         label.appendChild(controlDiv);
