@@ -480,33 +480,55 @@ body {
   overflow-y: auto;
 }
 
-/* Scratch Pad */
-.scratch-pad-section {
+/* Bottom Scratch Pad */
+.scratch-pad-full-width {
   background: var(--bg-alt);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
-  padding: 0.75rem;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  padding: 1rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.scratch-pad-full-width h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
 }
 
 .scratch-pad-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .scratch-pad-table th,
 .scratch-pad-table td {
   border: 1px solid var(--border);
-  padding: 0.3rem;
+  padding: 0.4rem;
   text-align: left;
+  vertical-align: middle;
 }
 
-.scratch-pad-table input {
+.scratch-pad-table input[type="text"] {
   width: 100%;
-  padding: 0.2rem;
-  font-size: 0.85rem;
+  padding: 0.25rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.scratch-pad-table label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.status-checks {
+  display: flex;
+  gap: 0.8rem;
 }
 
 /* Dice roller */

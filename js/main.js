@@ -267,6 +267,9 @@ function showRegenerationModal() {
               state.unitStates[id].hex = state.unitStates[id].dest;
               state.unitStates[id].dest = "";
               state.unitStates[id].role = "";
+              state.unitStates[id].stealth = false;
+              state.unitStates[id].detected = false;
+              state.unitStates[id].isr = false;
           }
       });
       // Re-render scratchpad to show updated hexes
