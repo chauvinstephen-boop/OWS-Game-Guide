@@ -7,6 +7,13 @@ export function renderScratchPad() {
   if (!container) return;
 
   let table = container.querySelector(".scratch-pad-table");
+  
+  // Upgrade check: if table exists but doesn't have the Status column (5 columns), destroy it to rebuild
+  if (table && table.querySelectorAll("th").length < 5) {
+      table.remove();
+      table = null;
+  }
+
   if (!table) {
     container.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
     table = document.createElement("table");
