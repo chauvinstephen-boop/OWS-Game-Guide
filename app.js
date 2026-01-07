@@ -825,6 +825,8 @@ let blueName = "Blue";
 let redName = "Red";
 let initiativeSide = "blue"; // "blue" or "red"
 
+let unitStates = {}; // { unitId: { hex: "", role: "", dest: "" } }
+
 let SEQUENCE = []; // current mode sequence
 let FLAT_STEPS = []; // flattened steps for navigation
 
@@ -906,13 +908,161 @@ function goToPhase(phaseIndex) {
   renderStep();
 }
 
+function showEndTurnModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "setup-overlay";
+  
+  const card = document.createElement("div");
+  card.className = "setup-card";
+  
+  card.innerHTML = `
+    <h2>Turn Complete</h2>
+    <p>Are we still playing?</p>
+    <div class="setup-row" style="flex-direction: row; gap: 1rem; margin-top: 1rem;">
+       <button id="end-game-btn" class="primary-btn" style="background: #b71c1c;">No, End Game</button>
+       <button id="next-turn-btn" class="primary-btn">Yes, Next Turn</button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  document.getElementById("end-game-btn").addEventListener("click", () => {
+      overlay.remove();
+      alert("Game Over. Thanks for playing!");
+      location.reload(); // Reset app
+  });
+
+  document.getElementById("next-turn-btn").addEventListener("click", () => {
+      overlay.remove();
+      showRegenerationModal();
+  });
+}
+
+function showRegenerationModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "setup-overlay";
+  
+  const card = document.createElement("div");
+  card.className = "setup-card";
+  
+  card.innerHTML = `
+    <h2>Regeneration Phase</h2>
+    <p>Confirm assets currently in play or add regenerated assets.</p>
+    <div class="setup-row">
+        <h3>Blue Inventory</h3>
+        <div class="inventory-grid" id="regen-blue-inventory"></div>
+    </div>
+    <div class="setup-row">
+        <h3>Red Inventory</h3>
+        <div class="inventory-grid" id="regen-red-inventory"></div>
+    </div>
+    <div class="setup-row" style="margin-top: 1rem;">
+       <button id="regen-confirm-btn" class="primary-btn">Start Next Turn</button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  const blueDiv = card.querySelector("#regen-blue-inventory");
+  const redDiv = card.querySelector("#regen-red-inventory");
+  
+  // Reuse logic: render ALL units, check the ones currently in inventory
+  const makeCheckbox = (unitId, name, category, teamUnits) => {
+      const l = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = unitId;
+      cb.dataset.category = category;
+      cb.checked = teamUnits.includes(unitId);
+      l.appendChild(cb);
+      l.append(" " + name);
+      return l;
+  };
+
+  const populateList = (teamKey, container, teamUnits) => {
+      const teamData = UNIT_DATABASE[teamKey];
+      if (!teamData) return;
+      
+      Object.keys(teamData).forEach(cat => {
+        // Create category header
+        const catDiv = document.createElement("div");
+        catDiv.className = "inventory-category";
+        const catHeader = document.createElement("h4");
+        catHeader.textContent = cat.toUpperCase();
+        catDiv.appendChild(catHeader);
+        
+        const grid = document.createElement("div");
+        grid.className = "inventory-grid";
+
+        (teamData[cat] || []).forEach(unit => {
+            grid.appendChild(makeCheckbox(unit.id, unit.name, unit.category, teamUnits));
+        });
+        
+        catDiv.appendChild(grid);
+        container.appendChild(catDiv);
+      });
+  };
+
+  populateList("blue", blueDiv, inventory.blueUnits);
+  populateList("red", redDiv, inventory.redUnits);
+
+  document.getElementById("regen-confirm-btn").addEventListener("click", () => {
+      // Process updates
+      const processUpdates = (container) => {
+          const ids = [];
+          const cats = new Set();
+          container.querySelectorAll("input:checked").forEach(cb => {
+              ids.push(cb.value);
+              cats.add(cb.dataset.category);
+          });
+          return { ids, cats: Array.from(cats) };
+      };
+      
+      const blueUp = processUpdates(blueDiv);
+      const redUp = processUpdates(redDiv);
+      
+      inventory.blue = blueUp.cats;
+      inventory.blueUnits = blueUp.ids;
+      inventory.red = redUp.cats;
+      inventory.redUnits = redUp.ids;
+      
+      // Rebuild sequence for new turn
+      SEQUENCE = buildSequenceForMode(inventory);
+      rebuildFlatSteps();
+      
+      // Reset to start
+      currentPhaseIndex = 0;
+      currentStepIndex = 0;
+      
+      overlay.remove();
+      renderModeHeader();
+      renderStep();
+      
+      // Optionally clear role/dest but keep hex?
+      // "what hex that asset is going to during this turn" -> becomes current hex?
+      // User didn't specify, but logically "Dest Hex" of last turn is "Current Hex" of this turn.
+      Object.keys(unitStates).forEach(id => {
+          if (unitStates[id].dest) {
+              unitStates[id].hex = unitStates[id].dest;
+              unitStates[id].dest = "";
+              unitStates[id].role = "";
+          }
+      });
+  });
+}
+
 function goNext() {
   const idx = currentFlatIndex();
   // Prompt for assessment before moving?
   // User asked: "The app should also ask, after each step, if anything was affected or destroyed"
   // So we intercept the "Next" action.
   showAssessmentModal(() => {
-     if (idx >= FLAT_STEPS.length - 1) return;
+     if (idx >= FLAT_STEPS.length - 1) {
+         showEndTurnModal();
+         return;
+     }
      goToFlatIndex(idx + 1);
   });
 }
@@ -1053,6 +1203,75 @@ function renderReminders() {
   }
 }
 
+function renderScratchPad() {
+  const container = document.getElementById("scratch-pad-container");
+  if (!container) return;
+
+  container.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
+  
+  const table = document.createElement("table");
+  table.className = "scratch-pad-table";
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Unit</th>
+        <th>Current Hex</th>
+        <th>Role / Status</th>
+        <th>Dest. Hex</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+  
+  const tbody = table.querySelector("tbody");
+
+  const addRows = (teamUnits, teamKey) => {
+    teamUnits.forEach(unitId => {
+      // Find unit details
+      let unitDef = null;
+      const teamData = UNIT_DATABASE[teamKey];
+      if (teamData) {
+        for (const cat of Object.keys(teamData)) {
+          const found = teamData[cat].find(u => u.id === unitId);
+          if (found) {
+            unitDef = found;
+            break;
+          }
+        }
+      }
+      if (!unitDef) return;
+
+      const state = unitStates[unitId] || { hex: "", role: "", dest: "" };
+      
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><strong>${unitDef.name}</strong> <span style="font-size:0.8em; color:#666">(${teamKey})</span></td>
+        <td><input type="text" data-id="${unitId}" data-field="hex" value="${state.hex}" placeholder="Hex..."></td>
+        <td><input type="text" data-id="${unitId}" data-field="role" value="${state.role}" placeholder="Role..."></td>
+        <td><input type="text" data-id="${unitId}" data-field="dest" value="${state.dest}" placeholder="Dest..."></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  };
+
+  addRows(inventory.blueUnits, "blue");
+  addRows(inventory.redUnits, "red");
+
+  container.appendChild(table);
+
+  // Event listeners for inputs
+  container.addEventListener("input", (e) => {
+    if (e.target.tagName === "INPUT") {
+      const id = e.target.dataset.id;
+      const field = e.target.dataset.field;
+      if (id && field) {
+        if (!unitStates[id]) unitStates[id] = { hex: "", role: "", dest: "" };
+        unitStates[id][field] = e.target.value;
+      }
+    }
+  });
+}
+
 function renderStep() {
   const phase = SEQUENCE[currentPhaseIndex];
   const step = phase.steps[currentStepIndex];
@@ -1080,6 +1299,22 @@ function renderStep() {
       .replace(/\bNon-initiative player\b/g, initiativeSide === "blue" ? redName : blueName);
     actionList.appendChild(li);
   });
+  
+  // Scratch Pad Injection for Step 3.B.1 (or id "3B-1")
+  let scratchContainer = document.getElementById("scratch-pad-container");
+  if (step.id === "3B-1") {
+    if (!scratchContainer) {
+      scratchContainer = document.createElement("div");
+      scratchContainer.id = "scratch-pad-container";
+      scratchContainer.className = "scratch-pad-section";
+      // Insert after action-instructions
+      const instrSection = document.querySelector(".action-instructions");
+      instrSection.parentNode.insertBefore(scratchContainer, instrSection.nextSibling);
+    }
+    renderScratchPad();
+  } else {
+    if (scratchContainer) scratchContainer.remove();
+  }
 
   // Rules reference
   const rulesList = document.getElementById("rules-ref-list");
