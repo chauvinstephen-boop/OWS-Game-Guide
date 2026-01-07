@@ -23,7 +23,15 @@ export function renderScratchPad() {
   const container = document.getElementById("scratch-pad-container");
   if (!container) return;
 
+  // Ensure the scratch pad table scrolls horizontally within its own area (not the page).
+  let scrollWrap = container.querySelector(".scratch-pad-scroll");
   let table = container.querySelector(".scratch-pad-table");
+  if (table && !scrollWrap) {
+    scrollWrap = document.createElement("div");
+    scrollWrap.className = "scratch-pad-scroll";
+    table.parentNode.insertBefore(scrollWrap, table);
+    scrollWrap.appendChild(table);
+  }
   
   // Upgrade check: if table exists but column count mismatches (we added a column), destroy it
   // New column count: Unit, Ops, Hex, Role, Dest, Status = 6
@@ -34,6 +42,8 @@ export function renderScratchPad() {
 
   if (!table) {
     container.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
+    scrollWrap = document.createElement("div");
+    scrollWrap.className = "scratch-pad-scroll";
     table = document.createElement("table");
     table.className = "scratch-pad-table";
     table.innerHTML = `
@@ -49,7 +59,8 @@ export function renderScratchPad() {
       </thead>
       <tbody></tbody>
     `;
-    container.appendChild(table);
+    scrollWrap.appendChild(table);
+    container.appendChild(scrollWrap);
     
     // Event listeners
     container.addEventListener("input", (e) => {

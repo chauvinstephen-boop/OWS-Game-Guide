@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Prevent accidental horizontal page scroll */
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: var(--font);
@@ -489,9 +494,15 @@ body {
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.5rem;
   margin-top: 1rem;
-  /* Keep wide scratchpad tables from widening the whole page */
+  /* The table itself should scroll, not the page */
+  overflow-x: hidden;
+}
+
+.scratch-pad-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
 }
 
 .scratch-pad-full-width h3 {
@@ -680,11 +691,6 @@ body {
     flex: 1;
     padding: 0.8rem;
     font-size: 1rem;
-  }
-
-  /* Scratch pad: allow content to wrap instead of forcing page width */
-  .scratch-pad-table {
-    min-width: 720px;
   }
 
   .scratch-pad-table label {
