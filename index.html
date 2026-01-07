@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OWS Turn Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Operational Wargame System – Turn Assistant</h1>
+    <p class="subtitle">Interactive turn guide • Series Rules v2.3</p>
+  </header>
+
+  <!-- Setup overlay -->
+  <div class="setup-overlay" id="setup-overlay">
+    <div class="setup-card">
+      <h2>Start a new match</h2>
+      <form id="setup-form" class="setup-form">
+        <div class="setup-row">
+          <label>
+            Mode
+            <select id="mode-select" required>
+              <option value="full">Full Game</option>
+              <option value="a2a">Air-to-Air Only</option>
+              <option value="a2a-ground">Air-to-Air + Ground Stations</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="setup-row two-col">
+          <label>
+            Blue player name
+            <input type="text" id="blue-name-input" value="Blue" maxlength="20" required>
+          </label>
+          <label>
+            Red player name
+            <input type="text" id="red-name-input" value="Red" maxlength="20" required>
+          </label>
+        </div>
+
+        <div class="setup-row">
+          <fieldset class="radio-group">
+            <legend>Who has initiative this turn?</legend>
+            <label>
+              <input type="radio" name="initiative" value="blue" checked>
+              Blue
+            </label>
+            <label>
+              <input type="radio" name="initiative" value="red">
+              Red
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="setup-row">
+          <button type="submit" class="primary-btn">Start turn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="layout" id="app-root" hidden>
+    <nav class="phase-nav" aria-label="Turn phases">
+      <h2 class="nav-title">Phases</h2>
+      <div class="mode-chip" id="mode-chip"></div>
+      <div class="players-summary">
+        <div><strong>Initiative:</strong> <span id="initiative-label"></span></div>
+        <div><strong>Non-initiative:</strong> <span id="non-initiative-label"></span></div>
+      </div>
+      <ul id="phase-list"></ul>
+    </nav>
+
+    <main class="main-content">
+      <section class="step-section" aria-live="polite">
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+
+        <h2 id="step-title"></h2>
+        <p id="step-description" class="step-description"></p>
+
+        <section class="who-acts">
+          <h3>Who acts now</h3>
+          <p id="who-acts-line"></p>
+        </section>
+
+        <section class="action-instructions">
+          <h3>Step-by-step instructions</h3>
+          <ol id="action-list"></ol>
+        </section>
+
+        <section class="rules-ref">
+          <h3>Rules reference</h3>
+          <ul id="rules-ref-list"></ul>
+        </section>
+
+        <section class="reminders">
+          <h3>Step reminders</h3>
+          <p class="reminders-help">
+            Add up to three quick reminders for this step (saved locally on this device).
+          </p>
+          <ul id="reminder-list" class="reminder-list"></ul>
+          <form id="reminder-form" class="reminder-form">
+            <input
+              type="text"
+              id="reminder-input"
+              maxlength="120"
+              placeholder="Add a reminder for this step…"
+              aria-label="Reminder text"
+            />
+            <button type="submit">Add</button>
+          </form>
+        </section>
+      </section>
+
+      <footer class="navigation-footer">
+        <div class="step-jump">
+          <label for="step-jump-select">Jump to step:</label>
+          <select id="step-jump-select"></select>
+        </div>
+        <div class="nav-buttons">
+          <button id="prev-step-btn">Previous step</button>
+          <button id="next-step-btn">Next step</button>
+        </div>
+      </footer>
+    </main>
+
+    <aside class="dice-roller" aria-label="Dice roller utility">
+      <h2>Dice roller</h2>
+      <div class="dice-buttons">
+        <button data-die="4">d4</button>
+        <button data-die="6">d6</button>
+        <button data-die="8">d8</button>
+        <button data-die="10">d10</button>
+        <button data-die="12">d12</button>
+        <button data-die="16">d16</button>
+        <button data-die="20">d20</button>
+      </div>
+      <div class="dice-result">
+        <strong>Last roll:</strong>
+        <span id="last-roll">—</span>
+      </div>
+      <div class="dice-history">
+        <h3>Last 5 rolls</h3>
+        <ul id="dice-history-list"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
