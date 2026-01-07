@@ -248,7 +248,7 @@ function showRegenerationModal() {
       
       // Default to checked if in inventory, BUT uncheck if marked as destroyed
       const isDestroyed = state.unitStates[unitId] && state.unitStates[unitId].destroyed;
-      cb.checked = teamUnits.includes(unitId) && !isDestroyed;
+      cb.checked = !isDestroyed; // If it's in the list passed to us (teamUnits), it exists. Check if not destroyed.
       
       if (isDestroyed) {
           l.style.textDecoration = "line-through";
@@ -260,26 +260,55 @@ function showRegenerationModal() {
       return l;
   };
 
-  const populateList = (teamKey, container, teamUnits) => {
+  const populateList = (teamKey, container, teamInstanceIds) => {
       const teamData = UNIT_DATABASE[teamKey];
       if (!teamData) return;
       
-      Object.keys(teamData).forEach(cat => {
-        const catDiv = document.createElement("div");
-        catDiv.className = "inventory-category";
-        const catHeader = document.createElement("h4");
-        catHeader.textContent = cat.toUpperCase();
-        catDiv.appendChild(catHeader);
-        
-        const grid = document.createElement("div");
-        grid.className = "inventory-grid";
-
-        (teamData[cat] || []).forEach(unit => {
-            grid.appendChild(makeCheckbox(unit.id, unit.name, unit.category, teamUnits));
-        });
-        
-        catDiv.appendChild(grid);
-        container.appendChild(catDiv);
+      // Group instances by category
+      const instancesByCat = {};
+      
+      teamInstanceIds.forEach(instId => {
+          const baseId = instId.substring(0, instId.lastIndexOf("_"));
+          const instanceNum = instId.substring(instId.lastIndexOf("_") + 1);
+          
+          let unitDef = null;
+          let foundCat = null;
+          
+          for (const cat of Object.keys(teamData)) {
+              const found = teamData[cat].find(u => u.id === baseId);
+              if (found) {
+                  unitDef = found;
+                  foundCat = cat;
+                  break;
+              }
+          }
+          
+          if (unitDef && foundCat) {
+              if (!instancesByCat[foundCat]) instancesByCat[foundCat] = [];
+              instancesByCat[foundCat].push({
+                  instanceId: instId,
+                  name: `${unitDef.name} #${instanceNum}`,
+                  category: foundCat
+              });
+          }
+      });
+      
+      Object.keys(instancesByCat).forEach(cat => {
+          const catDiv = document.createElement("div");
+          catDiv.className = "inventory-category";
+          const catHeader = document.createElement("h4");
+          catHeader.textContent = cat.toUpperCase();
+          catDiv.appendChild(catHeader);
+          
+          const grid = document.createElement("div");
+          grid.className = "inventory-grid";
+          
+          instancesByCat[cat].forEach(item => {
+              grid.appendChild(makeCheckbox(item.instanceId, item.name, item.category, teamInstanceIds));
+          });
+          
+          catDiv.appendChild(grid);
+          container.appendChild(catDiv);
       });
   };
 
@@ -314,18 +343,22 @@ function showRegenerationModal() {
       renderModeHeader();
       renderStep();
       
-      // Update persistent scratchpad
-      renderScratchPad();
-      
-      // Logic: Move Dest -> Hex
+      // Logic: Move Dest -> Hex and Reset Status
       Object.keys(state.unitStates).forEach(id => {
-          if (state.unitStates[id].dest) {
-              state.unitStates[id].hex = state.unitStates[id].dest;
+          // If unit is still in inventory (it wasn't removed)
+          const inBlue = state.inventory.blueUnits.includes(id);
+          const inRed = state.inventory.redUnits.includes(id);
+          
+          if (inBlue || inRed) {
+              if (state.unitStates[id].dest) {
+                  state.unitStates[id].hex = state.unitStates[id].dest;
+              }
               state.unitStates[id].dest = "";
               state.unitStates[id].role = "";
               state.unitStates[id].stealth = false;
               state.unitStates[id].detected = false;
               state.unitStates[id].isr = false;
+              state.unitStates[id].destroyed = false; // Reset destroyed flag if they kept it
           }
       });
       // Re-render scratchpad to show updated hexes
