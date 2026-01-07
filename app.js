@@ -782,7 +782,7 @@ function actorLabel(actor) {
   if (actor === "initiative") return initiativeName;
   if (actor === "non-initiative") return nonInitName;
   if (actor === "both") return `${blueName} and ${redName}`;
-  if (actor === "alt") return `${initiativeName first}, then ${nonInitName}`.replace(
+  if (actor === "alt") return `${initiativeName} first, then ${nonInitName}`.replace(
     " first",
     " (first)"
   );
@@ -1011,7 +1011,8 @@ function renderDice() {
 function setupEventListeners() {
   // Phase nav
   document.getElementById("phase-list").addEventListener("click", (e) => {
-    const btn = e.target.closest("button.phase-button");
+    const target = e.target instanceof Element ? e.target : null;
+    const btn = target ? target.closest("button.phase-button") : null;
     if (!btn) return;
     const index = parseInt(btn.dataset.phaseIndex, 10);
     if (!isNaN(index)) goToPhase(index);
