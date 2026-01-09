@@ -326,22 +326,46 @@ export const BASE_SEQUENCE = [
       {
         id: "4-2",
         code: "4.2",
-        title: "Adjudicate cyber & update space dashboard",
+        title: "Adjudicate cyber attacks & IO tokens",
         actor: "both",
         modes: ["full"],
         requires: ["cyber"],
         description:
-          "Resolve cyber outcomes and adjust C2, PNT, and ISR tracks and pawns.",
+          "Resolve cyber outcomes and apply IO token effects.",
         actions: {
           full: [
-            "Resolve each Cyber Card’s effect and note any required recovery rolls in later turns.",
-            "Adjust the C2 track (long-range strike allocations), PNT status, and ISR track and pawn count.",
-            "Ensure both players understand how many long-range strikes they will have in Combat Phase."
+            "Resolve each Cyber Card's effect and note any required recovery rolls in later turns.",
+            "Apply effects from IO tokens (Disrupt C2, Assure C2, SIGINT/EMSO, Active/Passive Countermeasures) per token text.",
+            "Note which units and functions are affected by cyber attacks and IO effects."
+          ]
+        },
+        rulesRef: [
+          "Disrupt C2 can prevent HQs, missiles, or space functions from operating if not blocked.",
+          "Assure C2 and Active/Passive CM provide defensive layers that must be defeated first."
+        ]
+      },
+      {
+        id: "4-3",
+        code: "4.3",
+        title: "Adjudicate the space capability dashboard",
+        actor: "both",
+        modes: ["full"],
+        requires: ["cyber"],
+        description:
+          "After IO and Cyber Cards have been played, adjudicate any impacts on space capabilities.",
+        actions: {
+          full: [
+            "Adjudicate all Disrupt C2 or Cyber Cards that impact space-related capabilities using the Space Capability Dashboard.",
+            "Update C2 Satellite Constellation (determines number of long-range strike actions available in Combat Phase).",
+            "Update PNT (Position, Navigation, Timing) status - disrupted PNT demotes long-range strikes beyond 1 hex.",
+            "Update ISR track and pawn count (controls detection die type and number of ISR pawns available).",
+            "Apply all space capability effects for the remainder of the game turn."
           ]
         },
         rulesRef: [
           "C2 track value equals the number of long-range strike actions available.",
-          "Disrupted PNT demotes long-range strikes beyond 1 hex; ISR track controls detection die and number of ISR pawns."
+          "Disrupted PNT demotes long-range strikes beyond 1 hex; ISR track controls detection die and number of ISR pawns.",
+          "All space capability effects are applied for the remainder of the turn after this adjudication."
         ]
       }
     ]
@@ -689,26 +713,51 @@ export const BASE_SEQUENCE = [
       {
         id: "6C-1",
         code: "6.C.1",
-        title: "Ground – organize & initiative (full game only)",
+        title: "Ground – decision cards & initiative determination (full game only)",
         actor: "both",
         modes: ["full"],
         requires: ["ground"],
         description:
-          "Determine the sequence for ground formation activations.",
+          "Both sides play Decision Cards pertaining to Ground Force initiative, then determine the sequence for ground formation activations.",
         actions: {
           full: [
+            "Both sides play Decision Cards pertaining to Ground Force initiative (e.g., Planned Offensive).",
             "Determine the ground initiative method (by side, by formation I-go-U-go, or random chit draw).",
             "Lay out formation chits or order list so both players can follow activation sequence."
           ]
         },
         rulesRef: [
+          "Decision Cards may enable a side to seize initiative and dictate activation sequence.",
+          "If both sides play the same card, an opposed die roll determines whose card goes first.",
           "Reserve units move at half rate and normally only fight when activated in exploitation or if attacked."
         ]
       },
       {
         id: "6C-2",
         code: "6.C.2",
-        title: "Ground – movement, fires, and combat (full game only)",
+        title: "Ground – organize (full game only)",
+        actor: "both",
+        modes: ["full"],
+        requires: ["ground"],
+        description:
+          "Each side places units in reserve status, confirms task organization, and assigns HQ effects (Main Effort & IO).",
+        actions: {
+          full: [
+            "Reserve Designation & Task Organization: Each side places units in reserve status as desired and confirms task organization.",
+            "HQ Effects: Assign Main Effort designations and apply IO effects within HQ command radius.",
+            "Missions: Assign Air & Ground missions to supporting units (CAS, artillery, etc.)."
+          ]
+        },
+        rulesRef: [
+          "Main Effort provides combat bonuses; Reserve units move slower but can exploit.",
+          "HQ units generate effects within their command radius.",
+          "Supporting fires (artillery, CAS) must be allocated to specific combat actions."
+        ]
+      },
+      {
+        id: "6C-3",
+        code: "6.C.3",
+        title: "Ground – by action unit: movement, fires, and combat (full game only)",
         actor: "alt",
         modes: ["full"],
         requires: ["ground"],
@@ -716,12 +765,15 @@ export const BASE_SEQUENCE = [
           "Activate formations in sequence: Artillery & Air (Prep Fires), Defensive Fires, then Maneuver Units resolve primary battle.",
         actions: {
           full: [
-            "Per initiative method, activate one formation in strict sequence:",
-            "STEP 1 - Artillery & Air (Prep Fires): Attackers fire artillery and conduct CAS/Air Interdiction to shape the battlefield.",
-            "STEP 2 - Defensive Fires: Defenders return fire with artillery.",
-            "STEP 3 - Maneuver Units: Ground forces (Infantry, Armor, Mech) resolve the primary battle on the Combat Table.",
-            "Move units and declare combats as part of maneuver.",
-            "If results allow exploitation, commit reserves and conduct exploitation movement and combat.",
+            "Per initiative method, activate one formation (actioning unit) in strict sequence:",
+            "3.A - Conduct Prep Fires: Attackers fire artillery and conduct CAS/Air Interdiction to shape the battlefield. Mark artillery as expended.",
+            "3.B - Consume Fuel Points (Advanced): Players consume fuel associated with unit moves (if using advanced rules).",
+            "3.C - Move & Declare Combat: Actioning unit's forces can move up to full movement allowance. Units in reserve status may move ½ movement points. Place 'Combat' marker on declared ground combat actions.",
+            "3.D - Allocate Supporting Fires: Artillery units and available Close Air Support are assigned to support declared ground combat. Mark artillery with an IDF Support marker.",
+            "3.E - Conduct Defensive Fires: Defending units in the zone of action may conduct defensive artillery missions against fires or maneuver units. Defender allocates supporting fires to declared ground combat actions.",
+            "3.F - Resolve Ground Combat: Resolve declared combat actions in attacker's choice of sequence using the Ground Combat Adjudication Table (GCAT).",
+            "3.G - Exploitation Move (if applicable): Attacker may commit units marked Reserve as an Exploitation Force and conduct movement up to ½ movement points.",
+            "3.H - Exploitation Combat (if applicable): The Exploitation Force may attack into a hex and may be supported by available unexpended supporting fires. Resolve combat normally.",
             "Repeat for each formation until all ground actions are complete.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
@@ -729,13 +781,14 @@ export const BASE_SEQUENCE = [
         rulesRef: [
           "Hexside limits (steps per hexside) and supporting arms determine odds and modifiers.",
           "Suppression, delay, and fortified status significantly affect GCAT outcomes.",
-          "Each sub-step must be fully resolved before proceeding to the next: Prep Fires → Defensive Fires → Maneuver Units."
+          "Each sub-step must be fully resolved before proceeding to the next: Prep Fires → Defensive Fires → Maneuver Units.",
+          "Artillery units that conduct Prep Fire are marked expended and cannot fire again this turn."
         ]
       },
       {
-        id: "6C-3",
-        code: "6.C.3",
-        title: "Security Force Battles & Partisan Attacks",
+        id: "6C-4",
+        code: "6.C.4",
+        title: "Security Force Battles & Partisan Attacks (Advanced)",
         actor: "both",
         modes: ["full"],
         requires: ["ground", "sof"],
@@ -749,7 +802,8 @@ export const BASE_SEQUENCE = [
           ]
         },
         rulesRef: [
-          "Partisan attacks use specific tables or modifiers."
+          "Partisan attacks use specific tables or modifiers.",
+          "This step is optional and only applies if using advanced rules for Security Zones and Partisans."
         ]
       }
     ]
