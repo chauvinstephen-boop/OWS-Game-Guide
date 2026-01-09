@@ -437,59 +437,68 @@ export const BASE_SEQUENCE = [
     name: "Combat",
     modes: ["full", "a2a", "a2a-ground"],
     description:
-      "Resolve air combat, strike warfare (if used), and ground combat (full mode).",
+      "Resolve air combat, strike warfare (if used), and ground combat (full mode). STRICT ORDER OF PRECEDENCE: Each step must be fully resolved before moving to the next.",
     steps: [
       {
         id: "6A-1",
         code: "6.A.1",
-        title: "Air combat – stand-off A2A",
+        title: "Air combat – long-range interceptors",
         actor: "alt",
         modes: ["full", "a2a", "a2a-ground"],
         requires: ["air"],
         description:
-          "Resolve all long-range (range 1) air-to-air missile engagements by hex.",
+          "Resolve all long-range (range 1+) air-to-air missile engagements by fighters firing from adjacent hexes.",
         actions: {
           full: [
-            "Initiative player chooses the first hex to adjudicate stand-off A2A combat.",
-            "In that hex, both players declare long-range A2A shots (range 1 fighters) and roll per matchups.",
-            "Repeat for each hex where stand-off A2A is possible.",
+            "Initiative player chooses the first hex to adjudicate long-range interceptor combat.",
+            "In that hex, both players declare long-range A2A shots (fighters firing Air-to-Air missiles from adjacent hexes, Range 1+).",
+            "Resolve all long-range interceptor engagements simultaneously within each hex.",
+            "Repeat for each hex where long-range interceptor combat is possible.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           a2a: [
-            "Starting with a hex chosen by the initiative player, both players declare long-range A2A engagements.",
+            "Starting with a hex chosen by the initiative player, both players declare long-range interceptor engagements.",
             "Roll and remove destroyed missions to the Regeneration Box as appropriate.",
-            "Continue across all hexes with possible stand-off A2A.",
+            "Continue across all hexes with possible long-range interceptor combat.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
-            "Adjudicate stand-off A2A first in hexes where fighters are protecting or attacking ground stations.",
-            "Then resolve remaining hexes with stand-off A2A engagements.",
+            "Adjudicate long-range interceptors first in hexes where fighters are protecting or attacking ground stations.",
+            "Then resolve remaining hexes with long-range interceptor engagements.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "Fighters with attack range 1 may engage adjacent hexes if supported by sufficient sensing.",
-          "Stealth fighters may lose EMCON/low observability when firing into adjacent hexes depending on support."
+          "Fighters with attack range 1+ may engage adjacent hexes if supported by sufficient sensing.",
+          "Stealth fighters may lose EMCON/low observability when firing into adjacent hexes depending on support.",
+          "This step resolves simultaneously within each hex before proceeding to the next sub-step."
         ]
       },
       {
         id: "6A-2",
         code: "6.A.2",
-        title: "Air combat – stand-off SEAD strikes",
+        title: "Air combat – long-range SEAD",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["air", "sam"],
         description:
-          "Resolve stand-off SEAD strikes against emitting SAMs.",
+          "Resolve Electronic Warfare aircraft (e.g., Growlers) attacking Air Defense units from standoff range.",
         actions: {
           full: [
-            "Initiative player selects a hex with SEAD vs SAM interactions.",
-            "Resolve SEAD attacks vs emitting SAMs (SEAD attacks usually occur before SAM return fire if stand-off).",
+            "Initiative player selects a hex with long-range SEAD vs Air Defense interactions.",
+            "Resolve long-range SEAD attacks (Electronic Warfare aircraft attacking Air Defense units from standoff range).",
+            "SEAD attacks occur before SAM return fire if at true stand-off range.",
+            "Resolve all long-range SEAD engagements simultaneously within each hex.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
+          ],
+          "a2a-ground": [
+            "Resolve long-range SEAD strikes against ground-based Air Defense units (SAMs, radars) from standoff range.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "SEAD at true stand-off may strike without entering SAM engagement range."
+          "SEAD at true stand-off may strike without entering SAM engagement range.",
+          "This step resolves simultaneously within each hex before proceeding to the next sub-step."
         ]
       },
       {
@@ -500,36 +509,50 @@ export const BASE_SEQUENCE = [
         modes: ["full", "a2a-ground"],
         requires: ["sam", "air"],
         description:
-          "Resolve long-range ship/ground-based air defense vs aircraft.",
+          "Resolve long-range SAMs (e.g., S-400, Patriot) engaging aircraft from range.",
         actions: {
           full: [
-            "Resolve long-range SAM shots vs aircraft within range.",
+            "Resolve long-range SAM shots (e.g., S-400, Patriot) vs aircraft within range.",
+            "Resolve all long-range air defense engagements simultaneously within each hex.",
             "Update which SAMs are suppressed or out of missiles for the rest of the turn.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
+          ],
+          "a2a-ground": [
+            "Resolve long-range SAM engagements against aircraft within range.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "Grey SAM shields must be defeated before enduring red shield defenses."
+          "Grey SAM shields must be defeated before enduring red shield defenses.",
+          "This step resolves simultaneously within each hex before proceeding to the next sub-step."
         ]
       },
       {
         id: "6A-4",
         code: "6.A.4",
-        title: "Air combat – in-hex A2A combat",
+        title: "Air combat – in-hex fighter engagement (dogfight)",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["air"],
         description:
-          "Resolve in-hex fighter vs fighter combat (Dogfight/WVR).",
+          "Resolve in-hex fighter vs fighter combat with strict priority: Escorts first, then High Value/Strike Assets.",
         actions: {
           full: [
-            "For each hex, starting with initiative player’s choice, both players pair fighters (CAP/OCA/DCA) and resolve in-hex A2A.",
+            "For each hex, starting with initiative player's choice, resolve in-hex fighter engagements in strict priority order:",
+            "PRIORITY 1 - Escorts: Defending CAP must engage Escort fighters first on a 1-to-1 basis. Match all escorts before proceeding.",
+            "PRIORITY 2 - High Value/Strike Assets: Only 'excess' defending fighters (those remaining after matching all escorts) may engage Bombers, Strike aircraft, Tankers, or AWACS.",
             "Remove destroyed air missions to the Regeneration Box.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
+          ],
+          "a2a-ground": [
+            "Resolve in-hex fighter engagements with strict priority: Escorts first (1-to-1), then excess fighters may engage High Value/Strike Assets.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "Attack-mission fighters defend with a demoted die and cannot initiate A2A."
+          "Strike/Attack aircraft (CAS, Interdiction) cannot initiate Air-to-Air combat; they only defend if attacked.",
+          "Attack-mission fighters defend with a demoted die and cannot initiate A2A.",
+          "All escort fighters must be matched before any excess fighters can engage strike assets."
         ]
       },
       {
@@ -558,89 +581,108 @@ export const BASE_SEQUENCE = [
         modes: ["full", "a2a-ground"],
         requires: ["air", "sam"],
         description:
-          "Resolve close-in SEAD attacks against air defense units.",
+          "Surviving SEAD aircraft attack remaining Air Defense units in the hex.",
         actions: {
           full: [
-            "Resolve any SEAD strikes from aircraft in the same hex as the target SAM/AAA.",
+            "Resolve any surviving SEAD strikes from aircraft in the same hex as the target Air Defense units (SAM/AAA).",
+            "Only SEAD aircraft that survived the previous Air Combat sub-steps may engage at this point.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
+          ],
+          "a2a-ground": [
+            "Surviving SEAD aircraft attack remaining Air Defense units in the hex.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "Often simultaneous with short-range air defense unless SEAD initiative applies."
+          "Only SEAD aircraft that survived long-range and in-hex fighter engagements may participate.",
+          "This occurs after all fighter engagements are resolved."
         ]
       },
       {
         id: "6A-7",
         code: "6.A.7",
-        title: "Air combat – in-hex air defense engagements",
+        title: "Air combat – point defense",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["sam", "air"],
         description:
-          "Resolve remaining in-hex air defense shots (Patriot, ship SAMs, AAA) vs surviving aircraft.",
+          "Surviving Short-Range Air Defense (SHORAD) engages any remaining aircraft in the hex.",
         actions: {
           full: [
-            "Resolve short-range and point defense shots against aircraft in the hex.",
+            "Resolve point defense shots: Surviving Short-Range Air Defense (SHORAD) engages any remaining aircraft in the hex.",
+            "This includes Patriot, ship SAMs, AAA, and other point defense systems that survived previous steps.",
             "Remove destroyed air missions.",
+            "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
+          ],
+          "a2a-ground": [
+            "Surviving SHORAD engages any remaining aircraft in the hex.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
+          "Only Air Defense units that survived long-range SEAD and in-hex SEAD may participate.",
           "Surviving aircraft can now proceed to Strike Warfare or remain on station."
         ]
       },
       {
         id: "6B-1",
         code: "6.B.1",
-        title: "Strike warfare – long-range strikes",
+        title: "Strike warfare – long-range missiles",
         actor: "alt",
         modes: ["full", "a2a-ground"],
         requires: ["air", "sam", "naval"],
         description:
-          "By initiative and using C2 allocations, conduct long-range missile and air strikes by hex.",
+          "Cruise and Ballistic missiles fired from outside the hex (Naval or Ground launchers). Unengaged Defensive CAP may intercept Cruise Missiles.",
         actions: {
           full: [
-            "Using the strike allocations from the C2 track, initiative player declares a target hex and all long-range strikes into it (Many-to-One).",
-            "Defender declares air defense shot allocation (grey shields, CAP vs missiles) before any dice are rolled.",
-            "Resolve missile and bomber strikes, then alternate strike actions per chosen sequence method until all long-range strike chits are used.",
+            "Using the strike allocations from the C2 track, initiative player declares a target hex and all long-range missile strikes into it (Many-to-One).",
+            "INTERCEPT: Unengaged Defensive CAP may intercept incoming Cruise Missiles (but NOT Ballistic/Hypersonic) at this moment.",
+            "Defender declares air defense shot allocation (grey shields, CAP intercepts vs Cruise Missiles) before any dice are rolled.",
+            "Resolve missile intercepts and strikes, then alternate strike actions per chosen sequence method until all long-range strike chits are used.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
-            "Initiative player uses long-range strikes primarily to attack or defend ground stations (airfields, SAMs, radars).",
-            "Defender allocates Patriots and fighter CAP to intercept missile or cruise salvos where permitted.",
+            "Initiative player uses long-range missiles primarily to attack or defend ground stations (airfields, SAMs, radars).",
+            "Unengaged Defensive CAP may intercept incoming Cruise Missiles (not Ballistic/Hypersonic).",
+            "Defender allocates Patriots and fighter CAP to intercept missile salvos where permitted.",
             "Alternate strike actions until both sides have exhausted their long-range strike allocations.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
           "One long-range strike action covers all long-range salvos into a single target hex.",
-          "Missiles cannot target undetected mobile units; infrastructure and ASPs may be targeted if known."
+          "Missiles cannot target undetected mobile units; infrastructure and ASPs may be targeted if known.",
+          "Only Cruise Missiles can be intercepted by CAP; Ballistic and Hypersonic missiles cannot be intercepted at this step."
         ]
       },
       {
         id: "6B-2",
         code: "6.B.2",
-        title: "Strike warfare – local strikes",
+        title: "Strike warfare – surviving strike aircraft & local strikes",
         actor: "both",
         modes: ["full", "a2a-ground"],
         requires: ["air", "ground", "naval"],
         description:
-          "Adjudicate remaining local strikes (within a hex or local kill chain) after long-range actions.",
+          "Surviving Strike Aircraft release payloads, then resolve local strikes (within a hex or local kill chain).",
         actions: {
           full: [
-            "By initiative, by hex, resolve any residual local strikes that did not consume C2 allocations.",
-            "Include artillery fires, short-range air strikes, and naval gunfire within the same hex or local kill chain.",
+            "SURVIVING STRIKE AIRCRAFT: Bombers and Strike fighters that survived the Air Combat step now release their payloads.",
+            "Resolve strikes from surviving strike aircraft against their designated targets.",
+            "LOCAL STRIKES: By initiative, by hex, resolve any residual local strikes that did not consume C2 allocations.",
+            "Include units firing into their own hex or adjacent naval engagements, artillery fires, short-range air strikes, and naval gunfire within the same hex or local kill chain.",
             "Apply Fires Effects Table for strikes vs ground units and mark step losses and suppression.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ],
           "a2a-ground": [
-            "Resolve local air strikes vs ground stations that are within the attacker’s hex or local radius.",
+            "Surviving Strike Aircraft: Bombers and Strike fighters that survived Air Combat now release payloads against ground stations.",
+            "Local Strikes: Resolve local air strikes vs ground stations that are within the attacker's hex or local radius.",
             "Use the Fires Effects Table to determine step losses or suppression on airfields and SAM batteries.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
           ]
         },
         rulesRef: [
-          "Local strikes are resolved after long-range ones to reflect kill chain timing.",
+          "Only strike aircraft that survived all Air Combat sub-steps may release payloads.",
+          "Local strikes are resolved after long-range missiles and surviving strike aircraft to reflect kill chain timing.",
           "Ground Fires Effects Table determines hits vs suppression by terrain and unit type."
         ]
       },
@@ -671,11 +713,14 @@ export const BASE_SEQUENCE = [
         modes: ["full"],
         requires: ["ground"],
         description:
-          "Activate formations in sequence to conduct prep fires, movement, ground combat, and exploitation.",
+          "Activate formations in sequence: Artillery & Air (Prep Fires), Defensive Fires, then Maneuver Units resolve primary battle.",
         actions: {
           full: [
-            "Per initiative method, activate one formation: conduct prep fires, then move units and declare combats.",
-            "Allocate supporting artillery and CAS, resolve defensive fires, and then resolve ground combat using GCAT.",
+            "Per initiative method, activate one formation in strict sequence:",
+            "STEP 1 - Artillery & Air (Prep Fires): Attackers fire artillery and conduct CAS/Air Interdiction to shape the battlefield.",
+            "STEP 2 - Defensive Fires: Defenders return fire with artillery.",
+            "STEP 3 - Maneuver Units: Ground forces (Infantry, Armor, Mech) resolve the primary battle on the Combat Table.",
+            "Move units and declare combats as part of maneuver.",
             "If results allow exploitation, commit reserves and conduct exploitation movement and combat.",
             "Repeat for each formation until all ground actions are complete.",
             "REMINDER: Update the Unit Scratch Pad for any assets destroyed or removed in this step."
@@ -683,7 +728,8 @@ export const BASE_SEQUENCE = [
         },
         rulesRef: [
           "Hexside limits (steps per hexside) and supporting arms determine odds and modifiers.",
-          "Suppression, delay, and fortified status significantly affect GCAT outcomes."
+          "Suppression, delay, and fortified status significantly affect GCAT outcomes.",
+          "Each sub-step must be fully resolved before proceeding to the next: Prep Fires → Defensive Fires → Maneuver Units."
         ]
       },
       {
