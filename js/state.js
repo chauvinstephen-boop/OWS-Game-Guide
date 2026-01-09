@@ -35,6 +35,42 @@ export function setInventory(newInventory) {
   rebuildSequence();
 }
 
+// Add assets to existing inventory (for mid-game additions)
+export function addAssetsToInventory(newAssets) {
+  // Merge new assets with existing
+  const existingBlueUnits = new Set(state.inventory.blueUnits);
+  const existingRedUnits = new Set(state.inventory.redUnits);
+  
+  // Add blue units (newAssets.blueUnits contains instance IDs like "f35a_1", "f35a_2", etc.)
+  newAssets.blueUnits.forEach(instanceId => {
+    if (!existingBlueUnits.has(instanceId)) {
+      state.inventory.blueUnits.push(instanceId);
+    }
+  });
+  
+  // Add red units
+  newAssets.redUnits.forEach(instanceId => {
+    if (!existingRedUnits.has(instanceId)) {
+      state.inventory.redUnits.push(instanceId);
+    }
+  });
+  
+  // Merge categories
+  newAssets.blue.forEach(cat => {
+    if (!state.inventory.blue.includes(cat)) {
+      state.inventory.blue.push(cat);
+    }
+  });
+  
+  newAssets.red.forEach(cat => {
+    if (!state.inventory.red.includes(cat)) {
+      state.inventory.red.push(cat);
+    }
+  });
+  
+  rebuildSequence();
+}
+
 export function setNames(blue, red) {
   state.names.blue = blue || "Blue";
   state.names.red = red || "Red";

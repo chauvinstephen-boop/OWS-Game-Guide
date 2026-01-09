@@ -1,6 +1,6 @@
 // Scratch Pad UI Logic
 import { UNIT_DATABASE } from "../data/units.js";
-import { state, updateUnitState } from "../state.js";
+import { state, updateUnitState, addAssetsToInventory } from "../state.js";
 
 // Optimization: Pre-compute unit map for faster lookups
 let unitMap = null;
@@ -176,8 +176,55 @@ export function renderScratchPad() {
       table = null;
   }
 
+  // Ensure header with buttons exists (create it first, before table logic)
+  let header = container.querySelector(".scratch-pad-header");
+  if (!header) {
+    header = document.createElement("div");
+    header.className = "scratch-pad-header";
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.marginBottom = "0.5rem";
+    header.style.flexWrap = "wrap";
+    header.style.gap = "0.5rem";
+    
+    const titleDiv = document.createElement("div");
+    titleDiv.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
+    
+    const buttonDiv = document.createElement("div");
+    buttonDiv.style.display = "flex";
+    buttonDiv.style.gap = "0.5rem";
+    buttonDiv.style.flexWrap = "wrap";
+    
+    const addBlueBtn = document.createElement("button");
+    addBlueBtn.textContent = "+ Add Blue Assets";
+    addBlueBtn.className = "primary-btn";
+    addBlueBtn.style.padding = "0.4rem 0.8rem";
+    addBlueBtn.style.fontSize = "0.9rem";
+    addBlueBtn.addEventListener("click", () => showAddAssetsModal("blue"));
+    
+    const addRedBtn = document.createElement("button");
+    addRedBtn.textContent = "+ Add Red Assets";
+    addRedBtn.className = "primary-btn";
+    addRedBtn.style.padding = "0.4rem 0.8rem";
+    addRedBtn.style.fontSize = "0.9rem";
+    addRedBtn.style.background = "#b71c1c";
+    addRedBtn.addEventListener("click", () => showAddAssetsModal("red"));
+    
+    buttonDiv.appendChild(addBlueBtn);
+    buttonDiv.appendChild(addRedBtn);
+    header.appendChild(titleDiv);
+    header.appendChild(buttonDiv);
+    
+    // Insert header at the beginning of container
+    if (container.firstChild) {
+      container.insertBefore(header, container.firstChild);
+    } else {
+      container.appendChild(header);
+    }
+  }
+
   if (!table) {
-    container.innerHTML = "<h3>Unit Scratch Pad</h3><p>Track position and orders for all assets in play.</p>";
     scrollWrap = document.createElement("div");
     scrollWrap.className = "scratch-pad-scroll";
     table = document.createElement("table");
@@ -336,4 +383,203 @@ export function renderScratchPad() {
   
   // Update sort indicators after rendering
   updateSortIndicators();
+}
+
+function showAddAssetsModal(team) {
+  const overlay = document.createElement("div");
+  overlay.className = "setup-overlay";
+  
+  const card = document.createElement("div");
+  card.className = "setup-card";
+  
+  const teamName = team === 'blue' ? state.names.blue : state.names.red;
+  card.innerHTML = `
+    <h2>Add ${teamName} Assets</h2>
+    <p>Select additional assets to add to the scratch pad.</p>
+    <div class="setup-row">
+        <h3>${teamName} Team Assets</h3>
+        <div id="add-assets-inventory-container" class="inventory-container">
+            <!-- Populated by renderInventorySelection -->
+        </div>
+    </div>
+    <div class="setup-row" style="margin-top: 1rem; flex-direction: row; gap: 1rem;">
+       <button id="add-assets-cancel-btn" class="primary-btn" style="background: #666;">Cancel</button>
+       <button id="add-assets-confirm-btn" class="primary-btn">Add Assets</button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+  
+  // Render inventory selection
+  const container = document.getElementById("add-assets-inventory-container");
+  container.innerHTML = "";
+  
+  const teamData = UNIT_DATABASE[team];
+  if (!teamData) {
+    overlay.remove();
+    alert(`No unit data found for ${team} team.`);
+    return;
+  }
+  
+  const categoryLabels = {
+    naval: "Naval Forces",
+    air: "Air Forces",
+    ground: "Ground / Rocket Forces",
+    sam: "Air Defense (SAM)",
+    sof: "Special Forces",
+    cyber: "Cyber / Space"
+  };
+  
+  Object.keys(teamData).forEach((catKey) => {
+    const units = teamData[catKey];
+    if (!units || units.length === 0) return;
+    
+    const catDiv = document.createElement("div");
+    catDiv.className = "inventory-category";
+    
+    const catHeader = document.createElement("h4");
+    catHeader.textContent = categoryLabels[catKey] || catKey.toUpperCase();
+    catDiv.appendChild(catHeader);
+    
+    const grid = document.createElement("div");
+    grid.className = "inventory-grid";
+    
+    units.forEach((unit) => {
+      const label = document.createElement("label");
+      label.style.display = "flex";
+      label.style.flexDirection = "column";
+      label.style.alignItems = "flex-start";
+      label.style.gap = "0.2rem";
+      label.style.padding = "0.2rem";
+      label.style.border = "1px solid #eee";
+      label.style.borderRadius = "4px";
+      
+      const img = document.createElement("img");
+      img.src = `assets/${unit.id}.png`;
+      img.alt = "Unit";
+      img.style.width = "40px";
+      img.style.height = "40px";
+      img.style.objectFit = "contain";
+      img.style.border = "1px solid #ccc";
+      img.style.borderRadius = "4px";
+      img.onerror = () => { img.style.display = 'none'; };
+      
+      const textSpan = document.createElement("span");
+      textSpan.textContent = unit.name;
+      textSpan.style.fontSize = "0.85rem";
+      textSpan.style.fontWeight = "500";
+      
+      const controlDiv = document.createElement("div");
+      controlDiv.style.display = "flex";
+      controlDiv.style.alignItems = "center";
+      controlDiv.style.gap = "0.3rem";
+      
+      const btnMinus = document.createElement("button");
+      btnMinus.type = "button";
+      btnMinus.textContent = "-";
+      btnMinus.style.padding = "0 0.4rem";
+      btnMinus.style.cursor = "pointer";
+      btnMinus.onclick = (e) => {
+        e.preventDefault();
+        const val = parseInt(qtyInput.value, 10) || 0;
+        if (val > 0) qtyInput.value = val - 1;
+      };
+      
+      const qtyInput = document.createElement("input");
+      qtyInput.type = "number";
+      qtyInput.min = "0";
+      qtyInput.value = "0";
+      qtyInput.name = `${team}_add_units_qty`;
+      qtyInput.dataset.id = unit.id;
+      qtyInput.dataset.category = unit.category;
+      qtyInput.style.width = "40px";
+      qtyInput.style.textAlign = "center";
+      qtyInput.style.padding = "0.2rem";
+      
+      const btnPlus = document.createElement("button");
+      btnPlus.type = "button";
+      btnPlus.textContent = "+";
+      btnPlus.style.padding = "0 0.4rem";
+      btnPlus.style.cursor = "pointer";
+      btnPlus.onclick = (e) => {
+        e.preventDefault();
+        const val = parseInt(qtyInput.value, 10) || 0;
+        qtyInput.value = val + 1;
+      };
+      
+      controlDiv.appendChild(btnMinus);
+      controlDiv.appendChild(qtyInput);
+      controlDiv.appendChild(btnPlus);
+      
+      label.appendChild(img);
+      label.appendChild(textSpan);
+      label.appendChild(controlDiv);
+      grid.appendChild(label);
+    });
+    
+    catDiv.appendChild(grid);
+    container.appendChild(catDiv);
+  });
+  
+  // Cancel button
+  document.getElementById("add-assets-cancel-btn").addEventListener("click", () => {
+    overlay.remove();
+  });
+  
+  // Confirm button
+  document.getElementById("add-assets-confirm-btn").addEventListener("click", () => {
+    const getSelectedUnits = () => {
+      const inputs = container.querySelectorAll(`input[name='${team}_add_units_qty']`);
+      const unitInstances = [];
+      const categories = new Set();
+      
+      inputs.forEach(input => {
+        const count = parseInt(input.value, 10);
+        if (count > 0) {
+          const baseId = input.dataset.id;
+          const cat = input.dataset.category;
+          categories.add(cat);
+          
+          // Find max instance number for this base unit
+          const existingUnits = team === 'blue' ? state.inventory.blueUnits : state.inventory.redUnits;
+          let maxInstance = 0;
+          existingUnits.forEach(id => {
+            if (id.startsWith(baseId + '_')) {
+              const num = parseInt(id.split('_').pop(), 10);
+              if (!isNaN(num) && num > maxInstance) maxInstance = num;
+            }
+          });
+          
+          // Generate new instances starting from maxInstance + 1
+          for (let i = 1; i <= count; i++) {
+            unitInstances.push(`${baseId}_${maxInstance + i}`);
+          }
+        }
+      });
+      return { ids: unitInstances, cats: Array.from(categories) };
+    };
+    
+    const selectedData = getSelectedUnits();
+    
+    if (selectedData.ids.length === 0) {
+      alert("Please select at least one asset to add.");
+      return;
+    }
+    
+    // Add assets to inventory
+    const newInventory = {
+      blue: team === 'blue' ? selectedData.cats : [],
+      blueUnits: team === 'blue' ? selectedData.ids : [],
+      red: team === 'red' ? selectedData.cats : [],
+      redUnits: team === 'red' ? selectedData.ids : []
+    };
+    
+    addAssetsToInventory(newInventory);
+    
+    overlay.remove();
+    
+    // Re-render scratch pad to show new assets
+    renderScratchPad();
+  });
 }
