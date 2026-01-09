@@ -548,6 +548,46 @@ body {
   flex-wrap: wrap;
 }
 
+.air-assets-checks {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.air-asset-check {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Sortable table headers */
+.scratch-pad-table th.sortable {
+  position: relative;
+  user-select: none;
+}
+
+.scratch-pad-table th.sortable:hover {
+  background: var(--accent-soft);
+}
+
+.scratch-pad-table th.sortable::after {
+  content: ' ↕';
+  opacity: 0.3;
+  font-size: 0.8em;
+  margin-left: 0.3rem;
+}
+
+.scratch-pad-table th.sortable.sort-asc::after {
+  content: ' ↑';
+  opacity: 1;
+  color: var(--accent);
+}
+
+.scratch-pad-table th.sortable.sort-desc::after {
+  content: ' ↓';
+  opacity: 1;
+  color: var(--accent);
+}
+
 /* Dice roller */
 .dice-roller {
   background: var(--bg-alt);

@@ -19,6 +19,142 @@ function getUnitDef(baseId, team) {
     return unitMap[baseId];
 }
 
+// Sort state for each team (independent sorting)
+const sortState = {
+    blue: { column: null, direction: 'asc' },
+    red: { column: null, direction: 'asc' }
+};
+
+// Air asset types
+const AIR_ASSETS = [
+    { field: 'cas', label: 'CAS' },
+    { field: 'cap', label: 'CAP' },
+    { field: 'strike', label: 'STRIKE' },
+    { field: 'aew', label: 'AEW' },
+    { field: 'airAssault', label: 'AIR ASSAULT' },
+    { field: 'asw', label: 'ASW' },
+    { field: 'transport', label: 'TRANSPORT' },
+    { field: 'tanker', label: 'TANKER' }
+];
+
+function sortTableRows(team, columnIndex, direction) {
+    const table = document.querySelector(".scratch-pad-table");
+    if (!table) return;
+    
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    
+    // Find the separator row for this team
+    let teamStartIndex = -1;
+    let teamEndIndex = rows.length;
+    let foundTargetTeam = false;
+    
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.classList.contains("team-separator")) {
+            const teamName = row.textContent.trim();
+            const isBlueTeam = teamName.includes(state.names.blue);
+            const isRedTeam = teamName.includes(state.names.red);
+            
+            if ((team === 'blue' && isBlueTeam) || (team === 'red' && isRedTeam)) {
+                teamStartIndex = i + 1;
+                foundTargetTeam = true;
+            } else if (foundTargetTeam && (isBlueTeam || isRedTeam)) {
+                // Found the next team's separator, so this is the end
+                teamEndIndex = i;
+                break;
+            }
+        }
+    }
+    
+    if (teamStartIndex === -1) return;
+    
+    // Extract team rows (excluding separator)
+    const separatorRow = rows[teamStartIndex - 1];
+    const teamRows = rows.slice(teamStartIndex, teamEndIndex);
+    const beforeRows = rows.slice(0, teamStartIndex - 1);
+    const afterRows = rows.slice(teamEndIndex);
+    
+    // Sort team rows
+    teamRows.sort((a, b) => {
+        let aVal, bVal;
+        
+        switch(columnIndex) {
+            case 0: // Unit name
+                aVal = a.querySelector('strong')?.textContent || '';
+                bVal = b.querySelector('strong')?.textContent || '';
+                break;
+            case 1: // State (destroyed/active)
+                aVal = a.querySelector('input[data-field="destroyed"]')?.checked ? 1 : 0;
+                bVal = b.querySelector('input[data-field="destroyed"]')?.checked ? 1 : 0;
+                break;
+            case 2: // Current Hex
+                aVal = a.querySelector('input[data-field="hex"]')?.value || '';
+                bVal = b.querySelector('input[data-field="hex"]')?.value || '';
+                break;
+            case 3: // Role
+                aVal = a.querySelector('input[data-field="role"]')?.value || '';
+                bVal = b.querySelector('input[data-field="role"]')?.value || '';
+                break;
+            case 4: // Dest Hex
+                aVal = a.querySelector('input[data-field="dest"]')?.value || '';
+                bVal = b.querySelector('input[data-field="dest"]')?.value || '';
+                break;
+            case 5: // Attributes (checkboxes)
+                // Sort by number of checked attributes
+                aVal = a.querySelectorAll('input[type="checkbox"]:checked').length;
+                bVal = b.querySelectorAll('input[type="checkbox"]:checked').length;
+                break;
+            default:
+                return 0;
+        }
+        
+        // Compare values
+        if (typeof aVal === 'string' && typeof bVal === 'string') {
+            return direction === 'asc' 
+                ? aVal.localeCompare(bVal)
+                : bVal.localeCompare(aVal);
+        } else {
+            return direction === 'asc' ? aVal - bVal : bVal - aVal;
+        }
+    });
+    
+    // Rebuild tbody maintaining order: before rows, separator, sorted team rows, after rows
+    tbody.innerHTML = '';
+    beforeRows.forEach(row => tbody.appendChild(row));
+    tbody.appendChild(separatorRow);
+    teamRows.forEach(row => tbody.appendChild(row));
+    afterRows.forEach(row => tbody.appendChild(row));
+}
+
+function handleHeaderClick(columnIndex, team) {
+    // Update sort state for the team
+    if (sortState[team].column === columnIndex) {
+        // Toggle direction
+        sortState[team].direction = sortState[team].direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState[team].column = columnIndex;
+        sortState[team].direction = 'asc';
+    }
+    
+    sortTableRows(team, columnIndex, sortState[team].direction);
+    updateSortIndicators();
+}
+
+function updateSortIndicators() {
+    const headers = document.querySelectorAll(".scratch-pad-table th.sortable");
+    headers.forEach((header) => {
+        const team = header.dataset.team;
+        const columnIndex = parseInt(header.dataset.column);
+        if (!team) return;
+        
+        header.classList.remove('sort-asc', 'sort-desc');
+        if (sortState[team].column === columnIndex) {
+            header.classList.add(sortState[team].direction === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
+    });
+}
+
 export function renderScratchPad() {
   const container = document.getElementById("scratch-pad-container");
   if (!container) return;
@@ -33,9 +169,9 @@ export function renderScratchPad() {
     scrollWrap.appendChild(table);
   }
   
-  // Upgrade check: if table exists but column count mismatches (we added a column), destroy it
-  // New column count: Unit, Ops, Hex, Role, Dest, Status = 6
-  if (table && table.querySelectorAll("thead th").length !== 6) {
+  // Upgrade check: if table exists but column count mismatches (we added columns), destroy it
+  // New column count: Unit, Ops, Hex, Role, Dest, Attributes, Air Assets = 7
+  if (table && table.querySelectorAll("thead th").length !== 7) {
       table.remove();
       table = null;
   }
@@ -49,18 +185,32 @@ export function renderScratchPad() {
     table.innerHTML = `
       <thead>
         <tr>
-          <th style="width: 20%;">Unit</th>
-          <th style="width: 10%;">State</th>
-          <th style="width: 15%;">Current Hex</th>
-          <th style="width: 20%;">Role / Status</th>
-          <th style="width: 15%;">Dest. Hex</th>
-          <th style="width: 20%;">Attributes</th>
+          <th class="sortable" data-team="blue" data-column="0" style="width: 18%;">Unit</th>
+          <th class="sortable" data-team="blue" data-column="1" style="width: 8%;">State</th>
+          <th class="sortable" data-team="blue" data-column="2" style="width: 12%;">Current Hex</th>
+          <th class="sortable" data-team="blue" data-column="3" style="width: 15%;">Role / Status</th>
+          <th class="sortable" data-team="blue" data-column="4" style="width: 12%;">Dest. Hex</th>
+          <th class="sortable" data-team="blue" data-column="5" style="width: 15%;">Attributes</th>
+          <th style="width: 20%;">Air Assets</th>
         </tr>
       </thead>
       <tbody></tbody>
     `;
     scrollWrap.appendChild(table);
     container.appendChild(scrollWrap);
+    
+    // Add click handlers for sortable headers
+    // Click to sort blue, Shift+Click to sort red
+    const headers = table.querySelectorAll("th.sortable");
+    headers.forEach(header => {
+        header.style.cursor = 'pointer';
+        header.title = 'Click to sort Blue | Shift+Click to sort Red';
+        header.addEventListener('click', (e) => {
+            const columnIndex = parseInt(header.dataset.column);
+            const targetTeam = e.shiftKey ? 'red' : 'blue';
+            handleHeaderClick(columnIndex, targetTeam);
+        });
+    });
     
     // Event listeners
     container.addEventListener("input", (e) => {
@@ -100,8 +250,16 @@ export function renderScratchPad() {
       // Add Separator
       const sepRow = document.createElement("tr");
       sepRow.className = "team-separator";
-      sepRow.innerHTML = `<td colspan="6" style="background: #eef2ff; font-weight: bold; text-align: center; color: var(--accent);">${team === 'blue' ? state.names.blue : state.names.red} Forces</td>`;
+      sepRow.innerHTML = `<td colspan="7" style="background: #eef2ff; font-weight: bold; text-align: center; color: var(--accent);">${team === 'blue' ? state.names.blue : state.names.red} Forces</td>`;
       tbody.appendChild(sepRow);
+      
+      // Update headers for this team's sort state
+      const headers = table.querySelectorAll("th.sortable");
+      headers.forEach(header => {
+          if (header.dataset.team === team) {
+              header.dataset.team = team;
+          }
+      });
       
       unitIds.forEach(instId => {
           // Parse base ID
@@ -111,13 +269,25 @@ export function renderScratchPad() {
           let unitDef = getUnitDef(baseId, team);
           if (!unitDef) return;
           
-          const unitState = state.unitStates[instId] || { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false };
+          const defaultState = { 
+              hex: "", role: "", dest: "", 
+              stealth: false, detected: false, isr: false, destroyed: false,
+              cas: false, cap: false, strike: false, aew: false, 
+              airAssault: false, asw: false, transport: false, tanker: false 
+          };
+          const unitState = state.unitStates[instId] || defaultState;
           
           const row = document.createElement("tr");
           row.dataset.unitId = instId;
+          row.dataset.team = team;
           if (unitState.destroyed) row.className = "unit-destroyed";
           
           const disabledAttr = unitState.destroyed ? "disabled" : "";
+          
+          // Build air assets checkboxes
+          const airAssetsHTML = AIR_ASSETS.map(asset => 
+              `<label class="air-asset-check"><input type="checkbox" data-id="${instId}" data-field="${asset.field}" ${unitState[asset.field] ? 'checked' : ''} ${disabledAttr}> ${asset.label}</label>`
+          ).join('');
           
           row.innerHTML = `
             <td>
@@ -146,11 +316,24 @@ export function renderScratchPad() {
                 <label><input type="checkbox" data-id="${instId}" data-field="isr" ${unitState.isr ? 'checked' : ''} ${disabledAttr}> ISR</label>
             </div>
             </td>
+            <td>
+            <div class="air-assets-checks">
+                ${airAssetsHTML}
+            </div>
+            </td>
           `;
           tbody.appendChild(row);
       });
+      
+      // Apply sorting if active for this team
+      if (sortState[team].column !== null) {
+          sortTableRows(team, sortState[team].column, sortState[team].direction);
+      }
   };
   
   addUnitRows(state.inventory.blueUnits, "blue");
   addUnitRows(state.inventory.redUnits, "red");
+  
+  // Update sort indicators after rendering
+  updateSortIndicators();
 }

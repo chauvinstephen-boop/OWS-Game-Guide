@@ -25,7 +25,7 @@ export const state = {
   
   diceHistory: [],
   
-  unitStates: {} // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false } }
+  unitStates: {} // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false } }
 };
 
 // State mutations
@@ -51,7 +51,7 @@ export function addDiceRoll(sides, value) {
 
 export function updateUnitState(id, field, value) {
   if (!state.unitStates[id]) {
-    state.unitStates[id] = { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false };
+    state.unitStates[id] = { hex: "", role: "", dest: "", stealth: false, detected: false, isr: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
   }
   state.unitStates[id][field] = value;
 }
