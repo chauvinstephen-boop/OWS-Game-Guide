@@ -869,7 +869,9 @@ function showBoardPositionsModal() {
         tooltipTitle.style.marginBottom = "0.25rem";
         tooltipTitle.style.borderBottom = "1px solid rgba(255,255,255,0.3)";
         tooltipTitle.style.paddingBottom = "0.25rem";
-        tooltipTitle.textContent = `Hex ${hexUpper}`;
+        const teamName = state.names[team];
+        const teamColor = team === 'blue' ? '#4a9eff' : '#ff6b6b';
+        tooltipTitle.innerHTML = `Hex ${hexUpper} - <span style="color: ${teamColor}; font-weight: bold;">${escapeHtml(teamName)} Forces</span>`;
         tooltip.appendChild(tooltipTitle);
         
         const assetList = document.createElement("div");
