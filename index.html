@@ -99,7 +99,7 @@
         <section class="reminders">
           <h3>Step reminders</h3>
           <p class="reminders-help">
-            Add up to three quick reminders for this step (saved locally on this device).
+            Add up to five quick reminders for this step (saved locally on this device).
           </p>
           <ul id="reminder-list" class="reminder-list"></ul>
           <form id="reminder-form" class="reminder-form">
@@ -144,9 +144,13 @@
           <span id="last-roll">—</span>
         </div>
         <div class="dice-history">
-          <h3>Last 5 rolls</h3>
+          <h3>Last 10 rolls</h3>
           <ul id="dice-history-list"></ul>
         </div>
+        <div style="margin-top: 1rem;">
+          <button id="chit-draw-btn" class="primary-btn" style="width: 100%;">Chit Draw</button>
+        </div>
+        <div id="chit-draw-result" style="margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-alt); border-radius: var(--radius); text-align: center; font-weight: bold; display: none;"></div>
       </div>
     </aside>
   </div>

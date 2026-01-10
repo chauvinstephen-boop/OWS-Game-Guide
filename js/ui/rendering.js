@@ -150,9 +150,9 @@ export function renderReminders(stepId) {
     reminderList.appendChild(li);
   });
 
-  if (reminders.length >= 3) {
+  if (reminders.length >= 5) {
     input.disabled = true;
-    input.placeholder = "Maximum of 3 reminders reached.";
+    input.placeholder = "Maximum of 5 reminders reached.";
     formButton.disabled = true;
   } else {
     input.disabled = false;
@@ -252,7 +252,9 @@ export function renderDice() {
 
   const list = document.getElementById("dice-history-list");
   list.innerHTML = "";
-  state.diceHistory.forEach((r) => {
+  // Show last 10 rolls
+  const rollsToShow = state.diceHistory.slice(0, 10);
+  rollsToShow.forEach((r) => {
     const li = document.createElement("li");
     li.textContent = `${r.die}: ${r.value}`;
     list.appendChild(li);

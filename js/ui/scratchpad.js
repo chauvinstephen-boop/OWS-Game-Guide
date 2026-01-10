@@ -188,7 +188,7 @@ export function renderScratchPad() {
   }
   
   // Upgrade check: if table exists but column count mismatches (we added columns), destroy it
-  // New column count: Unit, Ops, Hex, Role, Dest, Attributes, Missing Flags = 7
+  // New column count: Unit, Ops, Hex, Role, Dest, Attributes, Mission Flags = 7
   if (table && table.querySelectorAll("thead th").length !== 7) {
       table.remove();
       table = null;
@@ -256,7 +256,7 @@ export function renderScratchPad() {
           <th class="sortable" data-team="blue" data-column="3" style="width: 15%;">Role / Status</th>
           <th class="sortable" data-team="blue" data-column="4" style="width: 12%;">Dest. Hex</th>
           <th class="sortable" data-team="blue" data-column="5" style="width: 15%;">Attributes</th>
-          <th style="width: 20%;">Missing Flags</th>
+          <th style="width: 20%;">Mission Flags</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -344,7 +344,7 @@ export function renderScratchPad() {
           
           const defaultState = { 
               hex: "", role: "", dest: "", 
-              stealth: false, detected: false, isr: false, destroyed: false,
+              stealth: false, detected: false, hasEnhancer: false, destroyed: false,
               cas: false, cap: false, strike: false, aew: false, 
               airAssault: false, asw: false, transport: false, tanker: false 
           };
@@ -389,7 +389,7 @@ export function renderScratchPad() {
             <div class="status-checks">
                 <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="stealth" ${unitState.stealth ? 'checked' : ''} ${disabledAttr}> Stealth</label>
                 <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="detected" ${unitState.detected ? 'checked' : ''} ${disabledAttr}> Detected</label>
-                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="isr" ${unitState.isr ? 'checked' : ''} ${disabledAttr}> ISR</label>
+                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="hasEnhancer" ${unitState.hasEnhancer ? 'checked' : ''} ${disabledAttr}> Has Enhancer</label>
             </div>
             </td>
             <td>

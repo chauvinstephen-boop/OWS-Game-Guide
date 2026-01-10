@@ -19,7 +19,7 @@ export function saveReminders(stepId, reminders) {
   try {
     window.localStorage.setItem(
       storageKeyForStep(stepId),
-      JSON.stringify(reminders.slice(0, 3))
+      JSON.stringify(reminders.slice(0, 5))
     );
   } catch {
     // ignore

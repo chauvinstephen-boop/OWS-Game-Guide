@@ -378,7 +378,7 @@ function setupEventListeners() {
     if (!current) return;
     
     const reminders = loadReminders(current.step.id);
-    if (reminders.length >= 3) return;
+    if (reminders.length >= 5) return;
     reminders.push({ text, completed: false });
     saveReminders(current.step.id, reminders);
     input.value = "";
@@ -395,6 +395,50 @@ function setupEventListeners() {
         renderDice();
       }
     });
+  });
+
+  // Chit Draw
+  document.getElementById("chit-draw-btn").addEventListener("click", () => {
+    const blueC2 = prompt(`Enter ${state.names.blue} Forces C2 Level (number of chits):`);
+    if (blueC2 === null) return; // User cancelled
+    
+    const blueC2Num = parseInt(blueC2, 10);
+    if (isNaN(blueC2Num) || blueC2Num < 0) {
+      alert("Please enter a valid number for Blue C2 Level.");
+      return;
+    }
+
+    const redC2 = prompt(`Enter ${state.names.red} Forces C2 Level (number of chits):`);
+    if (redC2 === null) return; // User cancelled
+    
+    const redC2Num = parseInt(redC2, 10);
+    if (isNaN(redC2Num) || redC2Num < 0) {
+      alert("Please enter a valid number for Red C2 Level.");
+      return;
+    }
+
+    if (blueC2Num === 0 && redC2Num === 0) {
+      alert("Both C2 Levels cannot be zero.");
+      return;
+    }
+
+    // Calculate weighted random selection
+    const totalChits = blueC2Num + redC2Num;
+    const random = Math.random() * totalChits;
+    
+    let winner;
+    if (random < blueC2Num) {
+      winner = state.names.blue;
+    } else {
+      winner = state.names.red;
+    }
+
+    // Display result
+    const resultEl = document.getElementById("chit-draw-result");
+    resultEl.style.display = "block";
+    resultEl.textContent = `Chit Draw Result: ${winner} wins!`;
+    resultEl.style.color = winner === state.names.blue ? "#264b96" : "#b71c1c";
+    resultEl.style.background = winner === state.names.blue ? "#e0e6f7" : "#ffebee";
   });
 
   // Setup Form
