@@ -229,8 +229,17 @@ export function renderScratchPad() {
     addRedBtn.style.background = "#b71c1c";
     addRedBtn.addEventListener("click", () => showAddAssetsModal("red"));
     
+    const viewBoardBtn = document.createElement("button");
+    viewBoardBtn.textContent = "📍 View Board Positions";
+    viewBoardBtn.className = "primary-btn";
+    viewBoardBtn.style.padding = "0.4rem 0.8rem";
+    viewBoardBtn.style.fontSize = "0.9rem";
+    viewBoardBtn.style.background = "#4a5568";
+    viewBoardBtn.addEventListener("click", () => showBoardPositionsModal());
+    
     buttonDiv.appendChild(addBlueBtn);
     buttonDiv.appendChild(addRedBtn);
+    buttonDiv.appendChild(viewBoardBtn);
     header.appendChild(titleDiv);
     header.appendChild(buttonDiv);
     
@@ -611,4 +620,178 @@ function showAddAssetsModal(team) {
     // Re-render scratch pad to show new assets
     renderScratchPad();
   });
+}
+
+function showBoardPositionsModal() {
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+  overlay.style.zIndex = "10000";
+  overlay.style.display = "flex";
+  overlay.style.alignItems = "center";
+  overlay.style.justifyContent = "center";
+  overlay.style.padding = "1rem";
+  
+  const modal = document.createElement("div");
+  modal.style.backgroundColor = "#fff";
+  modal.style.borderRadius = "8px";
+  modal.style.padding = "1.5rem";
+  modal.style.maxWidth = "90vw";
+  modal.style.maxHeight = "90vh";
+  modal.style.overflow = "auto";
+  modal.style.boxShadow = "0 4px 20px rgba(0,0,0,0.3)";
+  
+  const title = document.createElement("h2");
+  title.textContent = "Board Positions by Hex";
+  title.style.marginTop = "0";
+  title.style.marginBottom = "1rem";
+  modal.appendChild(title);
+  
+  // Group assets by hex
+  const hexMap = {
+    blue: {},
+    red: {}
+  };
+  
+  const allUnits = [
+    ...state.inventory.blueUnits.map(id => ({ id, team: 'blue' })),
+    ...state.inventory.redUnits.map(id => ({ id, team: 'red' }))
+  ];
+  
+  allUnits.forEach(({ id, team }) => {
+    const unitState = state.unitStates[id] || {};
+    const hex = (unitState.hex || '').trim().toUpperCase();
+    
+    if (!hex) {
+      // Assets without hex go to "Unassigned"
+      if (!hexMap[team]['UNASSIGNED']) {
+        hexMap[team]['UNASSIGNED'] = [];
+      }
+      hexMap[team]['UNASSIGNED'].push(id);
+      return;
+    }
+    
+    if (!hexMap[team][hex]) {
+      hexMap[team][hex] = [];
+    }
+    hexMap[team][hex].push(id);
+  });
+  
+  // Create display for each team
+  ['blue', 'red'].forEach(team => {
+    const teamDiv = document.createElement("div");
+    teamDiv.style.marginBottom = "2rem";
+    
+    const teamTitle = document.createElement("h3");
+    teamTitle.textContent = `${state.names[team]} Forces`;
+    teamTitle.style.color = team === 'blue' ? '#264b96' : '#b71c1c';
+    teamTitle.style.marginBottom = "0.75rem";
+    teamDiv.appendChild(teamTitle);
+    
+    const hexes = Object.keys(hexMap[team]).sort((a, b) => {
+      // Sort: Unassigned last, then alphanumeric
+      if (a === 'UNASSIGNED') return 1;
+      if (b === 'UNASSIGNED') return -1;
+      return a.localeCompare(b);
+    });
+    
+    if (hexes.length === 0) {
+      const emptyMsg = document.createElement("p");
+      emptyMsg.textContent = "No assets with hex assignments.";
+      emptyMsg.style.color = "#666";
+      emptyMsg.style.fontStyle = "italic";
+      teamDiv.appendChild(emptyMsg);
+    } else {
+      hexes.forEach(hex => {
+        const hexDiv = document.createElement("div");
+        hexDiv.style.marginBottom = "1rem";
+        hexDiv.style.padding = "0.75rem";
+        hexDiv.style.backgroundColor = team === 'blue' ? '#e0e6f7' : '#ffebee';
+        hexDiv.style.borderRadius = "4px";
+        hexDiv.style.borderLeft = `4px solid ${team === 'blue' ? '#264b96' : '#b71c1c'}`;
+        
+        const hexHeader = document.createElement("div");
+        hexHeader.style.fontWeight = "bold";
+        hexHeader.style.marginBottom = "0.5rem";
+        hexHeader.style.fontSize = "1.1rem";
+        hexHeader.textContent = `Hex: ${hex}`;
+        hexDiv.appendChild(hexHeader);
+        
+        const assetsList = document.createElement("div");
+        assetsList.style.display = "flex";
+        assetsList.style.flexWrap = "wrap";
+        assetsList.style.gap = "0.5rem";
+        
+        hexMap[team][hex].forEach(instId => {
+          const lastUnderscore = instId.lastIndexOf("_");
+          const baseId = lastUnderscore >= 0 ? instId.substring(0, lastUnderscore) : instId;
+          const instanceNum = lastUnderscore >= 0 ? instId.substring(lastUnderscore + 1) : "1";
+          
+          const unitDef = getUnitDef(baseId, team);
+          if (!unitDef) return;
+          
+          const assetDiv = document.createElement("div");
+          assetDiv.style.display = "flex";
+          assetDiv.style.alignItems = "center";
+          assetDiv.style.gap = "0.4rem";
+          assetDiv.style.padding = "0.3rem 0.5rem";
+          assetDiv.style.backgroundColor = "#fff";
+          assetDiv.style.borderRadius = "4px";
+          assetDiv.style.border = "1px solid #ddd";
+          assetDiv.style.fontSize = "0.9rem";
+          
+          const img = document.createElement("img");
+          img.src = `assets/${escapeHtml(baseId)}.png`;
+          img.alt = "Unit";
+          img.style.width = "24px";
+          img.style.height = "24px";
+          img.style.objectFit = "contain";
+          img.style.borderRadius = "2px";
+          img.onerror = () => { img.style.display = 'none'; };
+          
+          const nameSpan = document.createElement("span");
+          const unitColor = CATEGORY_COLORS[unitDef.category] || '#333333';
+          nameSpan.innerHTML = `<strong style="color: ${unitColor};">${escapeHtml(unitDef.name)}</strong> <span style="color: #666; font-size: 0.85em;">#${escapeHtml(instanceNum)}</span>`;
+          
+          const unitState = state.unitStates[instId] || {};
+          if (unitState.role) {
+            const roleSpan = document.createElement("span");
+            roleSpan.textContent = `[${escapeHtml(unitState.role)}]`;
+            roleSpan.style.color = "#666";
+            roleSpan.style.fontSize = "0.85em";
+            nameSpan.appendChild(document.createTextNode(" "));
+            nameSpan.appendChild(roleSpan);
+          }
+          
+          assetDiv.appendChild(img);
+          assetDiv.appendChild(nameSpan);
+          assetsList.appendChild(assetDiv);
+        });
+        
+        hexDiv.appendChild(assetsList);
+        teamDiv.appendChild(hexDiv);
+      });
+    }
+    
+    modal.appendChild(teamDiv);
+  });
+  
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.className = "primary-btn";
+  closeBtn.style.marginTop = "1rem";
+  closeBtn.style.width = "100%";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+  
+  overlay.appendChild(modal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+  
+  document.body.appendChild(overlay);
 }
