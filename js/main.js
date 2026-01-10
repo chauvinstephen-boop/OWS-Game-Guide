@@ -280,7 +280,10 @@ function renderInventorySelection() {
         img.style.objectFit = "contain";
         img.style.border = "1px solid #ccc";
         img.style.borderRadius = "4px";
-        img.onerror = () => { img.style.display = 'none'; }; // Hide if missing
+        img.onerror = () => { 
+          img.style.display = 'none'; // Hide if missing
+          // Suppress 404 console errors for missing assets (expected until images are added)
+        };
 
         const textSpan = document.createElement("span");
         textSpan.textContent = unit.name;
