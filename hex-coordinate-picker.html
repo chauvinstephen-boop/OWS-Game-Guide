@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hex Coordinate Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        .gameboard-container {
+            position: relative;
+            display: inline-block;
+            border: 2px solid #333;
+            margin: 20px 0;
+        }
+        #gameboard {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        .marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.7);
+            border: 2px solid #fff;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .marker:hover {
+            background: rgba(255, 0, 0, 0.9);
+            z-index: 10;
+        }
+        .marker-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .controls input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .controls button {
+            padding: 8px 16px;
+            margin: 5px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .controls button:hover {
+            background: #1976D2;
+        }
+        .controls button.danger {
+            background: #f44336;
+        }
+        .controls button.danger:hover {
+            background: #d32f2f;
+        }
+        .coordinates-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .coord-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .coord-item code {
+            font-family: 'Courier New', monospace;
+            background: #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .export-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            border-left: 4px solid #4CAF50;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hex Coordinate Picker</h1>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Enter a hex label (e.g., "A1", "B2") in the input field</li>
+                <li>Click on the gameboard image where that hex label is located</li>
+                <li>The coordinate will be saved and displayed in the list below</li>
+                <li>Repeat for all hex labels</li>
+                <li>Click "Export to JavaScript" to generate the hex-coordinates.js code</li>
+            </ol>
+        </div>
+        
+        <div class="controls">
+            <label>
+                Hex Label: 
+                <input type="text" id="hexLabel" placeholder="e.g., A1, B2" style="width: 100px;">
+            </label>
+            <button onclick="clearLast()">Clear Last</button>
+            <button onclick="clearAll()" class="danger">Clear All</button>
+            <button onclick="exportToJS()">Export to JavaScript</button>
+        </div>
+        
+        <div class="gameboard-container">
+            <img id="gameboard" src="gameboard.png" alt="Gameboard">
+        </div>
+        
+        <div class="coordinates-list" id="coordsList">
+            <p style="color: #666; font-style: italic;">No coordinates added yet. Click on the gameboard to add hex positions.</p>
+        </div>
+        
+        <div class="export-section">
+            <h3>JavaScript Export</h3>
+            <p>Copy this code into <code>js/data/hex-coordinates.js</code>:</p>
+            <textarea id="exportCode" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        const coordinates = [];
+        const gameboard = document.getElementById('gameboard');
+        const container = document.querySelector('.gameboard-container');
+        
+        gameboard.addEventListener('load', function() {
+            const imgWidth = gameboard.offsetWidth;
+            const imgHeight = gameboard.offsetHeight;
+            console.log(`Image loaded: ${imgWidth}x${imgHeight}px`);
+        });
+        
+        container.addEventListener('click', function(e) {
+            const hexLabel = document.getElementById('hexLabel').value.trim().toUpperCase();
+            if (!hexLabel) {
+                alert('Please enter a hex label first!');
+                return;
+            }
+            
+            const rect = gameboard.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const y = e.clientY - containerRect.top;
+            
+            // Get actual image dimensions
+            const imgWidth = gameboard.offsetWidth;
+            const imgHeight = gameboard.offsetHeight;
+            
+            // Calculate percentages
+            const xPercent = (x / imgWidth) * 100;
+            const yPercent = (y / imgHeight) * 100;
+            
+            // Check if hex already exists
+            const existingIndex = coordinates.findIndex(c => c.label === hexLabel);
+            const coord = {
+                label: hexLabel,
+                x: Math.round(xPercent * 100) / 100,
+                y: Math.round(yPercent * 100) / 100
+            };
+            
+            if (existingIndex >= 0) {
+                coordinates[existingIndex] = coord;
+            } else {
+                coordinates.push(coord);
+            }
+            
+            // Sort by label
+            coordinates.sort((a, b) => a.label.localeCompare(b.label));
+            
+            updateDisplay();
+            document.getElementById('hexLabel').value = '';
+            document.getElementById('hexLabel').focus();
+        });
+        
+        function updateDisplay() {
+            const list = document.getElementById('coordsList');
+            if (coordinates.length === 0) {
+                list.innerHTML = '<p style="color: #666; font-style: italic;">No coordinates added yet. Click on the gameboard to add hex positions.</p>';
+                return;
+            }
+            
+            list.innerHTML = coordinates.map((coord, index) => {
+                return `
+                    <div class="coord-item">
+                        <span><strong>${coord.label}</strong>: x=${coord.x.toFixed(2)}%, y=${coord.y.toFixed(2)}%</span>
+                        <code>"${coord.label}": { x: ${coord.x.toFixed(2)}, y: ${coord.y.toFixed(2)} }</code>
+                        <button onclick="removeCoord(${index})" style="padding: 4px 8px; background: #f44336; color: white; border: none; border-radius: 3px; cursor: pointer;">Remove</button>
+                    </div>
+                `;
+            }).join('');
+            
+            updateExport();
+        }
+        
+        function removeCoord(index) {
+            coordinates.splice(index, 1);
+            updateDisplay();
+        }
+        
+        function clearLast() {
+            if (coordinates.length > 0) {
+                coordinates.pop();
+                updateDisplay();
+            }
+        }
+        
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all coordinates?')) {
+                coordinates.length = 0;
+                updateDisplay();
+            }
+        }
+        
+        function updateExport() {
+            const exportCode = document.getElementById('exportCode');
+            const sorted = [...coordinates].sort((a, b) => a.label.localeCompare(b.label));
+            
+            const jsCode = `export const HEX_COORDINATES = {
+${sorted.map(c => `  "${c.label}": { x: ${c.x.toFixed(2)}, y: ${c.y.toFixed(2)} }`).join(',\n')}
+};`;
+            
+            exportCode.value = jsCode;
+        }
+        
+        // Allow Enter key to focus on clicking
+        document.getElementById('hexLabel').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                alert('Now click on the gameboard where this hex label is located.');
+            }
+        });
+    </script>
+</body>
+</html>
