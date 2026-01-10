@@ -372,7 +372,7 @@ export function renderScratchPad() {
           
           // Build air assets checkboxes
           const airAssetsHTML = AIR_ASSETS.map(asset => 
-              `<label class="air-asset-check"><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="${escapeHtml(asset.field)}" ${unitState[asset.field] ? 'checked' : ''} ${disabledAttr}> ${escapeHtml(asset.label)}</label>`
+              `<label class="air-asset-check"><input type="checkbox" id="${escapeHtml(asset.field)}-${escapeHtml(instId)}" name="${escapeHtml(asset.field)}-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="${escapeHtml(asset.field)}" ${unitState[asset.field] ? 'checked' : ''} ${disabledAttr}> ${escapeHtml(asset.label)}</label>`
           ).join('');
           
           row.innerHTML = `
@@ -387,19 +387,19 @@ export function renderScratchPad() {
             </td>
             <td style="text-align: center;">
                <label class="toggle-switch">
-                 <input type="checkbox" data-id="${escapeHtml(instId)}" data-field="destroyed" ${unitState.destroyed ? 'checked' : ''}>
+                 <input type="checkbox" id="destroyed-${escapeHtml(instId)}" name="destroyed-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="destroyed" ${unitState.destroyed ? 'checked' : ''}>
                  <span class="slider"></span>
                  <span class="label-text" style="font-size: 0.75rem;">${unitState.destroyed ? 'Destroyed' : 'Active'}</span>
                </label>
             </td>
-            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="hex" value="${escapeHtml(unitState.hex || '')}" placeholder="Hex..." ${disabledAttr}></td>
-            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="role" value="${escapeHtml(unitState.role || '')}" placeholder="Role..." ${disabledAttr}></td>
-            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="dest" value="${escapeHtml(unitState.dest || '')}" placeholder="Dest..." ${disabledAttr}></td>
+            <td><input type="text" id="hex-${escapeHtml(instId)}" name="hex-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="hex" value="${escapeHtml(unitState.hex || '')}" placeholder="Hex..." ${disabledAttr}></td>
+            <td><input type="text" id="role-${escapeHtml(instId)}" name="role-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="role" value="${escapeHtml(unitState.role || '')}" placeholder="Role..." ${disabledAttr}></td>
+            <td><input type="text" id="dest-${escapeHtml(instId)}" name="dest-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="dest" value="${escapeHtml(unitState.dest || '')}" placeholder="Dest..." ${disabledAttr}></td>
             <td>
             <div class="status-checks">
-                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="stealth" ${unitState.stealth ? 'checked' : ''} ${disabledAttr}> Stealth</label>
-                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="detected" ${unitState.detected ? 'checked' : ''} ${disabledAttr}> Detected</label>
-                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="hasEnhancer" ${unitState.hasEnhancer ? 'checked' : ''} ${disabledAttr}> Has Enhancer</label>
+                <label><input type="checkbox" id="stealth-${escapeHtml(instId)}" name="stealth-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="stealth" ${unitState.stealth ? 'checked' : ''} ${disabledAttr}> Stealth</label>
+                <label><input type="checkbox" id="detected-${escapeHtml(instId)}" name="detected-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="detected" ${unitState.detected ? 'checked' : ''} ${disabledAttr}> Detected</label>
+                <label><input type="checkbox" id="hasEnhancer-${escapeHtml(instId)}" name="hasEnhancer-${escapeHtml(instId)}" data-id="${escapeHtml(instId)}" data-field="hasEnhancer" ${unitState.hasEnhancer ? 'checked' : ''} ${disabledAttr}> Has Enhancer</label>
             </div>
             </td>
             <td>

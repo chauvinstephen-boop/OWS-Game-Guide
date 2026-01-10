@@ -580,6 +580,7 @@ body {
 /* Sortable table headers */
 .scratch-pad-table th.sortable {
   position: relative;
+  -webkit-user-select: none;
   user-select: none;
 }
 
