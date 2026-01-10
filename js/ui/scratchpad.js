@@ -755,40 +755,74 @@ function showBoardPositionsModal() {
   });
   
   // Function to create and position markers
+  // Track currently open tooltip to close it when another is clicked
+  let currentOpenTooltip = null;
+  
   const createMarkers = function() {
     // Clear any existing markers
     overlayContainer.innerHTML = '';
+    currentOpenTooltip = null;
     
-    // Create markers for each hex with assets
+    // First, collect all hexes that have assets (from either team)
+    const allHexes = new Set();
     Object.keys(hexMap).forEach(team => {
       Object.keys(hexMap[team]).forEach(hex => {
-        const assets = hexMap[team][hex];
-        if (assets.length === 0) return;
-        
-        // Ensure hex is uppercase for lookup
-        const hexUpper = hex.toUpperCase();
-        const coords = HEX_COORDINATES[hexUpper];
-        if (!coords) {
-          // If hex not in coordinate map, skip visual marker (will show in list)
-          return;
+        if (hexMap[team][hex].length > 0) {
+          allHexes.add(hex.toUpperCase());
         }
+      });
+    });
+    
+    // Create markers for each hex
+    allHexes.forEach(hexUpper => {
+      const coords = HEX_COORDINATES[hexUpper];
+      if (!coords) {
+        // If hex not in coordinate map, skip visual marker (will show in list)
+        return;
+      }
+      
+      // Validate coordinates
+      if (!coords || typeof coords.x !== 'number' || typeof coords.y !== 'number' ||
+          isNaN(coords.x) || isNaN(coords.y) ||
+          coords.x < 0 || coords.x > 100 || coords.y < 0 || coords.y > 100) {
+        console.warn(`Invalid or missing coordinates for hex ${hexUpper}:`, coords);
+        return;
+      }
+      
+      // Check which teams have assets in this hex
+      const teamsInHex = [];
+      if (hexMap.blue[hexUpper] && hexMap.blue[hexUpper].length > 0) {
+        teamsInHex.push('blue');
+      }
+      if (hexMap.red[hexUpper] && hexMap.red[hexUpper].length > 0) {
+        teamsInHex.push('red');
+      }
+      
+      // Create a marker for each team in this hex
+      teamsInHex.forEach((team, teamIndex) => {
+        const assets = hexMap[team][hexUpper];
         
-        // Validate coordinates
-        if (!coords || typeof coords.x !== 'number' || typeof coords.y !== 'number' ||
-            isNaN(coords.x) || isNaN(coords.y) ||
-            coords.x < 0 || coords.x > 100 || coords.y < 0 || coords.y > 100) {
-          console.warn(`Invalid or missing coordinates for hex ${hexUpper}:`, coords);
-          return;
+        // Calculate offset for multiple teams in same hex
+        // If both teams, offset them slightly so both are visible
+        let offsetX = 0;
+        let offsetY = 0;
+        if (teamsInHex.length > 1) {
+          // Offset blue to the left, red to the right
+          if (team === 'blue') {
+            offsetX = -2; // 2% to the left
+          } else {
+            offsetX = 2; // 2% to the right
+          }
         }
         
         const markerContainer = document.createElement("div");
         markerContainer.style.position = "absolute";
-        markerContainer.style.left = `${coords.x}%`;
-        markerContainer.style.top = `${coords.y}%`;
+        markerContainer.style.left = `${coords.x + offsetX}%`;
+        markerContainer.style.top = `${coords.y + offsetY}%`;
         markerContainer.style.transform = "translate(-50%, -50%)";
         markerContainer.style.pointerEvents = "auto";
         markerContainer.style.cursor = "pointer";
-        markerContainer.style.zIndex = "10";
+        markerContainer.style.zIndex = team === 'red' ? "11" : "10"; // Red slightly higher for visibility
         markerContainer.setAttribute("data-hex", hexUpper);
         markerContainer.setAttribute("data-team", team);
         
@@ -870,20 +904,40 @@ function showBoardPositionsModal() {
         markerContainer.appendChild(marker);
         markerContainer.appendChild(tooltip);
         
-        // Show tooltip on hover with better positioning
-        markerContainer.addEventListener("mouseenter", () => {
+        // Show/hide tooltip on click instead of hover
+        markerContainer.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevent closing when clicking the marker itself
+          
+          // If this tooltip is already open, close it
+          if (currentOpenTooltip === tooltip) {
+            tooltip.style.opacity = "0";
+            tooltip.style.pointerEvents = "none";
+            currentOpenTooltip = null;
+            return;
+          }
+          
+          // Close any previously open tooltip
+          if (currentOpenTooltip) {
+            currentOpenTooltip.style.opacity = "0";
+            currentOpenTooltip.style.pointerEvents = "none";
+          }
+          
           // Reset tooltip position first
           tooltip.style.bottom = "100%";
           tooltip.style.top = "auto";
+          tooltip.style.left = "50%";
+          tooltip.style.right = "auto";
+          tooltip.style.transform = "translateX(-50%)";
           tooltip.style.marginTop = "0";
           tooltip.style.marginBottom = "0.5rem";
           tooltip.style.opacity = "1";
+          tooltip.style.pointerEvents = "auto";
+          currentOpenTooltip = tooltip;
           
           // Adjust tooltip position if it would overflow (check after showing)
           setTimeout(() => {
             const tooltipRect = tooltip.getBoundingClientRect();
             const modalRect = modal.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
             
             // If tooltip would overflow top of modal
             if (tooltipRect.top < modalRect.top + 10) {
@@ -908,13 +962,23 @@ function showBoardPositionsModal() {
             }
           }, 10);
         });
-        markerContainer.addEventListener("mouseleave", () => {
-          tooltip.style.opacity = "0";
-        });
         
         overlayContainer.appendChild(markerContainer);
       });
     });
+    
+    // Close tooltip when clicking outside (on the board or modal)
+    const closeTooltipOnOutsideClick = (e) => {
+      if (currentOpenTooltip && !currentOpenTooltip.contains(e.target) && 
+          !e.target.closest('[data-hex]')) {
+        currentOpenTooltip.style.opacity = "0";
+        currentOpenTooltip.style.pointerEvents = "none";
+        currentOpenTooltip = null;
+      }
+    };
+    
+    // Add click listener to modal to close tooltip when clicking outside
+    modal.addEventListener("click", closeTooltipOnOutsideClick);
   };
   
   // Wait for image to load, then position markers
