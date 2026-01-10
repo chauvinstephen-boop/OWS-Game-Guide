@@ -3,7 +3,7 @@
 import { UNIT_DATABASE } from "./data/units.js";
 import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex } from "./state.js";
 // Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
-import { renderScratchPad } from "./ui/scratchpad.js?v=16";
+import { renderScratchPad } from "./ui/scratchpad.js?v=17";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
 import { loadReminders, saveReminders, rollDie } from "./utils.js";
 

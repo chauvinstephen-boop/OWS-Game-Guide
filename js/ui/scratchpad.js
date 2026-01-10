@@ -1,6 +1,7 @@
 // Scratch Pad UI Logic
 import { UNIT_DATABASE } from "../data/units.js";
 import { state, updateUnitState, addAssetsToInventory } from "../state.js";
+import { HEX_COORDINATES } from "../data/hex-coordinates.js";
 
 // Helper function to escape HTML special characters
 function escapeHtml(text) {
@@ -622,6 +623,9 @@ function showAddAssetsModal(team) {
   });
 }
 
+// Hex coordinates are imported from hex-coordinates.js
+// See that file for instructions on how to populate the coordinate mapping
+
 function showBoardPositionsModal() {
   const overlay = document.createElement("div");
   overlay.style.position = "fixed";
@@ -629,7 +633,7 @@ function showBoardPositionsModal() {
   overlay.style.left = "0";
   overlay.style.width = "100%";
   overlay.style.height = "100%";
-  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.85)";
   overlay.style.zIndex = "10000";
   overlay.style.display = "flex";
   overlay.style.alignItems = "center";
@@ -640,16 +644,89 @@ function showBoardPositionsModal() {
   modal.style.backgroundColor = "#fff";
   modal.style.borderRadius = "8px";
   modal.style.padding = "1.5rem";
-  modal.style.maxWidth = "90vw";
-  modal.style.maxHeight = "90vh";
+  modal.style.maxWidth = "95vw";
+  modal.style.maxHeight = "95vh";
   modal.style.overflow = "auto";
   modal.style.boxShadow = "0 4px 20px rgba(0,0,0,0.3)";
+  modal.style.display = "flex";
+  modal.style.flexDirection = "column";
   
   const title = document.createElement("h2");
-  title.textContent = "Board Positions by Hex";
+  title.textContent = "Board Positions";
   title.style.marginTop = "0";
   title.style.marginBottom = "1rem";
   modal.appendChild(title);
+  
+  // Create tabs for Board View and List View
+  const tabContainer = document.createElement("div");
+  tabContainer.style.display = "flex";
+  tabContainer.style.gap = "0.5rem";
+  tabContainer.style.marginBottom = "1rem";
+  tabContainer.style.borderBottom = "2px solid #ddd";
+  
+  const boardTab = document.createElement("button");
+  boardTab.textContent = "📍 Board View";
+  boardTab.className = "primary-btn";
+  boardTab.style.background = "#4a5568";
+  boardTab.style.border = "none";
+  boardTab.style.borderRadius = "4px 4px 0 0";
+  boardTab.style.padding = "0.5rem 1rem";
+  boardTab.style.cursor = "pointer";
+  
+  const listTab = document.createElement("button");
+  listTab.textContent = "📋 List View";
+  listTab.style.background = "transparent";
+  listTab.style.border = "none";
+  listTab.style.borderRadius = "4px 4px 0 0";
+  listTab.style.padding = "0.5rem 1rem";
+  listTab.style.cursor = "pointer";
+  listTab.style.color = "#666";
+  
+  const contentArea = document.createElement("div");
+  contentArea.style.flex = "1";
+  contentArea.style.overflow = "auto";
+  
+  // Board View
+  const boardView = document.createElement("div");
+  boardView.id = "board-view-container";
+  boardView.style.display = "block";
+  
+  const boardWrapper = document.createElement("div");
+  boardWrapper.style.position = "relative";
+  boardWrapper.style.width = "100%";
+  boardWrapper.style.maxWidth = "1200px";
+  boardWrapper.style.margin = "0 auto";
+  boardWrapper.style.backgroundColor = "#f5f5f5";
+  boardWrapper.style.borderRadius = "4px";
+  boardWrapper.style.padding = "1rem";
+  
+  const gameboardImg = document.createElement("img");
+  gameboardImg.src = "gameboard.png";
+  gameboardImg.alt = "Gameboard";
+  gameboardImg.style.width = "100%";
+  gameboardImg.style.height = "auto";
+  gameboardImg.style.display = "block";
+  gameboardImg.style.borderRadius = "4px";
+  gameboardImg.onerror = function() {
+    const errorMsg = document.createElement("div");
+    errorMsg.style.padding = "2rem";
+    errorMsg.style.textAlign = "center";
+    errorMsg.style.color = "#666";
+    errorMsg.innerHTML = "<p><strong>Gameboard image not found.</strong></p><p>Please extract page 1 from 'Gameboard and Pieces.pdf' and save it as 'gameboard.png' in the root directory.</p><p style='font-size: 0.9em; margin-top: 0.5rem;'>You can use a PDF viewer to export page 1 as PNG, or use an online PDF to image converter.</p>";
+    boardWrapper.innerHTML = "";
+    boardWrapper.appendChild(errorMsg);
+  };
+  
+  boardWrapper.appendChild(gameboardImg);
+  
+  // Create overlay container for asset markers
+  const overlayContainer = document.createElement("div");
+  overlayContainer.style.position = "absolute";
+  overlayContainer.style.top = "0";
+  overlayContainer.style.left = "0";
+  overlayContainer.style.width = "100%";
+  overlayContainer.style.height = "100%";
+  overlayContainer.style.pointerEvents = "none";
   
   // Group assets by hex
   const hexMap = {
@@ -666,14 +743,7 @@ function showBoardPositionsModal() {
     const unitState = state.unitStates[id] || {};
     const hex = (unitState.hex || '').trim().toUpperCase();
     
-    if (!hex) {
-      // Assets without hex go to "Unassigned"
-      if (!hexMap[team]['UNASSIGNED']) {
-        hexMap[team]['UNASSIGNED'] = [];
-      }
-      hexMap[team]['UNASSIGNED'].push(id);
-      return;
-    }
+    if (!hex || hex === 'UNASSIGNED') return;
     
     if (!hexMap[team][hex]) {
       hexMap[team][hex] = [];
@@ -681,7 +751,116 @@ function showBoardPositionsModal() {
     hexMap[team][hex].push(id);
   });
   
-  // Create display for each team
+  // Wait for image to load, then position markers
+  gameboardImg.onload = function() {
+    const imgRect = gameboardImg.getBoundingClientRect();
+    const imgWidth = gameboardImg.offsetWidth;
+    const imgHeight = gameboardImg.offsetHeight;
+    
+    // Create markers for each hex with assets
+    Object.keys(hexMap).forEach(team => {
+      Object.keys(hexMap[team]).forEach(hex => {
+        const assets = hexMap[team][hex];
+        if (assets.length === 0) return;
+        
+        const coords = HEX_COORDINATES[hex];
+        if (!coords) {
+          // If hex not in coordinate map, skip visual marker (will show in list)
+          return;
+        }
+        
+        const markerContainer = document.createElement("div");
+        markerContainer.style.position = "absolute";
+        markerContainer.style.left = `${coords.x}%`;
+        markerContainer.style.top = `${coords.y}%`;
+        markerContainer.style.transform = "translate(-50%, -50%)";
+        markerContainer.style.pointerEvents = "auto";
+        markerContainer.style.cursor = "pointer";
+        markerContainer.style.zIndex = "10";
+        
+        // Create marker dot
+        const marker = document.createElement("div");
+        marker.style.width = "24px";
+        marker.style.height = "24px";
+        marker.style.borderRadius = "50%";
+        marker.style.backgroundColor = team === 'blue' ? '#264b96' : '#b71c1c';
+        marker.style.border = "3px solid #fff";
+        marker.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+        marker.style.display = "flex";
+        marker.style.alignItems = "center";
+        marker.style.justifyContent = "center";
+        marker.style.fontWeight = "bold";
+        marker.style.color = "#fff";
+        marker.style.fontSize = "0.75rem";
+        marker.textContent = assets.length > 9 ? "9+" : assets.length.toString();
+        
+        // Tooltip with asset list
+        const tooltip = document.createElement("div");
+        tooltip.style.position = "absolute";
+        tooltip.style.bottom = "100%";
+        tooltip.style.left = "50%";
+        tooltip.style.transform = "translateX(-50%)";
+        tooltip.style.marginBottom = "0.5rem";
+        tooltip.style.padding = "0.5rem";
+        tooltip.style.backgroundColor = "#333";
+        tooltip.style.color = "#fff";
+        tooltip.style.borderRadius = "4px";
+        tooltip.style.fontSize = "0.8rem";
+        tooltip.style.whiteSpace = "nowrap";
+        tooltip.style.opacity = "0";
+        tooltip.style.pointerEvents = "none";
+        tooltip.style.transition = "opacity 0.2s";
+        tooltip.style.zIndex = "20";
+        
+        const tooltipTitle = document.createElement("div");
+        tooltipTitle.style.fontWeight = "bold";
+        tooltipTitle.style.marginBottom = "0.25rem";
+        tooltipTitle.textContent = `Hex ${hex}`;
+        tooltip.appendChild(tooltipTitle);
+        
+        assets.slice(0, 5).forEach(instId => {
+          const lastUnderscore = instId.lastIndexOf("_");
+          const baseId = lastUnderscore >= 0 ? instId.substring(0, lastUnderscore) : instId;
+          const unitDef = getUnitDef(baseId, team);
+          if (unitDef) {
+            const assetItem = document.createElement("div");
+            assetItem.textContent = `• ${unitDef.name}`;
+            tooltip.appendChild(assetItem);
+          }
+        });
+        
+        if (assets.length > 5) {
+          const moreItem = document.createElement("div");
+          moreItem.textContent = `... and ${assets.length - 5} more`;
+          moreItem.style.fontStyle = "italic";
+          tooltip.appendChild(moreItem);
+        }
+        
+        markerContainer.appendChild(marker);
+        markerContainer.appendChild(tooltip);
+        
+        // Show tooltip on hover
+        markerContainer.addEventListener("mouseenter", () => {
+          tooltip.style.opacity = "1";
+        });
+        markerContainer.addEventListener("mouseleave", () => {
+          tooltip.style.opacity = "0";
+        });
+        
+        overlayContainer.appendChild(markerContainer);
+      });
+    });
+  };
+  
+  boardWrapper.style.position = "relative";
+  boardWrapper.appendChild(overlayContainer);
+  boardView.appendChild(boardWrapper);
+  
+  // List View (original functionality)
+  const listView = document.createElement("div");
+  listView.id = "list-view-container";
+  listView.style.display = "none";
+  
   ['blue', 'red'].forEach(team => {
     const teamDiv = document.createElement("div");
     teamDiv.style.marginBottom = "2rem";
@@ -692,8 +871,13 @@ function showBoardPositionsModal() {
     teamTitle.style.marginBottom = "0.75rem";
     teamDiv.appendChild(teamTitle);
     
-    const hexes = Object.keys(hexMap[team]).sort((a, b) => {
-      // Sort: Unassigned last, then alphanumeric
+    // Include unassigned
+    const allHexes = { ...hexMap[team] };
+    if (allUnits.filter(u => u.team === team && !state.unitStates[u.id]?.hex).length > 0) {
+      allHexes['UNASSIGNED'] = allUnits.filter(u => u.team === team && !state.unitStates[u.id]?.hex).map(u => u.id);
+    }
+    
+    const hexes = Object.keys(allHexes).sort((a, b) => {
       if (a === 'UNASSIGNED') return 1;
       if (b === 'UNASSIGNED') return -1;
       return a.localeCompare(b);
@@ -726,7 +910,7 @@ function showBoardPositionsModal() {
         assetsList.style.flexWrap = "wrap";
         assetsList.style.gap = "0.5rem";
         
-        hexMap[team][hex].forEach(instId => {
+        allHexes[hex].forEach(instId => {
           const lastUnderscore = instId.lastIndexOf("_");
           const baseId = lastUnderscore >= 0 ? instId.substring(0, lastUnderscore) : instId;
           const instanceNum = lastUnderscore >= 0 ? instId.substring(lastUnderscore + 1) : "1";
@@ -777,8 +961,35 @@ function showBoardPositionsModal() {
       });
     }
     
-    modal.appendChild(teamDiv);
+    listView.appendChild(teamDiv);
   });
+  
+  // Tab switching
+  boardTab.addEventListener("click", () => {
+    boardView.style.display = "block";
+    listView.style.display = "none";
+    boardTab.style.background = "#4a5568";
+    boardTab.style.color = "#fff";
+    listTab.style.background = "transparent";
+    listTab.style.color = "#666";
+  });
+  
+  listTab.addEventListener("click", () => {
+    boardView.style.display = "none";
+    listView.style.display = "block";
+    listTab.style.background = "#4a5568";
+    listTab.style.color = "#fff";
+    boardTab.style.background = "transparent";
+    boardTab.style.color = "#666";
+  });
+  
+  tabContainer.appendChild(boardTab);
+  tabContainer.appendChild(listTab);
+  modal.appendChild(tabContainer);
+  
+  contentArea.appendChild(boardView);
+  contentArea.appendChild(listView);
+  modal.appendChild(contentArea);
   
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "Close";
