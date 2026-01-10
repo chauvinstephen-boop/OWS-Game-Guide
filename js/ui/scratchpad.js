@@ -694,7 +694,7 @@ function showBoardPositionsModal() {
   const boardWrapper = document.createElement("div");
   boardWrapper.style.position = "relative";
   boardWrapper.style.width = "100%";
-  boardWrapper.style.maxWidth = "1200px";
+  boardWrapper.style.maxWidth = "2400px";
   boardWrapper.style.margin = "0 auto";
   boardWrapper.style.backgroundColor = "#f5f5f5";
   boardWrapper.style.borderRadius = "4px";
