@@ -856,7 +856,7 @@ function showBoardPositionsModal() {
         tooltip.style.borderRadius = "4px";
         tooltip.style.fontSize = "0.8rem";
         tooltip.style.whiteSpace = "normal";
-        tooltip.style.maxWidth = "200px";
+        tooltip.style.maxWidth = "400px";
         tooltip.style.textAlign = "left";
         tooltip.style.opacity = "0";
         tooltip.style.pointerEvents = "none";
