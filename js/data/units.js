@@ -22,6 +22,7 @@ export const UNIT_DATABASE = {
       { id: "f15ex", name: "F-15EX Eagle II", category: "air" },
       { id: "f16c", name: "F-16C Fighting Falcon", category: "air" },
       { id: "e3", name: "E-3 Sentry (AWACS)", category: "air" },
+      { id: "ec37b", name: "EC-37B Compass Call", category: "air" },
       { id: "c17", name: "C-17 Globemaster III", category: "air" },
       { id: "kc46", name: "KC-46 Pegasus", category: "air" },
       { id: "kc135", name: "KC-135 Stratotanker", category: "air" },
@@ -62,6 +63,7 @@ export const UNIT_DATABASE = {
     ],
     air: [
       { id: "j20", name: "J-20 Mighty Dragon", category: "air" },
+      { id: "su35", name: "Su-35 Flanker-E", category: "air" },
       { id: "j16", name: "J-16", category: "air" },
       { id: "j11", name: "J-11", category: "air" },
       { id: "j10", name: "J-10", category: "air" },
