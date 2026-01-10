@@ -3,7 +3,7 @@
 import { UNIT_DATABASE } from "./data/units.js";
 import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex } from "./state.js";
 // Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
-import { renderScratchPad } from "./ui/scratchpad.js?v=14";
+import { renderScratchPad } from "./ui/scratchpad.js?v=16";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
 import { loadReminders, saveReminders, rollDie } from "./utils.js";
 
@@ -369,11 +369,41 @@ function setupEventListeners() {
   });
 
   // Reminders
-  document.getElementById("reminder-form").addEventListener("submit", (e) => {
+  const reminderForm = document.getElementById("reminder-form");
+  const reminderInput = document.getElementById("reminder-input");
+  const reminderWordCount = document.getElementById("reminder-word-count");
+  
+  // Word count function
+  function countWords(text) {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  }
+  
+  // Update word count display
+  if (reminderInput && reminderWordCount) {
+    reminderInput.addEventListener("input", () => {
+      const text = reminderInput.value || "";
+      const wordCount = countWords(text);
+      reminderWordCount.textContent = `${wordCount} / 250 words`;
+      if (wordCount > 250) {
+        reminderWordCount.style.color = "var(--danger)";
+      } else {
+        reminderWordCount.style.color = "var(--text-muted)";
+      }
+    });
+  }
+  
+  reminderForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const input = document.getElementById("reminder-input");
-    const text = (input.value || "").trim();
+    const text = (reminderInput.value || "").trim();
     if (!text) return;
+    
+    // Validate word count
+    const wordCount = countWords(text);
+    if (wordCount > 250) {
+      alert(`Reminder exceeds 250 words. Current word count: ${wordCount}. Please shorten your reminder.`);
+      return;
+    }
+    
     const current = getCurrentStep();
     if (!current) return;
     
@@ -381,7 +411,11 @@ function setupEventListeners() {
     if (reminders.length >= 5) return;
     reminders.push({ text, completed: false });
     saveReminders(current.step.id, reminders);
-    input.value = "";
+    reminderInput.value = "";
+    if (reminderWordCount) {
+      reminderWordCount.textContent = "0 / 250 words";
+      reminderWordCount.style.color = "var(--text-muted)";
+    }
     renderReminders(current.step.id);
   });
 
@@ -398,7 +432,9 @@ function setupEventListeners() {
   });
 
   // Chit Draw
-  document.getElementById("chit-draw-btn").addEventListener("click", () => {
+  const chitDrawBtn = document.getElementById("chit-draw-btn");
+  if (chitDrawBtn) {
+    chitDrawBtn.addEventListener("click", () => {
     const blueC2 = prompt(`Enter ${state.names.blue} Forces C2 Level (number of chits):`);
     if (blueC2 === null) return; // User cancelled
     
@@ -435,11 +471,16 @@ function setupEventListeners() {
 
     // Display result
     const resultEl = document.getElementById("chit-draw-result");
-    resultEl.style.display = "block";
-    resultEl.textContent = `Chit Draw Result: ${winner} wins!`;
-    resultEl.style.color = winner === state.names.blue ? "#264b96" : "#b71c1c";
-    resultEl.style.background = winner === state.names.blue ? "#e0e6f7" : "#ffebee";
-  });
+    if (resultEl) {
+      resultEl.style.display = "block";
+      resultEl.textContent = `Chit Draw Result: ${winner} wins!`;
+      resultEl.style.color = winner === state.names.blue ? "#264b96" : "#b71c1c";
+      resultEl.style.background = winner === state.names.blue ? "#e0e6f7" : "#ffebee";
+    }
+    });
+  } else {
+    console.warn("Chit Draw button not found in DOM");
+  }
 
   // Setup Form
   document.getElementById("setup-form").addEventListener("submit", (e) => {

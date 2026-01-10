@@ -82,7 +82,7 @@ export function setInitiative(side) {
 
 export function addDiceRoll(sides, value) {
   state.diceHistory.unshift({ die: `d${sides}`, value });
-  state.diceHistory = state.diceHistory.slice(0, 5);
+  state.diceHistory = state.diceHistory.slice(0, 10);
 }
 
 export function updateUnitState(id, field, value) {

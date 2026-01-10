@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>OWS Turn Assistant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <header class="app-header">
@@ -103,14 +103,18 @@
           </p>
           <ul id="reminder-list" class="reminder-list"></ul>
           <form id="reminder-form" class="reminder-form">
-            <input
-              type="text"
-              id="reminder-input"
-              maxlength="120"
-              placeholder="Add a reminder for this step…"
-              aria-label="Reminder text"
-            />
-            <button type="submit">Add</button>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 0.25rem;">
+              <textarea
+                id="reminder-input"
+                rows="3"
+                maxlength="2000"
+                placeholder="Add a reminder for this step (up to 250 words)…"
+                aria-label="Reminder text"
+                style="width: 100%; padding: 0.3rem 0.4rem; border-radius: var(--radius); border: 1px solid var(--border); font-size: 0.9rem; font-family: inherit; resize: vertical;"
+              ></textarea>
+              <div id="reminder-word-count" style="font-size: 0.75rem; color: var(--text-muted); text-align: right;">0 / 250 words</div>
+            </div>
+            <button type="submit" style="align-self: flex-start;">Add</button>
           </form>
         </section>
       </section>
@@ -159,6 +163,6 @@
      <!-- Persistent Scratch Pad at bottom -->
   </div>
 
-  <script type="module" src="js/main.js?v=14"></script>
+  <script type="module" src="js/main.js?v=16"></script>
 </body>
 </html>

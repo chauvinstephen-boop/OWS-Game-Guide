@@ -150,14 +150,18 @@ export function renderReminders(stepId) {
     reminderList.appendChild(li);
   });
 
+  const wordCountEl = document.getElementById("reminder-word-count");
+  
   if (reminders.length >= 5) {
     input.disabled = true;
     input.placeholder = "Maximum of 5 reminders reached.";
     formButton.disabled = true;
+    if (wordCountEl) wordCountEl.textContent = "Maximum reminders reached";
   } else {
     input.disabled = false;
-    input.placeholder = "Add a reminder for this step…";
+    input.placeholder = "Add a reminder for this step (up to 250 words)…";
     formButton.disabled = false;
+    if (wordCountEl) wordCountEl.textContent = "0 / 250 words";
   }
 }
 
