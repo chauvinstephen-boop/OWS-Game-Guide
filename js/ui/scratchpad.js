@@ -743,19 +743,21 @@ function showBoardPositionsModal() {
     const unitState = state.unitStates[id] || {};
     const hex = (unitState.hex || '').trim().toUpperCase();
     
-    if (!hex || hex === 'UNASSIGNED') return;
+    // Skip empty hexes and unassigned (they'll show in list view)
+    if (!hex || hex === '' || hex === 'UNASSIGNED') return;
     
-    if (!hexMap[team][hex]) {
-      hexMap[team][hex] = [];
+    // Normalize hex to uppercase for consistent lookup
+    const hexKey = hex.toUpperCase();
+    if (!hexMap[team][hexKey]) {
+      hexMap[team][hexKey] = [];
     }
-    hexMap[team][hex].push(id);
+    hexMap[team][hexKey].push(id);
   });
   
-  // Wait for image to load, then position markers
-  gameboardImg.onload = function() {
-    const imgRect = gameboardImg.getBoundingClientRect();
-    const imgWidth = gameboardImg.offsetWidth;
-    const imgHeight = gameboardImg.offsetHeight;
+  // Function to create and position markers
+  const createMarkers = function() {
+    // Clear any existing markers
+    overlayContainer.innerHTML = '';
     
     // Create markers for each hex with assets
     Object.keys(hexMap).forEach(team => {
@@ -763,9 +765,19 @@ function showBoardPositionsModal() {
         const assets = hexMap[team][hex];
         if (assets.length === 0) return;
         
-        const coords = HEX_COORDINATES[hex];
+        // Ensure hex is uppercase for lookup
+        const hexUpper = hex.toUpperCase();
+        const coords = HEX_COORDINATES[hexUpper];
         if (!coords) {
           // If hex not in coordinate map, skip visual marker (will show in list)
+          return;
+        }
+        
+        // Validate coordinates
+        if (!coords || typeof coords.x !== 'number' || typeof coords.y !== 'number' ||
+            isNaN(coords.x) || isNaN(coords.y) ||
+            coords.x < 0 || coords.x > 100 || coords.y < 0 || coords.y > 100) {
+          console.warn(`Invalid or missing coordinates for hex ${hexUpper}:`, coords);
           return;
         }
         
@@ -777,11 +789,13 @@ function showBoardPositionsModal() {
         markerContainer.style.pointerEvents = "auto";
         markerContainer.style.cursor = "pointer";
         markerContainer.style.zIndex = "10";
+        markerContainer.setAttribute("data-hex", hexUpper);
+        markerContainer.setAttribute("data-team", team);
         
         // Create marker dot
         const marker = document.createElement("div");
-        marker.style.width = "24px";
-        marker.style.height = "24px";
+        marker.style.width = "28px";
+        marker.style.height = "28px";
         marker.style.borderRadius = "50%";
         marker.style.backgroundColor = team === 'blue' ? '#264b96' : '#b71c1c';
         marker.style.border = "3px solid #fff";
@@ -792,6 +806,7 @@ function showBoardPositionsModal() {
         marker.style.fontWeight = "bold";
         marker.style.color = "#fff";
         marker.style.fontSize = "0.75rem";
+        marker.style.minWidth = "28px";
         marker.textContent = assets.length > 9 ? "9+" : assets.length.toString();
         
         // Tooltip with asset list
@@ -801,47 +816,97 @@ function showBoardPositionsModal() {
         tooltip.style.left = "50%";
         tooltip.style.transform = "translateX(-50%)";
         tooltip.style.marginBottom = "0.5rem";
-        tooltip.style.padding = "0.5rem";
+        tooltip.style.padding = "0.5rem 0.75rem";
         tooltip.style.backgroundColor = "#333";
         tooltip.style.color = "#fff";
         tooltip.style.borderRadius = "4px";
         tooltip.style.fontSize = "0.8rem";
-        tooltip.style.whiteSpace = "nowrap";
+        tooltip.style.whiteSpace = "normal";
+        tooltip.style.maxWidth = "200px";
+        tooltip.style.textAlign = "left";
         tooltip.style.opacity = "0";
         tooltip.style.pointerEvents = "none";
         tooltip.style.transition = "opacity 0.2s";
         tooltip.style.zIndex = "20";
+        tooltip.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
         
         const tooltipTitle = document.createElement("div");
         tooltipTitle.style.fontWeight = "bold";
         tooltipTitle.style.marginBottom = "0.25rem";
-        tooltipTitle.textContent = `Hex ${hex}`;
+        tooltipTitle.style.borderBottom = "1px solid rgba(255,255,255,0.3)";
+        tooltipTitle.style.paddingBottom = "0.25rem";
+        tooltipTitle.textContent = `Hex ${hexUpper}`;
         tooltip.appendChild(tooltipTitle);
         
-        assets.slice(0, 5).forEach(instId => {
+        const assetList = document.createElement("div");
+        assetList.style.maxHeight = "150px";
+        assetList.style.overflowY = "auto";
+        
+        assets.slice(0, 8).forEach(instId => {
           const lastUnderscore = instId.lastIndexOf("_");
           const baseId = lastUnderscore >= 0 ? instId.substring(0, lastUnderscore) : instId;
+          const instanceNum = lastUnderscore >= 0 ? instId.substring(lastUnderscore + 1) : "1";
           const unitDef = getUnitDef(baseId, team);
           if (unitDef) {
             const assetItem = document.createElement("div");
-            assetItem.textContent = `• ${unitDef.name}`;
-            tooltip.appendChild(assetItem);
+            assetItem.style.padding = "0.15rem 0";
+            assetItem.style.fontSize = "0.75rem";
+            assetItem.textContent = `• ${escapeHtml(unitDef.name)} #${escapeHtml(instanceNum)}`;
+            assetList.appendChild(assetItem);
           }
         });
         
-        if (assets.length > 5) {
+        if (assets.length > 8) {
           const moreItem = document.createElement("div");
-          moreItem.textContent = `... and ${assets.length - 5} more`;
+          moreItem.textContent = `... and ${assets.length - 8} more`;
           moreItem.style.fontStyle = "italic";
-          tooltip.appendChild(moreItem);
+          moreItem.style.marginTop = "0.25rem";
+          moreItem.style.fontSize = "0.75rem";
+          assetList.appendChild(moreItem);
         }
+        
+        tooltip.appendChild(assetList);
         
         markerContainer.appendChild(marker);
         markerContainer.appendChild(tooltip);
         
-        // Show tooltip on hover
+        // Show tooltip on hover with better positioning
         markerContainer.addEventListener("mouseenter", () => {
+          // Reset tooltip position first
+          tooltip.style.bottom = "100%";
+          tooltip.style.top = "auto";
+          tooltip.style.marginTop = "0";
+          tooltip.style.marginBottom = "0.5rem";
           tooltip.style.opacity = "1";
+          
+          // Adjust tooltip position if it would overflow (check after showing)
+          setTimeout(() => {
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const modalRect = modal.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            
+            // If tooltip would overflow top of modal
+            if (tooltipRect.top < modalRect.top + 10) {
+              tooltip.style.bottom = "auto";
+              tooltip.style.top = "100%";
+              tooltip.style.marginTop = "0.5rem";
+              tooltip.style.marginBottom = "0";
+            }
+            
+            // If tooltip would overflow right edge
+            if (tooltipRect.right > modalRect.right - 10) {
+              tooltip.style.left = "auto";
+              tooltip.style.right = "0";
+              tooltip.style.transform = "translateX(0)";
+            }
+            
+            // If tooltip would overflow left edge
+            if (tooltipRect.left < modalRect.left + 10) {
+              tooltip.style.left = "0";
+              tooltip.style.right = "auto";
+              tooltip.style.transform = "translateX(0)";
+            }
+          }, 10);
         });
         markerContainer.addEventListener("mouseleave", () => {
           tooltip.style.opacity = "0";
@@ -851,6 +916,19 @@ function showBoardPositionsModal() {
       });
     });
   };
+  
+  // Wait for image to load, then position markers
+  // Check if image is already loaded (cached)
+  if (gameboardImg.complete && gameboardImg.naturalHeight !== 0) {
+    // Image already loaded
+    createMarkers();
+  } else {
+    // Wait for image to load
+    gameboardImg.onload = createMarkers;
+    gameboardImg.onerror = function() {
+      console.error("Failed to load gameboard image");
+    };
+  }
   
   boardWrapper.style.position = "relative";
   boardWrapper.appendChild(overlayContainer);
