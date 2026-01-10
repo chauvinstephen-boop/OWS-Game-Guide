@@ -2,6 +2,38 @@
 import { state, currentFlatIndex, getCurrentStep } from "../state.js";
 import { loadReminders, saveReminders } from "../utils.js";
 
+// Tooltip text for "Simultaneous"
+const SIMULTANEOUS_TOOLTIP = `"Simultaneous" means that even if a unit is destroyed by an enemy attack, it still gets to complete its own attack before being removed. In game terms: Dead units pull triggers.
+
+Example: How to Play It Out:
+1. Declare: Both players declare which units are attacking which targets within the current step (e.g., Stand-Off Air-to-Air).
+2. Roll: Player A rolls and scores a hit that would destroy Player B's fighter.
+3. Return Fire: Player B still rolls their attack against Player A, even though their unit is technically "destroyed."
+4. Resolve: After both sides have rolled for that specific step, then you apply the damage and remove the destroyed units from the board.
+
+Key Distinction: This applies within each step. You must resolve all "Stand-Off" attacks simultaneously before moving to the next step ("In-Hex"). A unit destroyed in the "Stand-Off" step is removed before it can participate in the "In-Hex" step.`;
+
+// Helper function to escape HTML special characters
+function escapeHtml(text) {
+  if (text == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(text);
+  return div.innerHTML;
+}
+
+// Helper function to add tooltips to "simultaneous" text
+// Note: Input text should already be HTML-escaped before calling this function
+function addSimultaneousTooltips(text) {
+  // Escape the tooltip text properly for HTML attribute
+  const escapedTooltip = escapeHtml(SIMULTANEOUS_TOOLTIP).replace(/"/g, '&quot;');
+  
+  // Replace "simultaneously" (case-insensitive) with tooltip version
+  // The match is already escaped (part of the escaped text), so use it directly
+  return text.replace(/\b(simultaneously|simultaneous)\b/gi, (match) => {
+    return `<span class="simultaneous-tooltip" title="${escapedTooltip}">${match}</span>`;
+  });
+}
+
 function whoActsSentence(step) {
   const initiativeName = state.initiative === "blue" ? state.names.blue : state.names.red;
   const nonInitName = state.initiative === "blue" ? state.names.red : state.names.blue;
@@ -137,7 +169,12 @@ export function renderStep() {
   document.getElementById("breadcrumbs").textContent =
     `Phase ${phase.number}: ${phase.name} • Step ${step.code}`;
   document.getElementById("step-title").textContent = step.title;
-  document.getElementById("step-description").textContent = step.description;
+  
+  // Add tooltips for "simultaneous" in description
+  const descriptionEl = document.getElementById("step-description");
+  const escapedDescription = escapeHtml(step.description);
+  const processedDescription = addSimultaneousTooltips(escapedDescription);
+  descriptionEl.innerHTML = processedDescription;
 
   document.getElementById("who-acts-line").textContent = whoActsSentence(step);
 
@@ -150,9 +187,19 @@ export function renderStep() {
     const initiativeName = state.initiative === "blue" ? state.names.blue : state.names.red;
     const nonInitName = state.initiative === "blue" ? state.names.red : state.names.blue;
     
-    li.textContent = line
-      .replace(/\bInitiative player\b/g, initiativeName)
-      .replace(/\bNon-initiative player\b/g, nonInitName);
+    // Escape player names before replacement to prevent XSS
+    const escapedInitiativeName = escapeHtml(initiativeName);
+    const escapedNonInitName = escapeHtml(nonInitName);
+    
+    // First escape the entire line, then replace player names, then add tooltips
+    let processedLine = escapeHtml(line)
+      .replace(/\bInitiative player\b/g, escapedInitiativeName)
+      .replace(/\bNon-initiative player\b/g, escapedNonInitName);
+    
+    // Add tooltips for "simultaneous" (this adds HTML, so it must be after escaping)
+    processedLine = addSimultaneousTooltips(processedLine);
+    
+    li.innerHTML = processedLine;
     actionList.appendChild(li);
   });
 
@@ -160,7 +207,10 @@ export function renderStep() {
   rulesList.innerHTML = "";
   (step.rulesRef || []).forEach((line) => {
     const li = document.createElement("li");
-    li.textContent = line;
+    // Escape the line first, then add tooltips for "simultaneous"
+    const escapedLine = escapeHtml(line);
+    const processedLine = addSimultaneousTooltips(escapedLine);
+    li.innerHTML = processedLine;
     rulesList.appendChild(li);
   });
 

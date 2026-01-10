@@ -2,6 +2,14 @@
 import { UNIT_DATABASE } from "../data/units.js";
 import { state, updateUnitState, addAssetsToInventory } from "../state.js";
 
+// Helper function to escape HTML special characters
+function escapeHtml(text) {
+  if (text == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(text);
+  return div.innerHTML;
+}
+
 // Optimization: Pre-compute unit map for faster lookups
 let unitMap = null;
 function getUnitDef(baseId, team) {
@@ -23,6 +31,16 @@ function getUnitDef(baseId, team) {
 const sortState = {
     blue: { column: null, direction: 'asc' },
     red: { column: null, direction: 'asc' }
+};
+
+// Color coding map (optimized - defined once)
+const CATEGORY_COLORS = {
+    air: '#4169E1',      // Royal Blue
+    naval: '#000080',    // Navy Blue
+    ground: '#4B5320',   // Army Green
+    cyber: '#9370DB',    // Light Purple
+    sam: '#FF8C00',      // Dark Orange
+    sof: '#696969'       // Dim Gray
 };
 
 // Air asset types
@@ -170,7 +188,7 @@ export function renderScratchPad() {
   }
   
   // Upgrade check: if table exists but column count mismatches (we added columns), destroy it
-  // New column count: Unit, Ops, Hex, Role, Dest, Attributes, Air Assets = 7
+  // New column count: Unit, Ops, Hex, Role, Dest, Attributes, Missing Flags = 7
   if (table && table.querySelectorAll("thead th").length !== 7) {
       table.remove();
       table = null;
@@ -238,7 +256,7 @@ export function renderScratchPad() {
           <th class="sortable" data-team="blue" data-column="3" style="width: 15%;">Role / Status</th>
           <th class="sortable" data-team="blue" data-column="4" style="width: 12%;">Dest. Hex</th>
           <th class="sortable" data-team="blue" data-column="5" style="width: 15%;">Attributes</th>
-          <th style="width: 20%;">Air Assets</th>
+          <th style="width: 20%;">Missing Flags</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -297,7 +315,7 @@ export function renderScratchPad() {
       // Add Separator
       const sepRow = document.createElement("tr");
       sepRow.className = "team-separator";
-      sepRow.innerHTML = `<td colspan="7" style="background: #eef2ff; font-weight: bold; text-align: center; color: var(--accent);">${team === 'blue' ? state.names.blue : state.names.red} Forces</td>`;
+      sepRow.innerHTML = `<td colspan="7" style="background: #eef2ff; font-weight: bold; text-align: center; color: var(--accent);">${escapeHtml(team === 'blue' ? state.names.blue : state.names.red)} Forces</td>`;
       tbody.appendChild(sepRow);
       
       // Update headers for this team's sort state
@@ -309,12 +327,20 @@ export function renderScratchPad() {
       });
       
       unitIds.forEach(instId => {
-          // Parse base ID
-          const baseId = instId.substring(0, instId.lastIndexOf("_"));
-          const instanceNum = instId.substring(instId.lastIndexOf("_") + 1);
+          // Parse base ID with edge case handling
+          const lastUnderscore = instId.lastIndexOf("_");
+          if (lastUnderscore === -1) {
+              console.warn(`Invalid instance ID format: ${instId}`);
+              return;
+          }
+          const baseId = instId.substring(0, lastUnderscore);
+          const instanceNum = instId.substring(lastUnderscore + 1);
           
           let unitDef = getUnitDef(baseId, team);
-          if (!unitDef) return;
+          if (!unitDef) {
+              console.warn(`Unit definition not found for: ${baseId} (team: ${team})`);
+              return;
+          }
           
           const defaultState = { 
               hex: "", role: "", dest: "", 
@@ -323,6 +349,9 @@ export function renderScratchPad() {
               airAssault: false, asw: false, transport: false, tanker: false 
           };
           const unitState = state.unitStates[instId] || defaultState;
+          
+          // Color coding based on category (using pre-defined map)
+          const unitColor = CATEGORY_COLORS[unitDef.category] || '#333333';
           
           const row = document.createElement("tr");
           row.dataset.unitId = instId;
@@ -333,34 +362,34 @@ export function renderScratchPad() {
           
           // Build air assets checkboxes
           const airAssetsHTML = AIR_ASSETS.map(asset => 
-              `<label class="air-asset-check"><input type="checkbox" data-id="${instId}" data-field="${asset.field}" ${unitState[asset.field] ? 'checked' : ''} ${disabledAttr}> ${asset.label}</label>`
+              `<label class="air-asset-check"><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="${escapeHtml(asset.field)}" ${unitState[asset.field] ? 'checked' : ''} ${disabledAttr}> ${escapeHtml(asset.label)}</label>`
           ).join('');
           
           row.innerHTML = `
             <td>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="assets/${unitDef.id}.png" alt="Img" style="width: 24px; height: 24px; object-fit: contain; border-radius: 2px; border: 1px solid #ddd;" onerror="this.style.display='none'">
+                    <img src="assets/${escapeHtml(unitDef.id)}.png" alt="Img" style="width: 24px; height: 24px; object-fit: contain; border-radius: 2px; border: 1px solid #ddd;" onerror="this.style.display='none'">
                     <div>
-                        <strong>${unitDef.name}</strong> 
-                        <span style="font-size:0.8em; color:#666">#${instanceNum}</span>
+                        <strong style="color: ${unitColor};">${escapeHtml(unitDef.name)}</strong> 
+                        <span style="font-size:0.8em; color:#666">#${escapeHtml(instanceNum)}</span>
                     </div>
                 </div>
             </td>
             <td style="text-align: center;">
                <label class="toggle-switch">
-                 <input type="checkbox" data-id="${instId}" data-field="destroyed" ${unitState.destroyed ? 'checked' : ''}>
+                 <input type="checkbox" data-id="${escapeHtml(instId)}" data-field="destroyed" ${unitState.destroyed ? 'checked' : ''}>
                  <span class="slider"></span>
                  <span class="label-text" style="font-size: 0.75rem;">${unitState.destroyed ? 'Destroyed' : 'Active'}</span>
                </label>
             </td>
-            <td><input type="text" data-id="${instId}" data-field="hex" value="${unitState.hex || ''}" placeholder="Hex..." ${disabledAttr}></td>
-            <td><input type="text" data-id="${instId}" data-field="role" value="${unitState.role || ''}" placeholder="Role..." ${disabledAttr}></td>
-            <td><input type="text" data-id="${instId}" data-field="dest" value="${unitState.dest || ''}" placeholder="Dest..." ${disabledAttr}></td>
+            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="hex" value="${escapeHtml(unitState.hex || '')}" placeholder="Hex..." ${disabledAttr}></td>
+            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="role" value="${escapeHtml(unitState.role || '')}" placeholder="Role..." ${disabledAttr}></td>
+            <td><input type="text" data-id="${escapeHtml(instId)}" data-field="dest" value="${escapeHtml(unitState.dest || '')}" placeholder="Dest..." ${disabledAttr}></td>
             <td>
             <div class="status-checks">
-                <label><input type="checkbox" data-id="${instId}" data-field="stealth" ${unitState.stealth ? 'checked' : ''} ${disabledAttr}> Stealth</label>
-                <label><input type="checkbox" data-id="${instId}" data-field="detected" ${unitState.detected ? 'checked' : ''} ${disabledAttr}> Detected</label>
-                <label><input type="checkbox" data-id="${instId}" data-field="isr" ${unitState.isr ? 'checked' : ''} ${disabledAttr}> ISR</label>
+                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="stealth" ${unitState.stealth ? 'checked' : ''} ${disabledAttr}> Stealth</label>
+                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="detected" ${unitState.detected ? 'checked' : ''} ${disabledAttr}> Detected</label>
+                <label><input type="checkbox" data-id="${escapeHtml(instId)}" data-field="isr" ${unitState.isr ? 'checked' : ''} ${disabledAttr}> ISR</label>
             </div>
             </td>
             <td>
