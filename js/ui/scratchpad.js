@@ -757,11 +757,6 @@ function showBoardPositionsModal() {
       hexMap[team][hexKey] = [];
     }
     hexMap[team][hexKey].push(id);
-    
-    // Debug logging to verify team separation
-    if (id.includes('airfield') || id.includes('farp')) {
-      console.log(`[Board Viz] ${team} team asset ${id} at hex ${hexKey}`);
-    }
   });
   
   // Function to create and position markers
