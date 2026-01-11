@@ -116,8 +116,9 @@ body {
   border-radius: var(--radius);
   padding: 1rem;
   background: #f9fafc;
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
+  min-height: 100px;
 }
 
 .inventory-category {
