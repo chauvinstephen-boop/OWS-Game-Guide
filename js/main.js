@@ -371,6 +371,16 @@ function renderInventorySelection() {
 
   renderTeam("blue", "blue-inventory-container");
   renderTeam("red", "red-inventory-container");
+  
+  // Debug: Verify containers have content
+  const blueContainer = document.getElementById("blue-inventory-container");
+  const redContainer = document.getElementById("red-inventory-container");
+  if (blueContainer && blueContainer.children.length === 0) {
+    console.warn("Blue inventory container is empty after rendering. Check UNIT_DATABASE and container existence.");
+  }
+  if (redContainer && redContainer.children.length === 0) {
+    console.warn("Red inventory container is empty after rendering. Check UNIT_DATABASE and container existence.");
+  }
 }
 
 // Store custom assets added during setup
