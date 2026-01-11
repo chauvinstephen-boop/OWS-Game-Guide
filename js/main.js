@@ -1,7 +1,7 @@
 // Main Entry Point
 
 import { UNIT_DATABASE } from "./data/units.js";
-import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex, getUnitState } from "./state.js";
+import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex, getUnitState, updateUnitState } from "./state.js";
 // Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
 import { renderScratchPad } from "./ui/scratchpad.js?v=18";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
@@ -924,36 +924,49 @@ function loadPresetIntoSetup(presetName) {
   window.pendingPresetLoad = preset;
   
   // Restore custom assets
-  if (preset.customAssets) {
-    customAssets = JSON.parse(JSON.stringify(preset.customAssets));
-    // Need to convert customAssets format
-    const blueCustom = [];
-    const redCustom = [];
-    Object.keys(preset.customAssets).forEach(team => {
-      Object.keys(preset.customAssets[team]).forEach(baseId => {
-        const asset = preset.customAssets[team][baseId];
-        const teamArray = team === 'blue' ? blueCustom : redCustom;
-        // Find all instances of this asset
-        const teamUnits = team === 'blue' ? preset.inventory.blueUnits : preset.inventory.redUnits;
-        const instances = teamUnits.filter(id => {
-          const lastUnderscore = id.lastIndexOf("_");
-          const unitBaseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
-          return unitBaseId === baseId;
-        });
-        instances.forEach((id, idx) => {
-          teamArray.push({
-            id: baseId,
-            name: asset.name,
-            category: asset.category,
-            instance: idx + 1
+  if (preset.customAssets && typeof preset.customAssets === 'object') {
+    try {
+      // Need to convert customAssets format from saved format to working format
+      const blueCustom = [];
+      const redCustom = [];
+      Object.keys(preset.customAssets).forEach(team => {
+        if (preset.customAssets[team] && typeof preset.customAssets[team] === 'object') {
+          Object.keys(preset.customAssets[team]).forEach(baseId => {
+            const asset = preset.customAssets[team][baseId];
+            if (asset && asset.name && asset.category) {
+              const teamArray = team === 'blue' ? blueCustom : redCustom;
+              // Find all instances of this asset
+              const teamUnits = team === 'blue' ? preset.inventory.blueUnits : preset.inventory.redUnits;
+              if (Array.isArray(teamUnits)) {
+                const instances = teamUnits.filter(id => {
+                  if (typeof id !== 'string') return false;
+                  const lastUnderscore = id.lastIndexOf("_");
+                  const unitBaseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
+                  return unitBaseId === baseId;
+                });
+                instances.forEach((id, idx) => {
+                  teamArray.push({
+                    id: baseId,
+                    name: asset.name,
+                    category: asset.category,
+                    instance: idx + 1
+                  });
+                });
+              }
+            }
           });
-        });
+        }
       });
-    });
-    customAssets.blue = blueCustom;
-    customAssets.red = redCustom;
-    updateCustomAssetsList('blue', document.getElementById("blue-custom-assets-list"));
-    updateCustomAssetsList('red', document.getElementById("red-custom-assets-list"));
+      customAssets.blue = blueCustom;
+      customAssets.red = redCustom;
+      const blueListDiv = document.getElementById("blue-custom-assets-list");
+      const redListDiv = document.getElementById("red-custom-assets-list");
+      if (blueListDiv) updateCustomAssetsList('blue', blueListDiv);
+      if (redListDiv) updateCustomAssetsList('red', redListDiv);
+    } catch (error) {
+      console.error('Error restoring custom assets:', error);
+      // Continue without custom assets if there's an error
+    }
   }
   
   // Restore inventory quantities
