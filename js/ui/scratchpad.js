@@ -608,12 +608,20 @@ function showAddAssetsModal(team) {
   });
   
   // Cancel button
-  document.getElementById("add-assets-cancel-btn").addEventListener("click", () => {
-    overlay.remove();
-  });
+  const cancelBtn = document.getElementById("add-assets-cancel-btn");
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      overlay.remove();
+    });
+  }
   
   // Confirm button
-  document.getElementById("add-assets-confirm-btn").addEventListener("click", () => {
+  const confirmBtn = document.getElementById("add-assets-confirm-btn");
+  if (!confirmBtn) {
+    console.error("Add assets confirm button not found");
+    return;
+  }
+  confirmBtn.addEventListener("click", () => {
     const getSelectedUnits = () => {
       const inputs = container.querySelectorAll(`input[name='${team}_add_units_qty']`);
       const unitInstances = [];

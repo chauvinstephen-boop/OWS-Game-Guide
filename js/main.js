@@ -184,7 +184,12 @@ function showRegenerationModal() {
   populateList("blue", blueDiv, state.inventory.blueUnits);
   populateList("red", redDiv, state.inventory.redUnits);
 
-  document.getElementById("regen-confirm-btn").addEventListener("click", () => {
+  const regenConfirmBtn = document.getElementById("regen-confirm-btn");
+  if (!regenConfirmBtn) {
+    console.error("Regeneration confirm button not found");
+    return;
+  }
+  regenConfirmBtn.addEventListener("click", () => {
       const processUpdates = (container) => {
           const ids = [];
           const cats = new Set();
@@ -536,20 +541,33 @@ function setupEventListeners() {
   }
 
   // Nav clicks
-  document.getElementById("phase-list").addEventListener("click", (e) => {
-    const btn = e.target.closest("button.phase-button");
-    if (!btn) return;
-    const index = parseInt(btn.dataset.phaseIndex, 10);
-    if (!isNaN(index)) goToPhase(index);
-  });
+  const phaseList = document.getElementById("phase-list");
+  if (phaseList) {
+    phaseList.addEventListener("click", (e) => {
+      const btn = e.target.closest("button.phase-button");
+      if (!btn) return;
+      const index = parseInt(btn.dataset.phaseIndex, 10);
+      if (!isNaN(index)) goToPhase(index);
+    });
+  }
 
-  document.getElementById("prev-step-btn").addEventListener("click", goPrev);
-  document.getElementById("next-step-btn").addEventListener("click", goNext);
+  const prevStepBtn = document.getElementById("prev-step-btn");
+  if (prevStepBtn) {
+    prevStepBtn.addEventListener("click", goPrev);
+  }
 
-  document.getElementById("step-jump-select").addEventListener("change", (e) => {
+  const nextStepBtn = document.getElementById("next-step-btn");
+  if (nextStepBtn) {
+    nextStepBtn.addEventListener("click", goNext);
+  }
+
+  const stepJumpSelect = document.getElementById("step-jump-select");
+  if (stepJumpSelect) {
+    stepJumpSelect.addEventListener("change", (e) => {
       const idx = parseInt(e.target.value, 10);
       if (!isNaN(idx)) goToFlatIndex(idx);
-  });
+    });
+  }
 
   // Reminders
   const reminderForm = document.getElementById("reminder-form");
@@ -575,7 +593,8 @@ function setupEventListeners() {
     });
   }
   
-  reminderForm.addEventListener("submit", (e) => {
+  if (reminderForm) {
+    reminderForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const text = (reminderInput.value || "").trim();
     if (!text) return;
@@ -600,7 +619,8 @@ function setupEventListeners() {
       reminderWordCount.style.color = "var(--text-muted)";
     }
     renderReminders(current.step.id);
-  });
+    });
+  }
 
   // Dice
   document.querySelectorAll(".dice-buttons button").forEach((btn) => {
@@ -678,7 +698,12 @@ function setupEventListeners() {
   }
 
   // Setup Form
-  document.getElementById("setup-form").addEventListener("submit", (e) => {
+  const setupForm = document.getElementById("setup-form");
+  if (!setupForm) {
+    console.error("Setup form not found in DOM");
+    return;
+  }
+  setupForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const bInput = document.getElementById("blue-name-input");
     const rInput = document.getElementById("red-name-input");
