@@ -665,6 +665,18 @@ function setupEventListeners() {
     console.warn("Chit Draw button not found in DOM");
   }
 
+  // Load Presets button (setup screen)
+  const loadPresetsBtn = document.getElementById("load-presets-btn");
+  if (loadPresetsBtn) {
+    loadPresetsBtn.addEventListener("click", showLoadPresetsModal);
+  }
+
+  // Save Presets button (main game screen)
+  const savePresetsBtn = document.getElementById("save-presets-btn");
+  if (savePresetsBtn) {
+    savePresetsBtn.addEventListener("click", showSavePresetModal);
+  }
+
   // Setup Form
   document.getElementById("setup-form").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -786,6 +798,298 @@ function setupEventListeners() {
     renderDice();
     renderScratchPad(); // Initial render of persistent scratchpad
   });
+}
+
+function showLoadPresetsModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "setup-overlay";
+  overlay.style.zIndex = "10000";
+  
+  const modal = document.createElement("div");
+  modal.className = "setup-card";
+  modal.style.maxWidth = "600px";
+  
+  const presets = loadAllPresets();
+  const presetNames = Object.keys(presets).sort();
+  
+  let html = `
+    <h2>Load Preset</h2>
+    <p style="margin-bottom: 1rem; color: #666;">Select a preset to load, or cancel to continue with current setup.</p>
+  `;
+  
+  if (presetNames.length === 0) {
+    html += `
+      <p style="text-align: center; padding: 2rem; color: #999;">No presets saved yet.</p>
+      <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+        <button id="load-presets-cancel-btn" class="primary-btn" style="flex: 1; background: #666;">Cancel</button>
+      </div>
+    `;
+  } else {
+    html += `
+      <div style="max-height: 400px; overflow-y: auto; margin-bottom: 1rem;">
+    `;
+    
+    presetNames.forEach(name => {
+      const preset = presets[name];
+      const savedDate = preset.savedAt ? new Date(preset.savedAt).toLocaleString() : 'Unknown date';
+      html += `
+        <div class="preset-item" style="padding: 0.75rem; margin-bottom: 0.5rem; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: pointer; transition: background 0.2s;" data-preset-name="${escapeHtml(name)}">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 1.1rem;">${escapeHtml(name)}</strong>
+              <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">
+                Saved: ${escapeHtml(savedDate)}
+              </div>
+            </div>
+            <button class="delete-preset-btn" data-preset-name="${escapeHtml(name)}" style="padding: 0.3rem 0.6rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-left: 0.5rem;" onclick="event.stopPropagation();">Delete</button>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="load-presets-cancel-btn" class="primary-btn" style="flex: 1; background: #666;">Cancel</button>
+      </div>
+    `;
+  }
+  
+  modal.innerHTML = html;
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  
+  // Close on overlay click
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+  
+  // Cancel button
+  document.getElementById("load-presets-cancel-btn").addEventListener("click", () => {
+    overlay.remove();
+  });
+  
+  // Load preset on item click
+  modal.querySelectorAll(".preset-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const presetName = item.dataset.presetName;
+      loadPresetIntoSetup(presetName);
+      overlay.remove();
+    });
+  });
+  
+  // Delete preset buttons
+  modal.querySelectorAll(".delete-preset-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const presetName = btn.dataset.presetName;
+      if (confirm(`Are you sure you want to delete preset "${presetName}"?`)) {
+        deletePreset(presetName);
+        overlay.remove();
+        showLoadPresetsModal(); // Refresh the modal
+      }
+    });
+  });
+}
+
+function loadPresetIntoSetup(presetName) {
+  const preset = loadPreset(presetName);
+  if (!preset) {
+    alert(`Preset "${presetName}" not found.`);
+    return;
+  }
+  
+  // Load player names
+  const blueNameInput = document.getElementById("blue-name-input");
+  const redNameInput = document.getElementById("red-name-input");
+  if (blueNameInput && preset.names) {
+    blueNameInput.value = preset.names.blue || "Blue";
+  }
+  if (redNameInput && preset.names) {
+    redNameInput.value = preset.names.red || "Red";
+  }
+  
+  // Load initiative
+  if (preset.initiative) {
+    const initiativeRadio = document.querySelector(`input[name='initiative'][value='${preset.initiative}']`);
+    if (initiativeRadio) {
+      initiativeRadio.checked = true;
+    }
+  }
+  
+  // Load inventory (this will require re-rendering the inventory selection)
+  // We'll need to store the preset data and apply it when the form is submitted
+  window.pendingPresetLoad = preset;
+  
+  // Restore custom assets
+  if (preset.customAssets) {
+    customAssets = JSON.parse(JSON.stringify(preset.customAssets));
+    // Need to convert customAssets format
+    const blueCustom = [];
+    const redCustom = [];
+    Object.keys(preset.customAssets).forEach(team => {
+      Object.keys(preset.customAssets[team]).forEach(baseId => {
+        const asset = preset.customAssets[team][baseId];
+        const teamArray = team === 'blue' ? blueCustom : redCustom;
+        // Find all instances of this asset
+        const teamUnits = team === 'blue' ? preset.inventory.blueUnits : preset.inventory.redUnits;
+        const instances = teamUnits.filter(id => {
+          const lastUnderscore = id.lastIndexOf("_");
+          const unitBaseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
+          return unitBaseId === baseId;
+        });
+        instances.forEach((id, idx) => {
+          teamArray.push({
+            id: baseId,
+            name: asset.name,
+            category: asset.category,
+            instance: idx + 1
+          });
+        });
+      });
+    });
+    customAssets.blue = blueCustom;
+    customAssets.red = redCustom;
+    updateCustomAssetsList('blue', document.getElementById("blue-custom-assets-list"));
+    updateCustomAssetsList('red', document.getElementById("red-custom-assets-list"));
+  }
+  
+  // Restore inventory quantities
+  if (preset.inventory) {
+    // Parse instance IDs to get base IDs and quantities
+    const blueQuantities = {};
+    const redQuantities = {};
+    
+    preset.inventory.blueUnits.forEach(id => {
+      const lastUnderscore = id.lastIndexOf("_");
+      const baseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
+      blueQuantities[baseId] = (blueQuantities[baseId] || 0) + 1;
+    });
+    
+    preset.inventory.redUnits.forEach(id => {
+      const lastUnderscore = id.lastIndexOf("_");
+      const baseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
+      redQuantities[baseId] = (redQuantities[baseId] || 0) + 1;
+    });
+    
+    // Set quantities in the form
+    Object.keys(blueQuantities).forEach(baseId => {
+      const input = document.querySelector(`input[name='blue_units_qty'][data-id='${baseId}']`);
+      if (input) {
+        input.value = blueQuantities[baseId];
+      }
+    });
+    
+    Object.keys(redQuantities).forEach(baseId => {
+      const input = document.querySelector(`input[name='red_units_qty'][data-id='${baseId}']`);
+      if (input) {
+        input.value = redQuantities[baseId];
+      }
+    });
+  }
+  
+  alert(`Preset "${presetName}" loaded! Review your selections and click "Start turn" when ready.`);
+}
+
+function showSavePresetModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "setup-overlay";
+  overlay.style.zIndex = "10000";
+  
+  const modal = document.createElement("div");
+  modal.className = "setup-card";
+  modal.style.maxWidth = "500px";
+  
+  modal.innerHTML = `
+    <h2>Save Preset</h2>
+    <p style="margin-bottom: 1rem; color: #666;">Save your current game configuration (assets, custom assets, player names, initiative, and unit states) as a preset.</p>
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Preset Name:</label>
+      <input type="text" id="preset-name-input" placeholder="Enter preset name..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" maxlength="50">
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button id="save-preset-cancel-btn" class="primary-btn" style="flex: 1; background: #666;">Cancel</button>
+      <button id="save-preset-confirm-btn" class="primary-btn" style="flex: 1;">Save</button>
+    </div>
+  `;
+  
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  
+  // Focus on input
+  const nameInput = document.getElementById("preset-name-input");
+  if (nameInput) {
+    nameInput.focus();
+  }
+  
+  // Close on overlay click
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+  
+  // Cancel button
+  document.getElementById("save-preset-cancel-btn").addEventListener("click", () => {
+    overlay.remove();
+  });
+  
+  // Save button
+  document.getElementById("save-preset-confirm-btn").addEventListener("click", () => {
+    const presetName = nameInput.value.trim();
+    if (!presetName) {
+      alert("Please enter a preset name.");
+      return;
+    }
+    
+    // Check if preset already exists
+    const existingPresets = loadAllPresets();
+    if (existingPresets[presetName]) {
+      if (!confirm(`Preset "${presetName}" already exists. Overwrite it?`)) {
+        return;
+      }
+    }
+    
+    // Collect current game state
+    const presetData = {
+      inventory: {
+        blue: [...state.inventory.blue],
+        red: [...state.inventory.red],
+        blueUnits: [...state.inventory.blueUnits],
+        redUnits: [...state.inventory.redUnits]
+      },
+      names: {
+        blue: state.names.blue,
+        red: state.names.red
+      },
+      initiative: state.initiative,
+      unitStates: JSON.parse(JSON.stringify(state.unitStates)), // Deep copy
+      customAssets: window.customAssetDefinitions ? JSON.parse(JSON.stringify(window.customAssetDefinitions)) : {}
+    };
+    
+    if (savePreset(presetName, presetData)) {
+      alert(`Preset "${presetName}" saved successfully!`);
+      overlay.remove();
+    } else {
+      alert("Failed to save preset. Please try again.");
+    }
+  });
+  
+  // Allow Enter key to save
+  nameInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("save-preset-confirm-btn").click();
+    }
+  });
+}
+
+function escapeHtml(text) {
+  if (text == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(text);
+  return div.innerHTML;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
