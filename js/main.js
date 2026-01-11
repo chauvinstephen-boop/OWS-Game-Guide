@@ -561,10 +561,32 @@ function escapeHtml(text) {
 
 function setupEventListeners() {
   try {
+    console.log("Setting up event listeners...");
+    console.log("UNIT_DATABASE available:", !!UNIT_DATABASE);
+    console.log("Blue team data:", !!UNIT_DATABASE?.blue);
+    console.log("Red team data:", !!UNIT_DATABASE?.red);
+    
+    // Ensure containers exist before rendering
+    const blueContainer = document.getElementById("blue-inventory-container");
+    const redContainer = document.getElementById("red-inventory-container");
+    console.log("Blue container found:", !!blueContainer);
+    console.log("Red container found:", !!redContainer);
+    
+    if (!blueContainer || !redContainer) {
+      console.error("Inventory containers not found in DOM. Retrying in 100ms...");
+      setTimeout(() => {
+        renderInventorySelection();
+        setupCustomAssetHandlers();
+      }, 100);
+      return;
+    }
+    
     renderInventorySelection();
     setupCustomAssetHandlers();
+    console.log("Inventory selection rendered successfully");
   } catch (e) {
     console.error("Failed to render inventory:", e);
+    console.error("Error stack:", e.stack);
     alert("Error loading unit database. Please check console.");
   }
 
