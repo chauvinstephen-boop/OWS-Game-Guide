@@ -49,6 +49,7 @@ const AIR_ASSETS = [
     { field: 'cas', label: 'CAS' },
     { field: 'cap', label: 'CAP' },
     { field: 'strike', label: 'STRIKE' },
+    { field: 'sead', label: 'SEAD' },
     { field: 'aew', label: 'AEW' },
     { field: 'airAssault', label: 'AIR ASSAULT' },
     { field: 'asw', label: 'ASW' },
@@ -360,7 +361,7 @@ export function renderScratchPad() {
           const defaultState = { 
               hex: "", role: "", dest: "", 
               stealth: false, detected: false, hasEnhancer: false, destroyed: false,
-              cas: false, cap: false, strike: false, aew: false, 
+              cas: false, cap: false, strike: false, sead: false, aew: false, 
               airAssault: false, asw: false, transport: false, tanker: false 
           };
           const unitState = getUnitState(instId, team);

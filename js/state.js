@@ -25,7 +25,7 @@ export const state = {
   
   diceHistory: [],
   
-  unitStates: {} // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false } }
+  unitStates: {} // { unitId: { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, sead: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false } }
 };
 
 // State mutations
@@ -130,7 +130,7 @@ export function updateUnitState(id, field, value, team = null) {
   
   const key = getUnitStateKey(id, team);
   if (!state.unitStates[key]) {
-    state.unitStates[key] = { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
+    state.unitStates[key] = { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, sead: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
   }
   state.unitStates[key][field] = value;
 }
@@ -138,7 +138,7 @@ export function updateUnitState(id, field, value, team = null) {
 // Helper function to get unit state with team awareness
 export function getUnitState(instanceId, team) {
   const key = getUnitStateKey(instanceId, team);
-  return state.unitStates[key] || { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
+  return state.unitStates[key] || { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, sead: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
 }
 
 export function resetIndices() {
