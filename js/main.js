@@ -275,7 +275,11 @@ function renderInventorySelection() {
 
     Object.keys(teamData).forEach((catKey) => {
       const units = teamData[catKey];
-      if (!units || units.length === 0) return;
+      if (!units || units.length === 0) {
+        console.log(`Skipping empty category: ${catKey} for team ${teamKey}`);
+        return;
+      }
+      console.log(`Rendering ${units.length} units in category ${catKey} for team ${teamKey}`);
 
       const catDiv = document.createElement("div");
       catDiv.className = "inventory-category";
