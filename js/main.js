@@ -61,16 +61,22 @@ function showEndTurnModal() {
   overlay.appendChild(card);
   document.body.appendChild(overlay);
 
-  document.getElementById("end-game-btn").addEventListener("click", () => {
+  const endGameBtn = document.getElementById("end-game-btn");
+  if (endGameBtn) {
+    endGameBtn.addEventListener("click", () => {
       overlay.remove();
       alert("Game Over. Thanks for playing!");
       location.reload(); 
-  });
+    });
+  }
 
-  document.getElementById("next-turn-btn").addEventListener("click", () => {
+  const nextTurnBtn = document.getElementById("next-turn-btn");
+  if (nextTurnBtn) {
+    nextTurnBtn.addEventListener("click", () => {
       overlay.remove();
       showRegenerationModal();
-  });
+    });
+  }
 }
 
 function showRegenerationModal() {
