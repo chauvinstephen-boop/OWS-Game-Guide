@@ -46,8 +46,10 @@
             <h3>Blue Team Custom Assets</h3>
             <div id="blue-custom-assets-container">
                 <div class="custom-asset-entry" style="margin-bottom: 0.5rem;">
-                    <input type="text" id="blue-custom-name" placeholder="Asset name (e.g., Custom Fighter)" style="flex: 1; padding: 0.4rem; margin-right: 0.5rem;">
-                    <select id="blue-custom-category" style="padding: 0.4rem; margin-right: 0.5rem;">
+                    <label for="blue-custom-name" class="sr-only">Asset Name</label>
+                    <input type="text" id="blue-custom-name" name="blue-custom-name" placeholder="Asset name (e.g., Custom Fighter)" aria-label="Blue team custom asset name" style="flex: 1; padding: 0.4rem; margin-right: 0.5rem;">
+                    <label for="blue-custom-category" class="sr-only">Category</label>
+                    <select id="blue-custom-category" name="blue-custom-category" aria-label="Blue team custom asset category" title="Select asset category" style="padding: 0.4rem; margin-right: 0.5rem;">
                         <option value="air">Air Forces</option>
                         <option value="naval">Naval Forces</option>
                         <option value="ground">Ground / Rocket Forces</option>
@@ -55,7 +57,8 @@
                         <option value="sof">Special Forces</option>
                         <option value="cyber">Cyber / Space</option>
                     </select>
-                    <input type="number" id="blue-custom-qty" min="1" value="1" style="width: 60px; padding: 0.4rem; margin-right: 0.5rem; text-align: center;">
+                    <label for="blue-custom-qty" class="sr-only">Quantity</label>
+                    <input type="number" id="blue-custom-qty" name="blue-custom-qty" min="1" value="1" aria-label="Blue team custom asset quantity" title="Quantity" placeholder="Qty" style="width: 60px; padding: 0.4rem; margin-right: 0.5rem; text-align: center;">
                     <button type="button" id="blue-add-custom-btn" class="primary-btn" style="padding: 0.4rem 0.8rem;">Add</button>
                 </div>
                 <div id="blue-custom-assets-list" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
@@ -66,8 +69,10 @@
             <h3>Red Team Custom Assets</h3>
             <div id="red-custom-assets-container">
                 <div class="custom-asset-entry" style="margin-bottom: 0.5rem;">
-                    <input type="text" id="red-custom-name" placeholder="Asset name (e.g., Custom Fighter)" style="flex: 1; padding: 0.4rem; margin-right: 0.5rem;">
-                    <select id="red-custom-category" style="padding: 0.4rem; margin-right: 0.5rem;">
+                    <label for="red-custom-name" class="sr-only">Asset Name</label>
+                    <input type="text" id="red-custom-name" name="red-custom-name" placeholder="Asset name (e.g., Custom Fighter)" aria-label="Red team custom asset name" style="flex: 1; padding: 0.4rem; margin-right: 0.5rem;">
+                    <label for="red-custom-category" class="sr-only">Category</label>
+                    <select id="red-custom-category" name="red-custom-category" aria-label="Red team custom asset category" title="Select asset category" style="padding: 0.4rem; margin-right: 0.5rem;">
                         <option value="air">Air Forces</option>
                         <option value="naval">Naval Forces</option>
                         <option value="ground">Ground / Rocket Forces</option>
@@ -75,7 +80,8 @@
                         <option value="sof">Special Forces</option>
                         <option value="cyber">Cyber / Space</option>
                     </select>
-                    <input type="number" id="red-custom-qty" min="1" value="1" style="width: 60px; padding: 0.4rem; margin-right: 0.5rem; text-align: center;">
+                    <label for="red-custom-qty" class="sr-only">Quantity</label>
+                    <input type="number" id="red-custom-qty" name="red-custom-qty" min="1" value="1" aria-label="Red team custom asset quantity" title="Quantity" placeholder="Qty" style="width: 60px; padding: 0.4rem; margin-right: 0.5rem; text-align: center;">
                     <button type="button" id="red-add-custom-btn" class="primary-btn" style="padding: 0.4rem 0.8rem; background: #b71c1c;">Add</button>
                 </div>
                 <div id="red-custom-assets-list" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
