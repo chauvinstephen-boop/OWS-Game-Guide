@@ -730,6 +730,27 @@ function setupEventListeners() {
       redUnits: redData.ids
     });
 
+    // Store custom asset definitions for later lookup
+    // We'll store them in a way that getUnitDef can access them
+    window.customAssetDefinitions = {};
+    Object.keys(customAssets).forEach(team => {
+      if (!window.customAssetDefinitions[team]) {
+        window.customAssetDefinitions[team] = {};
+      }
+      customAssets[team].forEach(asset => {
+        if (!window.customAssetDefinitions[team][asset.id]) {
+          window.customAssetDefinitions[team][asset.id] = {
+            id: asset.id,
+            name: asset.name,
+            category: asset.category
+          };
+        }
+      });
+    });
+
+    // Reset custom assets for next game
+    customAssets = { blue: [], red: [] };
+
     resetIndices();
 
     document.getElementById("setup-overlay").style.display = "none";
