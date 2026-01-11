@@ -1177,13 +1177,6 @@ function showSavePresetModal() {
   });
 }
 
-function escapeHtml(text) {
-  if (text == null) return '';
-  const div = document.createElement('div');
-  div.textContent = String(text);
-  return div.innerHTML;
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   // Simple device detection for responsive UI tweaks.
   // Primary layout is still handled by CSS media queries; this adds a reliable hook.
