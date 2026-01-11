@@ -1,7 +1,7 @@
 // Main Entry Point
 
 import { UNIT_DATABASE } from "./data/units.js";
-import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex } from "./state.js";
+import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex, getUnitState } from "./state.js";
 // Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
 import { renderScratchPad } from "./ui/scratchpad.js?v=18";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
@@ -110,7 +110,13 @@ function showRegenerationModal() {
       cb.dataset.category = category;
       
       // Default to checked if in inventory, BUT uncheck if marked as destroyed
-      const isDestroyed = state.unitStates[unitId] && state.unitStates[unitId].destroyed;
+      // Determine team for unitId
+      let team = 'blue';
+      if (state.inventory.redUnits.includes(unitId)) {
+        team = 'red';
+      }
+      const unitState = getUnitState(unitId, team);
+      const isDestroyed = unitState && unitState.destroyed;
       cb.checked = !isDestroyed; // If it's in the list passed to us (teamUnits), it exists. Check if not destroyed.
       
       if (isDestroyed) {
@@ -207,22 +213,19 @@ function showRegenerationModal() {
       renderStep();
       
       // Logic: Move Dest -> Hex and Reset Status
-      Object.keys(state.unitStates).forEach(id => {
-          // If unit is still in inventory (it wasn't removed)
-          const inBlue = state.inventory.blueUnits.includes(id);
-          const inRed = state.inventory.redUnits.includes(id);
+      // Process all units from both teams
+      [...state.inventory.blueUnits, ...state.inventory.redUnits].forEach(id => {
+          const team = state.inventory.blueUnits.includes(id) ? 'blue' : 'red';
+          const unitState = getUnitState(id, team);
           
-          if (inBlue || inRed) {
-              if (state.unitStates[id].dest) {
-                  state.unitStates[id].hex = state.unitStates[id].dest;
-              }
-              state.unitStates[id].dest = "";
-              state.unitStates[id].role = "";
-              state.unitStates[id].stealth = false;
-              state.unitStates[id].detected = false;
-              state.unitStates[id].isr = false;
-              state.unitStates[id].destroyed = false; // Reset destroyed flag if they kept it
+          if (unitState.dest) {
+              updateUnitState(id, 'hex', unitState.dest, team);
           }
+          updateUnitState(id, 'dest', "", team);
+          updateUnitState(id, 'role', "", team);
+          updateUnitState(id, 'stealth', false, team);
+          updateUnitState(id, 'detected', false, team);
+          updateUnitState(id, 'destroyed', false, team); // Reset destroyed flag if they kept it
       });
       // Re-render scratchpad to show updated hexes
       renderScratchPad();

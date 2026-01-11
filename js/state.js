@@ -85,11 +85,60 @@ export function addDiceRoll(sides, value) {
   state.diceHistory = state.diceHistory.slice(0, 10);
 }
 
-export function updateUnitState(id, field, value) {
-  if (!state.unitStates[id]) {
-    state.unitStates[id] = { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
+// Helper function to get team-prefixed key for unitStates
+// This ensures instance IDs are unique across teams (e.g., blue_airfield_1 vs red_airfield_1)
+function getUnitStateKey(instanceId, team) {
+  // If already prefixed, return as-is
+  if (instanceId.startsWith('blue_') || instanceId.startsWith('red_')) {
+    return instanceId;
   }
-  state.unitStates[id][field] = value;
+  // Otherwise, add team prefix
+  return `${team}_${instanceId}`;
+}
+
+// Helper function to extract team and instance ID from a prefixed key
+function parseUnitStateKey(key) {
+  if (key.startsWith('blue_')) {
+    return { team: 'blue', instanceId: key.substring(5) };
+  } else if (key.startsWith('red_')) {
+    return { team: 'red', instanceId: key.substring(4) };
+  }
+  // Legacy format - try to determine team from inventory
+  if (state.inventory.blueUnits.includes(key)) {
+    return { team: 'blue', instanceId: key };
+  } else if (state.inventory.redUnits.includes(key)) {
+    return { team: 'red', instanceId: key };
+  }
+  // Default to blue if can't determine (shouldn't happen)
+  return { team: 'blue', instanceId: key };
+}
+
+export function updateUnitState(id, field, value, team = null) {
+  // If team not provided, try to determine it
+  if (!team) {
+    if (state.inventory.blueUnits.includes(id)) {
+      team = 'blue';
+    } else if (state.inventory.redUnits.includes(id)) {
+      team = 'red';
+    } else {
+      // Fallback: try to parse from prefixed key
+      const parsed = parseUnitStateKey(id);
+      team = parsed.team;
+      id = parsed.instanceId;
+    }
+  }
+  
+  const key = getUnitStateKey(id, team);
+  if (!state.unitStates[key]) {
+    state.unitStates[key] = { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
+  }
+  state.unitStates[key][field] = value;
+}
+
+// Helper function to get unit state with team awareness
+export function getUnitState(instanceId, team) {
+  const key = getUnitStateKey(instanceId, team);
+  return state.unitStates[key] || { hex: "", role: "", dest: "", stealth: false, detected: false, hasEnhancer: false, destroyed: false, cas: false, cap: false, strike: false, aew: false, airAssault: false, asw: false, transport: false, tanker: false };
 }
 
 export function resetIndices() {
@@ -99,10 +148,40 @@ export function resetIndices() {
 
 // Cleanup unit states for keys no longer in inventory to prevent memory leaks
 function pruneUnitStates() {
-  const activeUnits = new Set([...state.inventory.blueUnits, ...state.inventory.redUnits]);
+  // Create set of all valid unit state keys (with team prefixes)
+  const activeKeys = new Set();
+  state.inventory.blueUnits.forEach(id => {
+    activeKeys.add(getUnitStateKey(id, 'blue'));
+  });
+  state.inventory.redUnits.forEach(id => {
+    activeKeys.add(getUnitStateKey(id, 'red'));
+  });
+  
+  // Also handle legacy keys (without prefixes) for migration
+  const legacyKeys = new Set([...state.inventory.blueUnits, ...state.inventory.redUnits]);
+  
   Object.keys(state.unitStates).forEach(key => {
-    if (!activeUnits.has(key)) {
-      delete state.unitStates[key];
+    // Check if it's a prefixed key
+    if (key.startsWith('blue_') || key.startsWith('red_')) {
+      if (!activeKeys.has(key)) {
+        delete state.unitStates[key];
+      }
+    } else {
+      // Legacy key - migrate or delete
+      if (!legacyKeys.has(key)) {
+        delete state.unitStates[key];
+      } else {
+        // Migrate legacy key to prefixed format
+        let team = 'blue';
+        if (state.inventory.redUnits.includes(key)) {
+          team = 'red';
+        }
+        const newKey = getUnitStateKey(key, team);
+        if (newKey !== key && state.unitStates[key]) {
+          state.unitStates[newKey] = state.unitStates[key];
+          delete state.unitStates[key];
+        }
+      }
     }
   });
 }

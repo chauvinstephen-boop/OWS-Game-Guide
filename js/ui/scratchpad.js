@@ -1,6 +1,6 @@
 // Scratch Pad UI Logic
 import { UNIT_DATABASE } from "../data/units.js";
-import { state, updateUnitState, addAssetsToInventory } from "../state.js";
+import { state, updateUnitState, addAssetsToInventory, getUnitState } from "../state.js";
 import { HEX_COORDINATES } from "../data/hex-coordinates.js";
 
 // Helper function to escape HTML special characters
@@ -294,11 +294,13 @@ export function renderScratchPad() {
       if (id && field) {
         if (e.target.type === "checkbox") {
            const checked = e.target.checked;
-           updateUnitState(id, field, checked);
+           // Get team from row data
+           const row = e.target.closest("tr");
+           const team = row ? row.dataset.team : null;
+           updateUnitState(id, field, checked, team);
            
            // If "destroyed" was toggled, update row style
            if (field === "destroyed") {
-             const row = e.target.closest("tr");
              if (row) {
                  if (checked) {
                      row.classList.add("unit-destroyed");
@@ -310,7 +312,10 @@ export function renderScratchPad() {
              }
            }
         } else {
-           updateUnitState(id, field, e.target.value);
+           // Get team from row data
+           const row = e.target.closest("tr");
+           const team = row ? row.dataset.team : null;
+           updateUnitState(id, field, e.target.value, team);
         }
       }
     });
@@ -358,7 +363,7 @@ export function renderScratchPad() {
               cas: false, cap: false, strike: false, aew: false, 
               airAssault: false, asw: false, transport: false, tanker: false 
           };
-          const unitState = state.unitStates[instId] || defaultState;
+          const unitState = getUnitState(instId, team);
           
           // Color coding based on category (using pre-defined map)
           const unitColor = CATEGORY_COLORS[unitDef.category] || '#333333';
@@ -740,7 +745,7 @@ function showBoardPositionsModal() {
   ];
   
   allUnits.forEach(({ id, team }) => {
-    const unitState = state.unitStates[id] || {};
+    const unitState = getUnitState(id, team);
     const hex = (unitState.hex || '').trim().toUpperCase();
     
     // Skip empty hexes and unassigned (they'll show in list view)
@@ -752,6 +757,11 @@ function showBoardPositionsModal() {
       hexMap[team][hexKey] = [];
     }
     hexMap[team][hexKey].push(id);
+    
+    // Debug logging to verify team separation
+    if (id.includes('airfield') || id.includes('farp')) {
+      console.log(`[Board Viz] ${team} team asset ${id} at hex ${hexKey}`);
+    }
   });
   
   // Function to create and position markers
@@ -1017,8 +1027,8 @@ function showBoardPositionsModal() {
     
     // Include unassigned
     const allHexes = { ...hexMap[team] };
-    if (allUnits.filter(u => u.team === team && !state.unitStates[u.id]?.hex).length > 0) {
-      allHexes['UNASSIGNED'] = allUnits.filter(u => u.team === team && !state.unitStates[u.id]?.hex).map(u => u.id);
+    if (allUnits.filter(u => u.team === team && !getUnitState(u.id, u.team)?.hex).length > 0) {
+      allHexes['UNASSIGNED'] = allUnits.filter(u => u.team === team && !getUnitState(u.id, u.team)?.hex).map(u => u.id);
     }
     
     const hexes = Object.keys(allHexes).sort((a, b) => {
@@ -1085,7 +1095,7 @@ function showBoardPositionsModal() {
           const unitColor = CATEGORY_COLORS[unitDef.category] || '#333333';
           nameSpan.innerHTML = `<strong style="color: ${unitColor};">${escapeHtml(unitDef.name)}</strong> <span style="color: #666; font-size: 0.85em;">#${escapeHtml(instanceNum)}</span>`;
           
-          const unitState = state.unitStates[instId] || {};
+          const unitState = getUnitState(instId, team);
           if (unitState.role) {
             const roleSpan = document.createElement("span");
             roleSpan.textContent = `[${escapeHtml(unitState.role)}]`;
