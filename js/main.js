@@ -244,13 +244,25 @@ function showRegenerationModal() {
 }
 
 function renderInventorySelection() {
+  // Debug: Check if UNIT_DATABASE is loaded
+  if (!UNIT_DATABASE || !UNIT_DATABASE.blue || !UNIT_DATABASE.red) {
+    console.error("UNIT_DATABASE not loaded or incomplete:", UNIT_DATABASE);
+    return;
+  }
+
   const renderTeam = (teamKey, containerId) => {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+      console.error(`Container not found: ${containerId}`);
+      return;
+    }
     container.innerHTML = "";
 
     const teamData = UNIT_DATABASE[teamKey];
-    if (!teamData) return;
+    if (!teamData) {
+      console.error(`Team data not found for: ${teamKey}`);
+      return;
+    }
 
     const categoryLabels = {
       naval: "Naval Forces",
