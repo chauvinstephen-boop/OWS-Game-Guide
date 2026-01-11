@@ -5,7 +5,7 @@ import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSeque
 // Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
 import { renderScratchPad } from "./ui/scratchpad.js?v=18";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
-import { loadReminders, saveReminders, rollDie } from "./utils.js";
+import { loadReminders, saveReminders, rollDie, savePreset, loadPreset, loadAllPresets, deletePreset } from "./utils.js";
 
 // Navigation Logic
 function goToFlatIndex(flatIndex) {
@@ -723,30 +723,55 @@ function setupEventListeners() {
     const blueData = getSelectedUnits("blue");
     const redData = getSelectedUnits("red");
 
-    setInventory({
-      blue: blueData.cats,
-      blueUnits: blueData.ids,
-      red: redData.cats,
-      redUnits: redData.ids
-    });
-
-    // Store custom asset definitions for later lookup
-    // We'll store them in a way that getUnitDef can access them
-    window.customAssetDefinitions = {};
-    Object.keys(customAssets).forEach(team => {
-      if (!window.customAssetDefinitions[team]) {
-        window.customAssetDefinitions[team] = {};
-      }
-      customAssets[team].forEach(asset => {
-        if (!window.customAssetDefinitions[team][asset.id]) {
-          window.customAssetDefinitions[team][asset.id] = {
-            id: asset.id,
-            name: asset.name,
-            category: asset.category
-          };
-        }
+    // Check if we're loading from a preset
+    let presetToLoad = window.pendingPresetLoad;
+    if (presetToLoad) {
+      // Use preset data instead of form data
+      setInventory({
+        blue: presetToLoad.inventory.blue,
+        blueUnits: presetToLoad.inventory.blueUnits,
+        red: presetToLoad.inventory.red,
+        redUnits: presetToLoad.inventory.redUnits
       });
-    });
+      
+      // Restore unit states
+      if (presetToLoad.unitStates) {
+        state.unitStates = JSON.parse(JSON.stringify(presetToLoad.unitStates));
+      }
+      
+      // Restore custom asset definitions
+      if (presetToLoad.customAssets) {
+        window.customAssetDefinitions = JSON.parse(JSON.stringify(presetToLoad.customAssets));
+      }
+      
+      // Clear pending preset
+      window.pendingPresetLoad = null;
+    } else {
+      setInventory({
+        blue: blueData.cats,
+        blueUnits: blueData.ids,
+        red: redData.cats,
+        redUnits: redData.ids
+      });
+
+      // Store custom asset definitions for later lookup
+      // We'll store them in a way that getUnitDef can access them
+      window.customAssetDefinitions = {};
+      Object.keys(customAssets).forEach(team => {
+        if (!window.customAssetDefinitions[team]) {
+          window.customAssetDefinitions[team] = {};
+        }
+        customAssets[team].forEach(asset => {
+          if (!window.customAssetDefinitions[team][asset.id]) {
+            window.customAssetDefinitions[team][asset.id] = {
+              id: asset.id,
+              name: asset.name,
+              category: asset.category
+            };
+          }
+        });
+      });
+    }
 
     // Reset custom assets for next game
     customAssets = { blue: [], red: [] };
