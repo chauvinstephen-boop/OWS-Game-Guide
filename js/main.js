@@ -350,9 +350,186 @@ function renderInventorySelection() {
   renderTeam("red", "red-inventory-container");
 }
 
+// Store custom assets added during setup
+let customAssets = {
+  blue: [],
+  red: []
+};
+
+// Generate a unique base ID from a custom asset name
+function generateCustomBaseId(name, team) {
+  // Sanitize name: lowercase, replace spaces/special chars with underscores
+  let baseId = name.toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+  
+  // Ensure it starts with a letter
+  if (!/^[a-z]/.test(baseId)) {
+    baseId = 'custom_' + baseId;
+  }
+  
+  // Add team prefix to ensure uniqueness
+  baseId = `custom_${team}_${baseId}`;
+  
+  // Ensure uniqueness by appending number if needed
+  let finalId = baseId;
+  let counter = 1;
+  while (customAssets[team].some(a => a.id === finalId)) {
+    finalId = `${baseId}_${counter}`;
+    counter++;
+  }
+  
+  return finalId;
+}
+
+function setupCustomAssetHandlers() {
+  // Blue team custom asset handler
+  const blueAddBtn = document.getElementById("blue-add-custom-btn");
+  const blueNameInput = document.getElementById("blue-custom-name");
+  const blueCategorySelect = document.getElementById("blue-custom-category");
+  const blueQtyInput = document.getElementById("blue-custom-qty");
+  const blueListDiv = document.getElementById("blue-custom-assets-list");
+  
+  if (blueAddBtn) {
+    blueAddBtn.addEventListener("click", () => {
+      const name = blueNameInput.value.trim();
+      const category = blueCategorySelect.value;
+      const qty = parseInt(blueQtyInput.value, 10) || 1;
+      
+      if (!name) {
+        alert("Please enter an asset name.");
+        return;
+      }
+      
+      const baseId = generateCustomBaseId(name, 'blue');
+      const customAsset = {
+        id: baseId,
+        name: name,
+        category: category
+      };
+      
+      // Add to custom assets list
+      for (let i = 0; i < qty; i++) {
+        customAssets.blue.push({ ...customAsset, instance: i + 1 });
+      }
+      
+      // Update display
+      updateCustomAssetsList('blue', blueListDiv);
+      
+      // Clear inputs
+      blueNameInput.value = "";
+      blueQtyInput.value = "1";
+    });
+    
+    // Allow Enter key to add
+    blueNameInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        blueAddBtn.click();
+      }
+    });
+  }
+  
+  // Red team custom asset handler
+  const redAddBtn = document.getElementById("red-add-custom-btn");
+  const redNameInput = document.getElementById("red-custom-name");
+  const redCategorySelect = document.getElementById("red-custom-category");
+  const redQtyInput = document.getElementById("red-custom-qty");
+  const redListDiv = document.getElementById("red-custom-assets-list");
+  
+  if (redAddBtn) {
+    redAddBtn.addEventListener("click", () => {
+      const name = redNameInput.value.trim();
+      const category = redCategorySelect.value;
+      const qty = parseInt(redQtyInput.value, 10) || 1;
+      
+      if (!name) {
+        alert("Please enter an asset name.");
+        return;
+      }
+      
+      const baseId = generateCustomBaseId(name, 'red');
+      const customAsset = {
+        id: baseId,
+        name: name,
+        category: category
+      };
+      
+      // Add to custom assets list
+      for (let i = 0; i < qty; i++) {
+        customAssets.red.push({ ...customAsset, instance: i + 1 });
+      }
+      
+      // Update display
+      updateCustomAssetsList('red', redListDiv);
+      
+      // Clear inputs
+      redNameInput.value = "";
+      redQtyInput.value = "1";
+    });
+    
+    // Allow Enter key to add
+    redNameInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        redAddBtn.click();
+      }
+    });
+  }
+}
+
+function updateCustomAssetsList(team, container) {
+  if (!container) return;
+  
+  const assets = customAssets[team];
+  if (assets.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+  
+  // Group by base ID
+  const grouped = {};
+  assets.forEach(asset => {
+    if (!grouped[asset.id]) {
+      grouped[asset.id] = [];
+    }
+    grouped[asset.id].push(asset);
+  });
+  
+  let html = "<div style='display: flex; flex-direction: column; gap: 0.3rem;'>";
+  Object.keys(grouped).forEach(baseId => {
+    const instances = grouped[baseId];
+    const asset = instances[0];
+    const count = instances.length;
+    html += `<div style='display: flex; justify-content: space-between; align-items: center; padding: 0.3rem; background: #f5f5f5; border-radius: 4px;'>`;
+    html += `<span><strong>${escapeHtml(asset.name)}</strong> (${asset.category}) × ${count}</span>`;
+    html += `<button type='button' class='remove-custom-btn' data-team='${team}' data-baseid='${baseId}' style='padding: 0.2rem 0.5rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;'>Remove</button>`;
+    html += `</div>`;
+  });
+  html += "</div>";
+  
+  container.innerHTML = html;
+  
+  // Add remove button handlers
+  container.querySelectorAll('.remove-custom-btn').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const team = btn.dataset.team;
+      const baseId = btn.dataset.baseid;
+      customAssets[team] = customAssets[team].filter(a => a.id !== baseId);
+      updateCustomAssetsList(team, container);
+    });
+  });
+}
+
+function escapeHtml(text) {
+  if (text == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(text);
+  return div.innerHTML;
+}
+
 function setupEventListeners() {
   try {
     renderInventorySelection();
+    setupCustomAssetHandlers();
   } catch (e) {
     console.error("Failed to render inventory:", e);
     alert("Error loading unit database. Please check console.");
@@ -516,6 +693,30 @@ function setupEventListeners() {
                 }
             }
         });
+        
+        // Add custom assets
+        const customAssetsForTeam = customAssets[teamKey];
+        if (customAssetsForTeam && customAssetsForTeam.length > 0) {
+            // Group by base ID
+            const grouped = {};
+            customAssetsForTeam.forEach(asset => {
+                if (!grouped[asset.id]) {
+                    grouped[asset.id] = [];
+                }
+                grouped[asset.id].push(asset);
+            });
+            
+            Object.keys(grouped).forEach(baseId => {
+                const instances = grouped[baseId];
+                const asset = instances[0];
+                categories.add(asset.category);
+                
+                instances.forEach((inst) => {
+                    unitInstances.push(`${baseId}_${inst.instance}`);
+                });
+            });
+        }
+        
         return { ids: unitInstances, cats: Array.from(categories) };
     };
 

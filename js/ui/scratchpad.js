@@ -25,7 +25,47 @@ function getUnitDef(baseId, team) {
             }
         }
     }
-    return unitMap[baseId];
+    
+    // Check regular unit map first
+    if (unitMap[baseId]) {
+        return unitMap[baseId];
+    }
+    
+    // If not found, check if it's a custom asset
+    if (baseId.startsWith('custom_')) {
+        // Check window.customAssetDefinitions (set during setup)
+        if (window.customAssetDefinitions && window.customAssetDefinitions[team] && window.customAssetDefinitions[team][baseId]) {
+            return window.customAssetDefinitions[team][baseId];
+        }
+        
+        // Fallback: try to reconstruct from base ID
+        const teamUnits = team === 'blue' ? state.inventory.blueUnits : state.inventory.redUnits;
+        const matchingUnit = teamUnits.find(id => {
+            const lastUnderscore = id.lastIndexOf("_");
+            const unitBaseId = lastUnderscore >= 0 ? id.substring(0, lastUnderscore) : id;
+            return unitBaseId === baseId;
+        });
+        
+        if (matchingUnit) {
+            // Extract a readable name from the base ID
+            const nameParts = baseId.replace(/^custom_(blue|red)_/, '').split('_');
+            const readableName = nameParts.map(part => 
+                part.charAt(0).toUpperCase() + part.slice(1)
+            ).join(' ');
+            
+            // Determine category from inventory
+            const categories = team === 'blue' ? state.inventory.blue : state.inventory.red;
+            const category = categories.find(cat => ['air', 'naval', 'ground', 'sam', 'sof', 'cyber'].includes(cat)) || 'ground';
+            
+            return {
+                id: baseId,
+                name: readableName,
+                category: category
+            };
+        }
+    }
+    
+    return null;
 }
 
 // Sort state for each team (independent sorting)
