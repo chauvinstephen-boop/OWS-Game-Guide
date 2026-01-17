@@ -1,11 +1,20 @@
 // Main Entry Point
-
 import { UNIT_DATABASE } from "./data/units.js";
 import { state, setInventory, setNames, setInitiative, addDiceRoll, rebuildSequence, resetIndices, getCurrentStep, currentFlatIndex, getUnitState, updateUnitState } from "./state.js";
-// Cache-bust scratchpad module so mobile devices pick up UI updates promptly.
 import { renderScratchPad } from "./ui/scratchpad.js?v=18";
 import { renderStep, renderDice, renderModeHeader, renderReminders } from "./ui/rendering.js";
 import { loadReminders, saveReminders, rollDie, savePreset, loadPreset, loadAllPresets, deletePreset } from "./utils.js";
+
+// Show debug info in the page
+function showDebug(message) {
+  console.log("DEBUG:", message);
+  const debugDiv = document.getElementById("debug-info");
+  const debugMsg = document.getElementById("debug-message");
+  if (debugDiv && debugMsg) {
+    debugMsg.textContent = message;
+    debugDiv.style.display = "block";
+  }
+}
 
 // Navigation Logic
 function goToFlatIndex(flatIndex) {
@@ -64,9 +73,12 @@ function showEndTurnModal() {
   const endGameBtn = document.getElementById("end-game-btn");
   if (endGameBtn) {
     endGameBtn.addEventListener("click", () => {
-      overlay.remove();
-      alert("Game Over. Thanks for playing!");
-      location.reload(); 
+      // Confirm before ending game
+      if (confirm("Are you sure you want to end the game? Your progress will be lost unless you saved a preset.")) {
+        overlay.remove();
+        alert("Game Over. Thanks for playing!");
+        location.reload(); 
+      }
     });
   }
 
@@ -244,9 +256,10 @@ function showRegenerationModal() {
 }
 
 function renderInventorySelection() {
-  // Debug: Check if UNIT_DATABASE is loaded
+  // Check if UNIT_DATABASE is loaded
+  console.log("Rendering inventory selection");
   if (!UNIT_DATABASE || !UNIT_DATABASE.blue || !UNIT_DATABASE.red) {
-    console.error("UNIT_DATABASE not loaded or incomplete:", UNIT_DATABASE);
+    console.error("UNIT_DATABASE not loaded properly");
     return;
   }
 
@@ -276,10 +289,8 @@ function renderInventorySelection() {
     Object.keys(teamData).forEach((catKey) => {
       const units = teamData[catKey];
       if (!units || units.length === 0) {
-        console.log(`Skipping empty category: ${catKey} for team ${teamKey}`);
         return;
       }
-      console.log(`Rendering ${units.length} units in category ${catKey} for team ${teamKey}`);
 
       const catDiv = document.createElement("div");
       catDiv.className = "inventory-category";
@@ -297,9 +308,14 @@ function renderInventorySelection() {
         label.style.flexDirection = "column";
         label.style.alignItems = "flex-start";
         label.style.gap = "0.2rem";
-        label.style.padding = "0.2rem";
-        label.style.border = "1px solid #eee";
+        label.style.padding = "0.5rem";
+        label.style.border = "1px solid #ddd";
         label.style.borderRadius = "4px";
+        label.style.cursor = "pointer";
+        label.style.backgroundColor = "#fafafa";
+        label.style.transition = "background-color 0.2s";
+        label.style.minHeight = "80px";  // Ensure minimum height
+        label.style.justifyContent = "space-between";  // Distribute content
 
         const img = document.createElement("img");
         // Try to load specific image, fallback to placeholder logic if needed (handled via alt or css)
@@ -317,8 +333,11 @@ function renderInventorySelection() {
 
         const textSpan = document.createElement("span");
         textSpan.textContent = unit.name;
-        textSpan.style.fontSize = "0.85rem";
-        textSpan.style.fontWeight = "500";
+        textSpan.style.fontSize = "0.9rem";
+        textSpan.style.fontWeight = "600";
+        textSpan.style.color = "#333";
+        textSpan.style.lineHeight = "1.2";
+        textSpan.style.wordBreak = "break-word";
 
         const controlDiv = document.createElement("div");
         controlDiv.style.display = "flex";
@@ -328,8 +347,13 @@ function renderInventorySelection() {
         const btnMinus = document.createElement("button");
         btnMinus.type = "button";
         btnMinus.textContent = "-";
-        btnMinus.style.padding = "0 0.4rem";
+        btnMinus.style.padding = "0.3rem 0.6rem";
         btnMinus.style.cursor = "pointer";
+        btnMinus.style.border = "1px solid #ccc";
+        btnMinus.style.borderRadius = "3px";
+        btnMinus.style.backgroundColor = "#f5f5f5";
+        btnMinus.style.fontSize = "0.9rem";
+        btnMinus.style.fontWeight = "bold";
         btnMinus.onclick = (e) => {
             e.preventDefault();
             const val = parseInt(qtyInput.value, 10) || 0;
@@ -343,15 +367,23 @@ function renderInventorySelection() {
         qtyInput.name = `${teamKey}_units_qty`;
         qtyInput.dataset.id = unit.id;
         qtyInput.dataset.category = unit.category;
-        qtyInput.style.width = "40px";
+        qtyInput.style.width = "50px";
         qtyInput.style.textAlign = "center";
-        qtyInput.style.padding = "0.2rem";
+        qtyInput.style.padding = "0.3rem";
+        qtyInput.style.border = "1px solid #ccc";
+        qtyInput.style.borderRadius = "3px";
+        qtyInput.style.fontSize = "0.9rem";
         
         const btnPlus = document.createElement("button");
         btnPlus.type = "button";
         btnPlus.textContent = "+";
-        btnPlus.style.padding = "0 0.4rem";
+        btnPlus.style.padding = "0.3rem 0.6rem";
         btnPlus.style.cursor = "pointer";
+        btnPlus.style.border = "1px solid #ccc";
+        btnPlus.style.borderRadius = "3px";
+        btnPlus.style.backgroundColor = "#f5f5f5";
+        btnPlus.style.fontSize = "0.9rem";
+        btnPlus.style.fontWeight = "bold";
         btnPlus.onclick = (e) => {
             e.preventDefault();
             const val = parseInt(qtyInput.value, 10) || 0;
@@ -371,19 +403,30 @@ function renderInventorySelection() {
       catDiv.appendChild(grid);
       container.appendChild(catDiv);
     });
+    
+    if (container.children.length === 0) {
+      const fallbackDiv = document.createElement("div");
+      fallbackDiv.textContent = `No asset categories found for ${teamKey}`;
+      fallbackDiv.style.padding = "1rem";
+      fallbackDiv.style.background = "#fee";
+      fallbackDiv.style.color = "#c00";
+      fallbackDiv.style.borderRadius = "4px";
+      container.appendChild(fallbackDiv);
+    }
   };
 
   renderTeam("blue", "blue-inventory-container");
   renderTeam("red", "red-inventory-container");
-  
-  // Debug: Verify containers have content
-  const blueContainer = document.getElementById("blue-inventory-container");
-  const redContainer = document.getElementById("red-inventory-container");
-  if (blueContainer && blueContainer.children.length === 0) {
-    console.warn("Blue inventory container is empty after rendering. Check UNIT_DATABASE and container existence.");
-  }
-  if (redContainer && redContainer.children.length === 0) {
-    console.warn("Red inventory container is empty after rendering. Check UNIT_DATABASE and container existence.");
+}
+
+// Try to render inventory immediately if DOM is ready
+const blueInvTest = document.getElementById("blue-inventory-container");
+const redInvTest = document.getElementById("red-inventory-container");
+if (blueInvTest && redInvTest) {
+  try {
+    renderInventorySelection();
+  } catch (err) {
+    console.error("Error rendering inventory:", err);
   }
 }
 
@@ -565,29 +608,17 @@ function escapeHtml(text) {
 
 function setupEventListeners() {
   try {
-    console.log("Setting up event listeners...");
-    console.log("UNIT_DATABASE available:", !!UNIT_DATABASE);
-    console.log("Blue team data:", !!UNIT_DATABASE?.blue);
-    console.log("Red team data:", !!UNIT_DATABASE?.red);
-    
     // Ensure containers exist before rendering
     const blueContainer = document.getElementById("blue-inventory-container");
     const redContainer = document.getElementById("red-inventory-container");
-    console.log("Blue container found:", !!blueContainer);
-    console.log("Red container found:", !!redContainer);
     
     if (!blueContainer || !redContainer) {
-      console.error("Inventory containers not found in DOM. Retrying in 100ms...");
-      setTimeout(() => {
-        renderInventorySelection();
-        setupCustomAssetHandlers();
-      }, 100);
+      console.error("Inventory containers not found in DOM");
       return;
     }
     
     renderInventorySelection();
     setupCustomAssetHandlers();
-    console.log("Inventory selection rendered successfully");
   } catch (e) {
     console.error("Failed to render inventory:", e);
     console.error("Error stack:", e.stack);
@@ -813,6 +844,16 @@ function setupEventListeners() {
 
     const blueData = getSelectedUnits("blue");
     const redData = getSelectedUnits("red");
+
+    // VALIDATION: Ensure both teams have at least one unit selected
+    if (blueData.ids.length === 0) {
+      alert("Please select at least one unit for Blue team before starting.");
+      return;
+    }
+    if (redData.ids.length === 0) {
+      alert("Please select at least one unit for Red team before starting.");
+      return;
+    }
 
     // Check if we're loading from a preset
     let presetToLoad = window.pendingPresetLoad;
@@ -1193,4 +1234,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   setupEventListeners();
+  
+  // Fail-safe: ensure inventory is rendered
+  setTimeout(() => {
+    const blueContainer = document.getElementById("blue-inventory-container");
+    if (!blueContainer || blueContainer.children.length === 0) {
+      try {
+        renderInventorySelection();
+      } catch (err) {
+        console.error("Failed to render inventory:", err);
+      }
+    }
+  }, 500);
 });
